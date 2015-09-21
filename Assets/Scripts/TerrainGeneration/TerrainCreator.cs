@@ -2,6 +2,10 @@
 using System.Collections;
 using System;
 
+/// <summary>
+/// TerrainCreator is responsible for procedurally generating the terrain and creating a 2d edge collider for it.
+/// It includes multiple public parameters that may be adjusted to create radically different worlds.
+/// </summary>
 [RequireComponent(typeof(Terrain))]
 public class TerrainCreator : MonoBehaviour
 {
@@ -19,16 +23,22 @@ public class TerrainCreator : MonoBehaviour
     public Vector3 gradientOrigin = Vector3.zero;
     public float height = 1f;
     public Vector3 rotation = Vector3.zero;
+    public Material desertMat;
 
     private float[,] heights;
     private Terrain terrain;
     private float curHeight = 0;
     private float curLength = 0;
+    private GameObject terrain2dCollider;
 
     private void OnEnable()
     {
         terrain = GetComponent<Terrain>();
+        Debug.Assert(terrain != null);
         terrain.terrainData.size = new Vector3(sideLength, height, sideLength);
+        terrain2dCollider = GameObject.Find("Terrain2dCollider");
+        Debug.Assert(terrain2dCollider != null);
+        terrain2dCollider.AddComponent<EdgeCollider2D>();
         Refresh();
     }
 
@@ -58,13 +68,32 @@ public class TerrainCreator : MonoBehaviour
                 float sample = Noise.Sum(noiseFunction, point, frequency, octaves, lacunarity, gain);
                 if (noiseType != NoiseType.Value)
                     sample = sample * 0.5f + 0.5f;
-                if (y == 0)
-                    heights[y, x] = -10;
-                heights[y, x] = sample;
+                if (y == 0) //drop down the vertices facing the camera to create a front-facing wall for the 2d view
+                    heights[y, x] = -100;
+                else
+                    heights[y, x] = sample;
             }
         }
 
         terrain.terrainData.SetHeights(0, 0, heights);
+        transform.position = new Vector3(-sideLength / 2, -height / 2, -sideLength / terrain.terrainData.heightmapResolution);
+
+        terrain2dCollider.GetComponent<EdgeCollider2D>().points = getPathHeights();
+
+        terrain.materialType = Terrain.MaterialType.Custom;
+        terrain.materialTemplate = desertMat;
+    }
+
+    /// <summary>
+    /// Get the heights of each vertex that lies on the path of the player character
+    /// </summary>
+    public Vector2[] getPathHeights()
+    {
+        Vector2[] result = new Vector2[terrain.terrainData.heightmapResolution];
+        for (int x = 0; x < terrain.terrainData.heightmapResolution; x++)
+            result[x] = new Vector2(x * sideLength / terrain.terrainData.heightmapResolution - sideLength / 2,
+                                    terrain.terrainData.GetHeight(x, 1) - height / 2);
+        return result;
     }
 
     private void Generate()
