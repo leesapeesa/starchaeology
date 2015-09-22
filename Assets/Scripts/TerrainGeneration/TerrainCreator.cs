@@ -2,6 +2,13 @@
 using System.Collections;
 using System;
 
+public enum TerrainTextureType
+{
+    Desert,
+    Grassy,
+    Rocky
+}
+
 /// <summary>
 /// TerrainCreator is responsible for procedurally generating the terrain and creating a 2d edge collider for it.
 /// It includes multiple public parameters that may be adjusted to create radically different worlds.
@@ -23,7 +30,10 @@ public class TerrainCreator : MonoBehaviour
     public Vector3 gradientOrigin = Vector3.zero;
     public float height = 1f;
     public Vector3 rotation = Vector3.zero;
-    public Material desertMat;
+    public TerrainTextureType textureType;
+    [Range(1, 50)]
+    public int tileSize = 15;
+    public Texture2D[] terrainTextures;
 
     private float[,] heights;
     private Terrain terrain;
@@ -44,8 +54,8 @@ public class TerrainCreator : MonoBehaviour
 
     public void Refresh()
     {
-        if (sideLength != curLength || height != curHeight)
-            Generate();
+        Generate();
+
         Quaternion curRotation = Quaternion.Euler(rotation);
         //Generate a random map of height values
         //First, define the bounding box for the gradient. This determines what part of the sampling space we use
@@ -80,8 +90,7 @@ public class TerrainCreator : MonoBehaviour
 
         terrain2dCollider.GetComponent<EdgeCollider2D>().points = getPathHeights();
 
-        terrain.materialType = Terrain.MaterialType.Custom;
-        terrain.materialTemplate = desertMat;
+        assignTexture((int)textureType);
     }
 
     /// <summary>
@@ -104,5 +113,55 @@ public class TerrainCreator : MonoBehaviour
 
         terrain.terrainData.size = new Vector3(sideLength, height, sideLength);
         heights = new float[terrain.terrainData.heightmapResolution, terrain.terrainData.heightmapResolution];
+
+        //Generate terrain texture maps (splatmaps) from the provided list of textures.
+        Debug.Assert(terrainTextures != null);
+        //For each texture, we need two maps: one for the surface and one for the camera-facing wall
+        SplatPrototype[] splats = new SplatPrototype[terrainTextures.Length * 2];
+        for (int i = 0; i < terrainTextures.Length; i++)
+        {
+            splats[i] = new SplatPrototype();
+            splats[i].texture = terrainTextures[i];
+            splats[i].tileSize = new Vector2(tileSize, tileSize);
+        }
+        for (int i = terrainTextures.Length; i < splats.Length; i++)
+        {
+            splats[i] = new SplatPrototype();
+            splats[i].texture = terrainTextures[i - terrainTextures.Length];
+            splats[i].tileSize = new Vector2(terrain.terrainData.alphamapResolution, 1);
+        }
+        terrain.terrainData.splatPrototypes = splats;
+    }
+
+    /// <summary>
+    /// Set the texture of the terrain
+    /// </summary>
+    private void assignTexture(int textureIndex)
+    {
+        float[,,] alphas = terrain.terrainData.GetAlphamaps(0, 0, terrain.terrainData.alphamapWidth, terrain.terrainData.alphamapHeight);
+
+        //Assign the desired texture to each grid on the terrain
+        for (int i = 0; i < terrain.terrainData.alphamapWidth; i++)
+        {
+            for (int j = 0; j < terrain.terrainData.alphamapHeight; j++)
+            {
+                //Set the strength of the desired texture to maximum, while setting the strengths of all other textures to 0
+                for (int tex = 0; tex < terrain.terrainData.alphamapLayers; tex++)
+                {
+                    alphas[i, j, tex] = (tex == textureIndex) ? 1 : 0;
+                }
+            }
+        }
+
+        //For the front-facing wall, use the 1x1 tiling version of the texture
+        for (int j = 0; j < terrain.terrainData.alphamapHeight; j++)
+        {
+            for (int tex = 0; tex < terrain.terrainData.alphamapLayers; tex++)
+            {
+                alphas[0, j, tex] = ((tex - terrainTextures.Length) == textureIndex) ? 1 : 0;
+            }
+        }
+
+        terrain.terrainData.SetAlphamaps(0, 0, alphas);
     }
 }
