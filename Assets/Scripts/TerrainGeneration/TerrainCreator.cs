@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System;
 
 public enum TerrainTextureType
 {
@@ -34,6 +32,8 @@ public class TerrainCreator : MonoBehaviour
     [Range(1, 50)]
     public int tileSize = 15;
     public Texture2D[] terrainTextures;
+    [Range(0, 100)]
+    public float treeDensity = 1;
 
     private float[,] heights;
     private Terrain terrain;
@@ -46,6 +46,7 @@ public class TerrainCreator : MonoBehaviour
         terrain = GetComponent<Terrain>();
         Debug.Assert(terrain != null);
         terrain.terrainData.size = new Vector3(sideLength, height, sideLength);
+        terrain.terrainData.treeInstances = new TreeInstance[0];
         terrain2dCollider = GameObject.Find("Terrain2dCollider");
         Debug.Assert(terrain2dCollider != null);
         terrain2dCollider.AddComponent<EdgeCollider2D>();
@@ -59,10 +60,10 @@ public class TerrainCreator : MonoBehaviour
         Quaternion curRotation = Quaternion.Euler(rotation);
         //Generate a random map of height values
         //First, define the bounding box for the gradient. This determines what part of the sampling space we use
-        Vector3 point00 = curRotation * gradientOrigin + new Vector3(-0.5f, -0.5f);
-        Vector3 point10 = curRotation * gradientOrigin + new Vector3(0.5f, -0.5f);
-        Vector3 point01 = curRotation * gradientOrigin + new Vector3(-0.5f, 0.5f);
-        Vector3 point11 = curRotation * gradientOrigin + new Vector3(0.5f, 0.5f);
+        Vector3 point00 = curRotation * (gradientOrigin + new Vector3(-0.5f, -0.5f));
+        Vector3 point10 = curRotation * (gradientOrigin + new Vector3(0.5f, -0.5f));
+        Vector3 point01 = curRotation * (gradientOrigin + new Vector3(-0.5f, 0.5f));
+        Vector3 point11 = curRotation * (gradientOrigin + new Vector3(0.5f, 0.5f));
 
         NoiseFunction noiseFunction = Noise.noiseMethods[(int)noiseType][dimensions - 1];
         float stepSize = 1f / terrain.terrainData.heightmapResolution;
@@ -91,6 +92,8 @@ public class TerrainCreator : MonoBehaviour
         terrain2dCollider.GetComponent<EdgeCollider2D>().points = getPathHeights();
 
         assignTexture((int)textureType);
+
+        addTrees();
     }
 
     /// <summary>
@@ -163,5 +166,30 @@ public class TerrainCreator : MonoBehaviour
         }
 
         terrain.terrainData.SetAlphamaps(0, 0, alphas);
+    }
+
+    /// <summary>
+    /// Randomly distribute trees throughout the terrain
+    /// </summary>
+    private void addTrees()
+    {
+        for (int x = 1; x < sideLength; x++)
+        {
+            for (int z = 1; z < sideLength; z++)
+            {
+                //treeDensity represents expected value of total number of trees
+                //Therefore, each unit square has a treeDensity / Area probability of having a tree
+                if (Random.value < treeDensity / (sideLength * sideLength))
+                {
+                    TreeInstance newTree = new TreeInstance();
+                    newTree.prototypeIndex = (int)textureType; //right now each terrain type has its own tree type
+                    newTree.position = new Vector3((x / sideLength), 1, (z / sideLength));
+                    newTree.heightScale = 0.3f;
+                    newTree.widthScale = 0.3f;
+                    newTree.rotation = Random.value * 2 * Mathf.PI;
+                    terrain.AddTreeInstance(newTree);
+                }
+            }
+        }
     }
 }

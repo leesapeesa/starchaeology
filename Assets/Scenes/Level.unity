@@ -124,7 +124,13 @@ MonoBehaviour:
   gradientOrigin: {x: 0, y: 0, z: 0}
   height: 10
   rotation: {x: 0, y: 0, z: 0}
-  textureType: 2
+  textureType: 0
+  tileSize: 15
+  terrainTextures:
+  - {fileID: 2800000, guid: bfd675cc0db1d4656b75dc6d6ba91142, type: 3}
+  - {fileID: 2800000, guid: c6e0767b1f8c34890ac245217f4b9731, type: 3}
+  - {fileID: 2800000, guid: 18214e9d6af6248559d501391856f1c7, type: 3}
+  treeDensity: 22.2000008
 --- !u!154 &443915160
 TerrainCollider:
   m_ObjectHideFlags: 0
