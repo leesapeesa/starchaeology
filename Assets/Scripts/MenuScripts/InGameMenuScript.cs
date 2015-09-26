@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
 public class InGameMenuScript : MonoBehaviour {
 
     public Canvas pauseMenu;
     public Button pauseButton;
+
+    private bool isPaused_;
 
 	// Use this for initialization
 	void Start () {
@@ -15,6 +18,7 @@ public class InGameMenuScript : MonoBehaviour {
 	}
 	
     public void PausePress () {
+        isPaused_ = true;
         pauseMenu.enabled = true;
         pauseButton.enabled = false;
         Time.timeScale = 0;
@@ -23,12 +27,26 @@ public class InGameMenuScript : MonoBehaviour {
     }
 
     public void ResumePress () {
+        isPaused_ = false;
         pauseMenu.enabled = false;
         pauseButton.enabled = true;
         Time.timeScale = 1;
     }
 
-    public void ExitGame () {
+    public void QuitGame () {
         Application.Quit();
+    }
+
+    public void MainMenu () {
+        Application.LoadLevel(0);
+    }
+
+    public void Update () {
+
+        if (Input.GetKeyDown("escape") && !isPaused_) {
+            PausePress();   
+        } else if (Input.GetKeyDown("escape") && isPaused_) {
+            ResumePress();
+        }
     }
 }
