@@ -359,6 +359,10 @@ Prefab:
       propertyPath: m_AirControl
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5000000, guid: fdbedd497e66a444fb960b9ce646b27f, type: 2}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fdbedd497e66a444fb960b9ce646b27f, type: 2}
   m_IsPrefabParent: 0
