@@ -30,8 +30,6 @@ public class LoadGameScript : MonoBehaviour {
         settings = settingsObject.GetComponent<PersistentTerrainSettings>();
         if (!alreadyLoaded) {
             alreadyLoaded = true;
-// LoadLevelSettings();
-            print("HERE :(");
         }
     }
 
