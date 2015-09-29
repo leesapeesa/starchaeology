@@ -25,6 +25,9 @@ public class PersistentTerrainSettings : MonoBehaviour {
     public float treeDensity = 22.5f;
 
     void Awake () {
+        // Sets the game as the previous scene so that menus know what to load
+        PlayerPrefs.SetInt("previousScene", Application.loadedLevel);
+
         DontDestroyOnLoad(transform.gameObject);
     }
 

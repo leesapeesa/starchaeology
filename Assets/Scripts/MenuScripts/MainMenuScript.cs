@@ -11,6 +11,8 @@ public class MainMenuScript : MonoBehaviour {
     public Button quitText;
 
 	void Start () {
+        PlayerPrefs.SetInt("previousScene", Application.loadedLevel);
+
         newGameText = newGameText.GetComponent<Button>();
         loadGameText = loadGameText.GetComponent<Button>();
         optionsText = optionsText.GetComponent<Button>();
@@ -18,11 +20,23 @@ public class MainMenuScript : MonoBehaviour {
         quitText = quitText.GetComponent<Button>();
 	}
 
-    public void NewGame() {
-        Application.LoadLevel(1);
+    public void NewGame () {
+        Application.LoadLevel(4);
     }
 
     public void QuitGame () {
         Application.Quit();
+    }
+
+    public void Options () {
+        Application.LoadLevel(2);
+    }
+
+    public void Help () {
+        Application.LoadLevel(3);
+    }
+
+    public void LoadGame() {
+        Application.LoadLevel(5);
     }
 }

@@ -34,11 +34,33 @@ public class InGameMenuScript : MonoBehaviour {
     }
 
     public void QuitGame () {
+        Time.timeScale = 1;
         Application.Quit();
     }
 
     public void MainMenu () {
+        Time.timeScale = 1;
         Application.LoadLevel(0);
+    }
+
+    public void Options() {
+        Time.timeScale = 1;
+        Application.LoadLevel(2);
+    }
+
+    public void Help() {
+        Time.timeScale = 1;
+        Application.LoadLevel(3);
+    }
+
+    public void LoadGame() {
+        Time.timeScale = 1;
+        Application.LoadLevel(5);
+    }
+
+    public void SaveGame() {
+        Time.timeScale = 1;
+        Application.LoadLevel(6);
     }
 
     public void Update () {
