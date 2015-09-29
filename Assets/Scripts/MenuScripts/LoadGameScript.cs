@@ -16,7 +16,7 @@ public class LoadGameScript : MonoBehaviour {
         if (loadLevel) {
             difficulty = (difficulty + 25) % 100;
             Console.WriteLine("difficulty is %d", difficulty);
-            LoadLevelSettings();
+            //LoadLevelSettings(); //Creates a bunch of new objects, loads new terrain
         }
     }
 
