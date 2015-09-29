@@ -1,0 +1,46 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class PersistentTerrainSettings : MonoBehaviour {
+
+    public float sideLength = 100f;
+    public float frequency = 6.27f;
+    [Range(1, 3)]
+    public int dimensions = 3;
+    public NoiseType noiseType = NoiseType.Perlin;
+    [Range(1, 8)]
+    public int octaves = 3;
+    [Range(1, 4)]
+    public float lacunarity = 2f;
+    [Range(0f, 1f)]
+    public float gain = 0.5f;
+    public Vector3 gradientOrigin = Vector3.zero;
+    public float height = 10f;
+    public Vector3 rotation = Vector3.zero;
+    public TerrainTextureType textureType = TerrainTextureType.Rocky;
+    [Range(1, 50)]
+    public int tileSize = 15;
+    public Texture2D[] terrainTextures;
+    [Range(0, 100)]
+    public float treeDensity = 22.5f;
+
+    void Awake () {
+        DontDestroyOnLoad(transform.gameObject);
+    }
+
+    // Temporary level loading mechanism, for now 
+    // int difficulty doesn't really have a meaning
+    public void LoadLevelSettings(int difficulty) {
+        print("Load level! :D");
+        print(difficulty);
+
+        if (difficulty > 30 && difficulty < 70) {
+            textureType = TerrainTextureType.Grassy;
+        } else if (difficulty >= 0 && difficulty < 30) {
+            textureType = TerrainTextureType.Desert;
+        } else {
+            textureType = TerrainTextureType.Rocky;
+        }
+        Application.LoadLevel(Application.loadedLevel);
+    }
+}

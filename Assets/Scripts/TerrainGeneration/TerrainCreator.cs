@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Assertions;
 
 public enum TerrainTextureType
 {
@@ -14,7 +15,7 @@ public enum TerrainTextureType
 [RequireComponent(typeof(Terrain))]
 public class TerrainCreator : MonoBehaviour
 {
-    public float sideLength = 5f;
+    public float sideLength = 0f;
     public float frequency = 1f;
     [Range(1, 3)]
     public int dimensions = 3;
@@ -40,9 +41,16 @@ public class TerrainCreator : MonoBehaviour
     private float curHeight = 0;
     private float curLength = 0;
     private GameObject terrain2dCollider;
+    private GameObject persistentTerrainSettings = null;
+    private PersistentTerrainSettings settings;
 
     private void OnEnable()
     {
+        persistentTerrainSettings = GameObject.FindWithTag("Settings"); 
+        Assert.IsNotNull(persistentTerrainSettings);
+        settings = persistentTerrainSettings.GetComponent<PersistentTerrainSettings>();
+        SetOptions();
+
         terrain = GetComponent<Terrain>();
         Debug.Assert(terrain != null);
         terrain.terrainData.size = new Vector3(sideLength, height, sideLength);
@@ -51,6 +59,22 @@ public class TerrainCreator : MonoBehaviour
         Debug.Assert(terrain2dCollider != null);
         terrain2dCollider.AddComponent<EdgeCollider2D>();
         Refresh();
+    }
+
+    private void SetOptions () {
+        sideLength = settings.sideLength;
+        frequency = settings.frequency;
+        dimensions = settings.dimensions;
+        octaves = settings.octaves;
+        lacunarity = settings.lacunarity;
+        gain = settings.gain;
+        gradientOrigin = settings.gradientOrigin;
+        height = settings.height;
+        rotation = settings.rotation;
+        textureType = settings.textureType;
+        tileSize = settings.tileSize;
+        terrainTextures = settings.terrainTextures;
+        treeDensity = settings.treeDensity;
     }
 
     public void Refresh()

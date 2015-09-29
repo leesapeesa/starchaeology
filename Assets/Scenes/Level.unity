@@ -941,6 +941,45 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1044306332}
+--- !u!1 &1058370135
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1058370137}
+  - 114: {fileID: 1058370136}
+  m_Layer: 0
+  m_Name: LoadGame
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1058370136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1058370135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8570e0a95357eda4f88fdbdca56ed4db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1058370137
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1058370135}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -.19596532, z: 2.49025345}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
 --- !u!1 &1145761864
 GameObject:
   m_ObjectHideFlags: 0
@@ -1402,7 +1441,7 @@ GameObject:
   - 4: {fileID: 1682520552}
   - 114: {fileID: 1682520550}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: ObjectPlacement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1436,6 +1475,62 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
+--- !u!1 &1962306905
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1962306906}
+  - 114: {fileID: 1962306907}
+  m_Layer: 0
+  m_Name: PersistentSettingsObject
+  m_TagString: Settings
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1962306906
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1962306905}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+--- !u!114 &1962306907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1962306905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 200f165bf5e7a394a97fdde9e39cbf53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sideLength: 100
+  frequency: 6.26999998
+  dimensions: 3
+  noiseType: 1
+  octaves: 3
+  lacunarity: 2
+  gain: .5
+  gradientOrigin: {x: 0, y: 0, z: 0}
+  height: 10
+  rotation: {x: 0, y: 0, z: 0}
+  textureType: 2
+  tileSize: 15
+  terrainTextures:
+  - {fileID: 2800000, guid: bfd675cc0db1d4656b75dc6d6ba91142, type: 3}
+  - {fileID: 2800000, guid: c6e0767b1f8c34890ac245217f4b9731, type: 3}
+  - {fileID: 2800000, guid: 18214e9d6af6248559d501391856f1c7, type: 3}
+  treeDensity: 22.5
 --- !u!1 &2009485741
 GameObject:
   m_ObjectHideFlags: 0
