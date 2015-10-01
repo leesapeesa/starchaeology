@@ -49,6 +49,7 @@ public class TerrainCreator : MonoBehaviour
         persistentTerrainSettings = GameObject.FindWithTag("Settings"); 
         Assert.IsNotNull(persistentTerrainSettings);
         settings = persistentTerrainSettings.GetComponent<PersistentTerrainSettings>();
+		persistentTerrainSettings.GetComponent<PersistentTerrainSettings>().SetDefault ();
         SetOptions();
 
         terrain = GetComponent<Terrain>();
