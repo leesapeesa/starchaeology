@@ -65,6 +65,7 @@ public class TerrainCreator : MonoBehaviour
 	private void OnDestroy()
 	{
 		SetOptions ();
+		print ("Destroyed TerrainCreator");
 	}
 
     private void SetOptions () {

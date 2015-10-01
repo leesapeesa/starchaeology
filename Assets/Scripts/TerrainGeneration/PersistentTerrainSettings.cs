@@ -25,9 +25,9 @@ public class PersistentTerrainSettings : MonoBehaviour {
     public float treeDensity = 22.5f;
 
     void Awake () {
+		SetDefault ();
         // Sets the game as the previous scene so that menus know what to load
         PlayerPrefs.SetInt("previousScene", Application.loadedLevel);
-		SetDefault ();
         DontDestroyOnLoad(transform.gameObject);
     }
 
@@ -49,6 +49,7 @@ public class PersistentTerrainSettings : MonoBehaviour {
 
 	public void SetDefault()
 	{
+		print ("Set default terrain");
 		sideLength = 100f;
 		frequency = 6.27f;
 		dimensions = 3;
@@ -66,6 +67,8 @@ public class PersistentTerrainSettings : MonoBehaviour {
 
 	public void OnDestroy()
 	{
+		print ("Destroyed PersistentTerrainSettings");
 		SetDefault ();
+
 	}
 }
