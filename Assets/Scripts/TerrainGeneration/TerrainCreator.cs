@@ -61,6 +61,11 @@ public class TerrainCreator : MonoBehaviour
         Refresh();
     }
 
+	private void OnDestroy()
+	{
+		SetOptions ();
+	}
+
     private void SetOptions () {
         sideLength = settings.sideLength;
         frequency = settings.frequency;

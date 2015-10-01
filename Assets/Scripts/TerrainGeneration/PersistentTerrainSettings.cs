@@ -46,4 +46,26 @@ public class PersistentTerrainSettings : MonoBehaviour {
         }
         Application.LoadLevel(Application.loadedLevel);
     }
+
+	public void SetDefault()
+	{
+		sideLength = 100f;
+		frequency = 6.27f;
+		dimensions = 3;
+		noiseType = NoiseType.Perlin;
+		octaves = 3;
+		lacunarity = 2f;
+		gain = 0.5f;
+		gradientOrigin = Vector3.zero;
+		height = 10f;
+		rotation = Vector3.zero;
+		textureType = TerrainTextureType.Rocky;
+		tileSize = 15;
+		treeDensity = 22.5f;
+	}
+
+	public void OnDestroy()
+	{
+		SetDefault ();
+	}
 }
