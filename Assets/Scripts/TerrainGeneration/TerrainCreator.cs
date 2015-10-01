@@ -66,6 +66,8 @@ public class TerrainCreator : MonoBehaviour
 	{
 		SetOptions ();
 		print ("Destroyed TerrainCreator");
+		terrain.terrainData.treeInstances = new TreeInstance[0];
+		terrain.terrainData.size = Vector3.zero;
 	}
 
     private void SetOptions () {
