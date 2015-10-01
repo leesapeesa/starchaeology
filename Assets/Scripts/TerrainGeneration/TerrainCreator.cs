@@ -46,11 +46,11 @@ public class TerrainCreator : MonoBehaviour
 
     private void OnEnable()
     {
-        persistentTerrainSettings = GameObject.FindWithTag("Settings"); 
+        persistentTerrainSettings = GameObject.FindWithTag("Terrain Settings"); 
         Assert.IsNotNull(persistentTerrainSettings);
         settings = persistentTerrainSettings.GetComponent<PersistentTerrainSettings>();
 		persistentTerrainSettings.GetComponent<PersistentTerrainSettings>().SetDefault ();
-        SetOptions();
+        SetAllOptions();
 
         terrain = GetComponent<Terrain>();
         Debug.Assert(terrain != null);
@@ -60,16 +60,19 @@ public class TerrainCreator : MonoBehaviour
         Debug.Assert(terrain2dCollider != null);
         terrain2dCollider.AddComponent<EdgeCollider2D>();
         Refresh();
+		settings.terrainPosition = transform.position;
     }
 
 	private void OnDestroy()
 	{
-		SetOptions ();
+		SetAllOptions ();
 		print ("Destroyed TerrainCreator");
+		// Since trees are randomly placed, we need to remove them so that the asset doesn't
+		// contain a different array each time.
 		terrain.terrainData.treeInstances = new TreeInstance[0];
 	}
 
-    private void SetOptions () {
+    private void SetAllOptions () {
         sideLength = settings.sideLength;
         frequency = settings.frequency;
         dimensions = settings.dimensions;
@@ -83,6 +86,7 @@ public class TerrainCreator : MonoBehaviour
         tileSize = settings.tileSize;
         terrainTextures = settings.terrainTextures;
         treeDensity = settings.treeDensity;
+		transform.position = settings.terrainPosition; // We might not want to always set this. 
     }
 
     public void Refresh()
@@ -139,6 +143,16 @@ public class TerrainCreator : MonoBehaviour
                                     terrain.terrainData.GetHeight(x, 1) - height / 2);
         return result;
     }
+
+	/// <summary>
+	/// Gets the height of the player plane.
+	/// </summary>
+	public float[] GetHeights() {
+		float[] heights = new float[terrain.terrainData.heightmapResolution];
+		for (int x = 0; x < terrain.terrainData.heightmapResolution; ++x)
+			heights [x] = terrain.terrainData.GetHeight (x, 1);
+		return heights;
+	}
 
     private void Generate()
     {

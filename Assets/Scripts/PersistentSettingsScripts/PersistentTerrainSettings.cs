@@ -24,6 +24,8 @@ public class PersistentTerrainSettings : MonoBehaviour {
     [Range(0, 100)]
     public float treeDensity = 22.5f;
 
+	public Vector3 terrainPosition = Vector3.zero;
+
     void Awake () {
 		SetDefault ();
         // Sets the game as the previous scene so that menus know what to load
@@ -63,6 +65,7 @@ public class PersistentTerrainSettings : MonoBehaviour {
 		textureType = TerrainTextureType.Rocky;
 		tileSize = 15;
 		treeDensity = 22.5f;
+		terrainPosition = Vector3.zero;
 	}
 
 	public void OnDestroy()
