@@ -28,8 +28,6 @@ public class PersistentTerrainSettings : MonoBehaviour {
 
     void Awake () {
 		SetDefault ();
-        // Sets the game as the previous scene so that menus know what to load
-        PlayerPrefs.SetInt("previousScene", Application.loadedLevel);
         DontDestroyOnLoad(transform.gameObject);
     }
 
