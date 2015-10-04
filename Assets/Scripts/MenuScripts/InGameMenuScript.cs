@@ -5,8 +5,9 @@ using System;
 
 public class InGameMenuScript : MonoBehaviour {
 
-    public Canvas pauseMenu;
+    public Canvas inventory;
 
+    public Canvas pauseMenu;
     public Canvas saveGameMenu;
     public Canvas loadGameMenu;
     public Canvas optionsMenu;
@@ -14,7 +15,9 @@ public class InGameMenuScript : MonoBehaviour {
     public Canvas lossScreen;
     public Canvas winScreen;
 
+    public Button inventoryButton;
     public Button pauseButton;
+
 
     private bool isPaused;
 
@@ -29,21 +32,46 @@ public class InGameMenuScript : MonoBehaviour {
 
         if (Input.GetKeyDown("escape") && !isPaused) {
             PausePress();
+        } else if (Input.GetKeyDown(KeyCode.Tab)) {
+            InventoryPress();
         } else if (Input.GetKeyDown("escape") && isPaused) {
             Resume();
         }
     }
+        
+    public void InventoryPress () {
+        if (isPaused == false) {
+            isPaused = true;
+            pauseButton.interactable = false;
+            Time.timeScale = 0;
+            inventory.enabled = true;
+        }
+        else {
+            isPaused = false;
+            pauseButton.interactable = true;
+            Time.timeScale = 1;
+            inventory.enabled = false;
+        }
+
+    }
 
     public void PausePress () {
-        isPaused = true;
-        pauseMenu.enabled = true;
-        pauseButton.enabled = false;
-        Time.timeScale = 0;
+        if (isPaused == false) {
+            isPaused = true;
+            pauseMenu.enabled = true;
+            inventoryButton.interactable = false;
+            Time.timeScale = 0;
+        } else {
+            isPaused = false;
+            pauseMenu.enabled = false;
+            inventoryButton.interactable = true;
+            Time.timeScale = 1;
+        }
     }
 
     public void Back () {
         isPaused = false;
-        pauseButton.enabled = true;
+        pauseButton.interactable = true;
         DisableMenus();
         Time.timeScale = 1;
     }
@@ -51,7 +79,7 @@ public class InGameMenuScript : MonoBehaviour {
     public void Resume () {
         isPaused = false;
         pauseMenu.enabled = false;
-        pauseButton.enabled = true;
+        pauseButton.interactable = true;
         DisableMenus();
         Time.timeScale = 1;
 
@@ -64,6 +92,7 @@ public class InGameMenuScript : MonoBehaviour {
         helpMenu.enabled = false;
         lossScreen.enabled = false;
         winScreen.enabled = false;
+        inventory.enabled = false;
     }
     
 
