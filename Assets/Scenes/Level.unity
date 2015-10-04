@@ -1850,6 +1850,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ptSettings: {fileID: 1962306907}
+  playerSettings: {fileID: 0}
 --- !u!4 &1313087030
 Transform:
   m_ObjectHideFlags: 0
@@ -2064,19 +2065,19 @@ Prefab:
     m_Modifications:
     - target: {fileID: 22409802, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22400966, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22405014, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22437888, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22446194, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_LocalPosition.x
@@ -2591,9 +2592,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boxCount: 5
   collectCount: 10
+  slowCloudCount: 3
   bouncyBox: {fileID: 400000, guid: fc535e32951a64244b8d874f16383350, type: 2}
   stickyBox: {fileID: 400000, guid: c7dc5a32717854897854db2a45477a5c, type: 2}
   collect: {fileID: 437304, guid: 66642fa2712154062a000e5e86ba4aa1, type: 2}
+  slowCloud: {fileID: 494106, guid: 158ad5e602753984da90579b329ab0ac, type: 2}
 --- !u!4 &1682520552
 Transform:
   m_ObjectHideFlags: 0
@@ -3042,6 +3045,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sideLength: 100
+  gravityEffect: 1
   frequency: 6.26999998
   dimensions: 3
   noiseType: 1

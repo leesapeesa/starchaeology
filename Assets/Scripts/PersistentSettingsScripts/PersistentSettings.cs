@@ -5,12 +5,14 @@ using UnityEngine.Assertions;
 public class PersistentSettings : MonoBehaviour {
 
 	public PersistentTerrainSettings ptSettings;
+    public PersistentPlayerSettings playerSettings;
+
 	void Start () {
 		Assert.IsNotNull (ptSettings);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
 }
