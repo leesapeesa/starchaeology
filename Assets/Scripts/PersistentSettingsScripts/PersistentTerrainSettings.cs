@@ -4,6 +4,7 @@ using System.Collections;
 public class PersistentTerrainSettings : MonoBehaviour {
 
     public float sideLength = 100f;
+    public float gravityEffect = 1f;
     public float frequency = 6.27f;
     [Range(1, 3)]
     public int dimensions = 3;
@@ -29,8 +30,6 @@ public class PersistentTerrainSettings : MonoBehaviour {
 
     void Awake () {
 		SetDefault ();
-        // Sets the game as the previous scene so that menus know what to load
-        PlayerPrefs.SetInt("previousScene", Application.loadedLevel);
         DontDestroyOnLoad(transform.gameObject);
     }
 

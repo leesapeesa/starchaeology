@@ -9,7 +9,6 @@ public class NewGameMenuScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-       startButton = startButton.GetComponent<Button>();
     }
 
     // Should be changed to reflect how we end up loading the game

@@ -20,17 +20,22 @@ namespace UnityStandardAssets._2D
 		private Animator m_Anim;            // Reference to the player's animator component.
 		private Rigidbody2D m_Rigidbody2D;
 		private bool m_FacingRight = true;  // For determining which way the player is currently facing.
+        private PersistentSettings settings;
 
-		private void Awake()
+        private void Awake()
 		{
 			// Setting up references.
 			m_GroundCheck = transform.Find("GroundCheck");
 			m_CeilingCheck = transform.Find("CeilingCheck");
 			m_Anim = GetComponent<Animator>();
 			m_Rigidbody2D = GetComponent<Rigidbody2D>();
+
+            settings = GameObject.FindWithTag("All Settings").GetComponent<PersistentSettings>();
+            print(settings.ptSettings.gravityEffect);
+            m_Rigidbody2D.gravityScale = settings.ptSettings.gravityEffect;
 		}
 		
-		
+
 		private void FixedUpdate()
 		{
 
@@ -104,9 +109,16 @@ namespace UnityStandardAssets._2D
 		private void OnTriggerEnter2D(Collider2D other) {
 			if (other.CompareTag ("Collectible")) {
 				other.gameObject.SetActive(false);
-			}
+			}if (other.CompareTag("Slow")) {
+                m_MaxSpeed = 1f;
+            }
 		}
 		
+        private void OnTriggerExit2D(Collider2D other) {
+            if (other.CompareTag("Slow")) {
+                m_MaxSpeed = 10f;
+            }
+        }
 		
 		private void Flip()
 		{

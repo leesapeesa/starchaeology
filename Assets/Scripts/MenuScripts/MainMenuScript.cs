@@ -4,24 +4,27 @@ using System.Collections;
 
 public class MainMenuScript : MonoBehaviour {
 
-    public Button newGameText;
-    public Button loadGameText;
-    public Button optionsText;
-    public Button helpText;
-    public Button quitText;
+    public Canvas saveGameMenu;
+    public Canvas loadGameMenu;
+    public Canvas optionsMenu;
+    public Canvas helpMenu;
 
-	void Start () {
-        PlayerPrefs.SetInt("previousScene", Application.loadedLevel);
+    void Start () {
+        saveGameMenu.enabled = false;
+        loadGameMenu.enabled = false;
+        optionsMenu.enabled = false;
+        helpMenu.enabled = false;
+    }
 
-        newGameText = newGameText.GetComponent<Button>();
-        loadGameText = loadGameText.GetComponent<Button>();
-        optionsText = optionsText.GetComponent<Button>();
-        helpText = helpText.GetComponent<Button>();
-        quitText = quitText.GetComponent<Button>();
-	}
+    public void Back () {
+        saveGameMenu.enabled = false;
+        loadGameMenu.enabled = false;
+        optionsMenu.enabled = false;
+        helpMenu.enabled = false;
+    }
 
     public void NewGame () {
-        Application.LoadLevel(4);
+        Application.LoadLevel(2);
     }
 
     public void QuitGame () {
@@ -29,14 +32,14 @@ public class MainMenuScript : MonoBehaviour {
     }
 
     public void Options () {
-        Application.LoadLevel(2);
+        optionsMenu.enabled = true;
     }
 
     public void Help () {
-        Application.LoadLevel(3);
+        helpMenu.enabled = true;
     }
 
     public void LoadGame() {
-        Application.LoadLevel(5);
+        loadGameMenu.enabled = true;
     }
 }

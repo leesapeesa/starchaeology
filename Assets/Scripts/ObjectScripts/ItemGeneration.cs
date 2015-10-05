@@ -7,26 +7,40 @@ public class ItemGeneration : MonoBehaviour {
 
 	public int boxCount = 5;
 	public int collectCount = 10;
+    public int slowCloudCount = 5;
 
 	public Transform bouncyBox;
 	public Transform stickyBox;
 	public Transform collect;
+    public Transform slowCloud;
 
 	private float sideLength = 25f;
 	private PersistentSettings settings;
 	private float closestToEdge = 5f;
 	private float[] heights;
 	private Transform[] collectibles;
+    private float gravityEffect;
+
 	// Use this for initialization
 	void Awake() {
 		settings = GameObject.FindWithTag("All Settings").GetComponent<PersistentSettings>();
 		heights = GameObject.FindObjectOfType<TerrainCreator> ().GetHeights();
 		sideLength = settings.ptSettings.sideLength - closestToEdge;
+        gravityEffect = settings.ptSettings.gravityEffect;
 
-		collectibles = new Transform[collectCount];
+        GameObject newStickyBox = stickyBox.gameObject;
+        Rigidbody2D stickyBoxRigidBody = newStickyBox.GetComponent<Rigidbody2D>();
+        stickyBoxRigidBody.gravityScale = gravityEffect;
+
+        GameObject newBouncyBox = bouncyBox.gameObject;
+        Rigidbody2D bouncyBoxRigidBody = newBouncyBox.GetComponent<Rigidbody2D>();
+        bouncyBoxRigidBody.gravityScale = gravityEffect;
+
+
+        collectibles = new Transform[collectCount];
 		addCollectibles ();
 		addBoxes ();
-
+        addSlowClouds();
 		addSticky ();
 	}
 
@@ -45,11 +59,18 @@ public class ItemGeneration : MonoBehaviour {
 		return true;
 	}
 
+    private void addSlowClouds() {
+        for (int i = 0; i < slowCloudCount; ++i) {
+            Vector3 position = new Vector3(Random.Range(-sideLength / 2, sideLength / 2), 1);
+            Instantiate(slowCloud, position, Quaternion.identity);
+        }
+    }
+
 	private void addBoxes(){
 		for (int i = 0; i < boxCount; ++i) {
 			Vector3 position = new Vector3(Random.Range(-sideLength / 2, sideLength / 2), 2);
 			Instantiate(bouncyBox, position, Quaternion.identity);
-		}
+        }
 	}
 	private void addCollectibles() {
 		for (int i = 0; i < collectCount; ++i) {
@@ -57,7 +78,7 @@ public class ItemGeneration : MonoBehaviour {
 			float height = heights[(int)xCoor] + Random.Range (0, 3);
 			height = Mathf.Max(height, 5);
 			Vector3 position = new Vector3(xCoor - sideLength / 2, height);
-			collectibles[i] =Instantiate(collect, position, Quaternion.identity) as Transform;
+			collectibles[i] = Instantiate(collect, position, Quaternion.identity) as Transform;
 		}
 	}
 	private void addSticky() {

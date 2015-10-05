@@ -10,12 +10,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level.unity
   - enabled: 1
-    path: Assets/Scenes/Options.unity
-  - enabled: 1
-    path: Assets/Scenes/Help.unity
-  - enabled: 1
-    path: Assets/Scenes/NewGame.unity
-  - enabled: 1
-    path: Assets/Scenes/LoadGame.unity
-  - enabled: 1
-    path: Assets/Scenes/SaveGame.unity
+    path: Assets/Scenes/NewGameMenu.unity
