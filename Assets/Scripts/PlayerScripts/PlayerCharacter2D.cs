@@ -108,10 +108,17 @@ namespace UnityStandardAssets._2D
 
 		private void OnTriggerEnter2D(Collider2D other) {
 			if (other.CompareTag ("Collectible")) {
-				other.gameObject.SetActive(false);
-			}if (other.CompareTag("Slow")) {
+				Destroy (other.gameObject);
+			} 
+			if (other.CompareTag("Slow")) {
                 m_MaxSpeed = 1f;
             }
+			if (other.CompareTag ("TriggerBounds")) {
+				//Jumped off the ledge
+				print ("life off the edge");
+				gameObject.SetActive(false);
+			}
+	
 		}
 		
         private void OnTriggerExit2D(Collider2D other) {

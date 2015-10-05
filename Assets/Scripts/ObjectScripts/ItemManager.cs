@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Linq;
 using System.Collections;
+using System.Collections.Generic;
 
 // Move this code to the appropriate location after we figure out where it goes.
-public class ItemGeneration : MonoBehaviour {
+public class ItemManager : MonoBehaviour {
 
 	public int boxCount = 5;
 	public int collectCount = 10;
@@ -18,7 +19,7 @@ public class ItemGeneration : MonoBehaviour {
 	private PersistentSettings settings;
 	private float closestToEdge = 5f;
 	private float[] heights;
-	private Transform[] collectibles;
+	private List<Transform> collectibles;
     private float gravityEffect;
 
 	// Use this for initialization
@@ -36,8 +37,7 @@ public class ItemGeneration : MonoBehaviour {
         Rigidbody2D bouncyBoxRigidBody = newBouncyBox.GetComponent<Rigidbody2D>();
         bouncyBoxRigidBody.gravityScale = gravityEffect;
 
-
-        collectibles = new Transform[collectCount];
+		collectibles = new List<Transform> ();
 		addCollectibles ();
 		addBoxes ();
         addSlowClouds();
@@ -45,18 +45,8 @@ public class ItemGeneration : MonoBehaviour {
 	}
 
 	void Update() {
-		if (CollectedAll ())
+		if (!collectibles.Any ())
 			print ("YAY");
-	}
-
-	private bool CollectedAll() {
-		bool allDisabled = true;
-		for (int i = 0; i < collectCount; ++i) {
-			allDisabled &= !collectibles[i].gameObject.activeSelf;
-			if (!allDisabled)
-				return false;
-		}
-		return true;
 	}
 
     private void addSlowClouds() {
@@ -78,7 +68,7 @@ public class ItemGeneration : MonoBehaviour {
 			float height = heights[(int)xCoor] + Random.Range (0, 3);
 			height = Mathf.Max(height, 5);
 			Vector3 position = new Vector3(xCoor - sideLength / 2, height);
-			collectibles[i] = Instantiate(collect, position, Quaternion.identity) as Transform;
+			collectibles.Add (Instantiate(collect, position, Quaternion.identity) as Transform);
 		}
 	}
 	private void addSticky() {
@@ -86,5 +76,10 @@ public class ItemGeneration : MonoBehaviour {
 			Vector3 position = new Vector3(Random.Range(-sideLength / 2, sideLength / 2), 5);
 			Instantiate(stickyBox, position, Quaternion.identity);
 		}
+	}
+
+	public void Remove(NonPlayerObject npo) {
+		if (collectibles.Contains (npo.transform))
+			collectibles.Remove (npo.transform);
 	}
 }

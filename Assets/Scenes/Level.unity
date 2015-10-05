@@ -391,38 +391,16 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sideLength: 100
-  frequency: 6.26999998
-  dimensions: 3
-  noiseType: 1
-  octaves: 3
-  lacunarity: 2
-  gain: .5
-  gradientOrigin: {x: 0, y: 0, z: 0}
-  height: 10
-  rotation: {x: 0, y: 0, z: 0}
-  textureType: 0
-  tileSize: 15
-  terrainTextures:
-  - {fileID: 2800000, guid: bfd675cc0db1d4656b75dc6d6ba91142, type: 3}
-  - {fileID: 2800000, guid: c6e0767b1f8c34890ac245217f4b9731, type: 3}
-  - {fileID: 2800000, guid: 18214e9d6af6248559d501391856f1c7, type: 3}
-  treeDensity: 22.5
-  seed: 42
-  useRandomSeed: 0
-  getNewTerrain: 0
---- !u!154 &443915160
-TerrainCollider:
   m_Material: {fileID: 0}
-  m_Color: {r: .485294104, g: .485294104, b: .485294104, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 0}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1141,6 +1119,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: c6e0767b1f8c34890ac245217f4b9731, type: 3}
   - {fileID: 2800000, guid: 18214e9d6af6248559d501391856f1c7, type: 3}
   treeDensity: 22.5
+  seed: 
+  useRandomSeed: 0
 --- !u!154 &443915160
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -3432,6 +3412,48 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1089741130}
+--- !u!1001 &1115260842
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 441456, guid: 54030091b731a4ef5a3df3ba067b816c, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 18.9734039
+      objectReference: {fileID: 0}
+    - target: {fileID: 441456, guid: 54030091b731a4ef5a3df3ba067b816c, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 4.1560688
+      objectReference: {fileID: 0}
+    - target: {fileID: 441456, guid: 54030091b731a4ef5a3df3ba067b816c, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 441456, guid: 54030091b731a4ef5a3df3ba067b816c, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 441456, guid: 54030091b731a4ef5a3df3ba067b816c, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 441456, guid: 54030091b731a4ef5a3df3ba067b816c, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 441456, guid: 54030091b731a4ef5a3df3ba067b816c, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 441456, guid: 54030091b731a4ef5a3df3ba067b816c, type: 2}
+      propertyPath: m_RootOrder
+      value: 18
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 54030091b731a4ef5a3df3ba067b816c, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1134549967
 GameObject:
   m_ObjectHideFlags: 0
@@ -5164,7 +5186,7 @@ GameObject:
   - 4: {fileID: 1682520552}
   - 114: {fileID: 1682520550}
   m_Layer: 0
-  m_Name: ObjectPlacement
+  m_Name: ObjectManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

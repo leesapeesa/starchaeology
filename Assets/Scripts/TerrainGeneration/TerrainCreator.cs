@@ -38,6 +38,8 @@ public class TerrainCreator : MonoBehaviour
     public float treeDensity;
 	public string seed;
 	public bool useRandomSeed = false;
+	private float triggerOffset = 50f;
+	private float fallHeight = 10f;
 
     private float[,] heights;
     private Terrain terrain;
@@ -47,6 +49,7 @@ public class TerrainCreator : MonoBehaviour
     private GameObject persistentTerrainSettings = null;
     private PersistentTerrainSettings settings;
 	private System.Random pseudoRandom;
+	private GameObject triggerBounds;
 
     private void OnEnable()
     {
@@ -66,7 +69,22 @@ public class TerrainCreator : MonoBehaviour
 
         Refresh();
 		settings.terrainPosition = transform.position;
+		print ("transform positions");
+		print (transform.position.ToString ());
+		print (transform.localPosition.ToString ());
+		// Now we need to place the gameObject that will kill off everything if it hits it.
+		AddTriggerBounds ();
     }
+	private void AddTriggerBounds() {
+		triggerBounds = GameObject.Find ("TriggerBounds");
+		Debug.Assert (triggerBounds != null);
+		// For now, set the height to be the same height as the terrain.
+		triggerBounds.transform.localScale = new Vector3 (sideLength + triggerOffset, height, 0);
+		triggerBounds.transform.position = transform.position + new Vector3 (sideLength / 2, -fallHeight, 0);
+		print ("Trigger bound positions");
+		print (triggerBounds.transform.position.ToString ());
+		print (triggerBounds.transform.localPosition.ToString ());
+	}
 
 	private void RandomOrigin() {
 		if (useRandomSeed) {
@@ -94,6 +112,7 @@ public class TerrainCreator : MonoBehaviour
 		float[,,] alphas = terrain.terrainData.GetAlphamaps(0, 0, terrain.terrainData.alphamapWidth, terrain.terrainData.alphamapHeight);
 		terrain.terrainData.SetAlphamaps(0, 0, alphas);
 	}
+
     private void SetAllOptions () {
         sideLength = settings.sideLength;
         frequency = settings.frequency;

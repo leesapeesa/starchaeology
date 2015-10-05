@@ -9,6 +9,7 @@ TagManager:
   - Terrain Settings
   - Dropdown
   - Slow
+  - TriggerBounds
   layers:
   - Default
   - TransparentFX

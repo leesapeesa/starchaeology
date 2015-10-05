@@ -5,7 +5,6 @@ using UnityEngine.Assertions;
 public class NonPlayerObject : MonoBehaviour { // Eventually make abstract.
 
 	private PersistentSettings settings;
-	private float maxFromEdge = 2f;
 
 	protected void Start() { // Eventually make virtual
 		settings = GameObject.FindWithTag("All Settings").GetComponent<PersistentSettings>();
@@ -13,24 +12,19 @@ public class NonPlayerObject : MonoBehaviour { // Eventually make abstract.
 		Assert.IsNotNull (settings.ptSettings);
 	}
 
-	protected void RemoveObject() {
-		gameObject.SetActive (false);
-		// TODO: Destory it instead
-	}
-
-	private void Update() {
-		if (FallenOff ()) {
-			print ("Weeeee");
-			RemoveObject ();
+	private void OnTriggerEnter2D(Collider2D other) {
+		if (other.CompareTag ("TriggerBounds")) {
+			Destroy(gameObject);
+			print ("weeeeee");
 		}
 	}
 
-	private bool FallenOff() {
-		Vector3 position = transform.position;
-		Vector3 terrainOrigin = settings.ptSettings.terrainPosition;
-		float sideLength = settings.ptSettings.sideLength;
-		// Since terrain is offset by half of the side length, we need to do the appropriate calculations for it.
-		return (position.x < (terrainOrigin.x - sideLength / 2f - maxFromEdge) ||
-		       (position.x > (terrainOrigin.y + sideLength / 2f + maxFromEdge)));
+	private void OnDestroy() {
+		if (GameObject.Find ("ObjectManager") == null) {
+			// ObjectManager might be removed first.
+			return;
+		}
+		ItemManager itemManager = GameObject.Find ("ObjectManager").GetComponent<ItemManager> ();
+		itemManager.Remove (this);
 	}
 }
