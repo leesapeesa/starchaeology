@@ -15,26 +15,29 @@ public enum TerrainTextureType
 [RequireComponent(typeof(Terrain))]
 public class TerrainCreator : MonoBehaviour
 {
-    public float sideLength = 0f;
-    public float frequency = 1f;
+	// Eventually all of these will be private.
+    public float sideLength;
+    public float frequency;
     [Range(1, 3)]
-    public int dimensions = 3;
+    public int dimensions;
     public NoiseType noiseType;
     [Range(1, 8)]
-    public int octaves = 2;
+    public int octaves;
     [Range(1, 4)]
-    public float lacunarity = 2f;
+    public float lacunarity;
     [Range(0f, 1f)]
-    public float gain = 0.5f;
-    public Vector3 gradientOrigin = Vector3.zero;
-    public float height = 1f;
-    public Vector3 rotation = Vector3.zero;
+    public float gain;
+    public Vector3 gradientOrigin;
+    public float height;
+    public Vector3 rotation;
     public TerrainTextureType textureType;
     [Range(1, 50)]
-    public int tileSize = 15;
+    public int tileSize;
     public Texture2D[] terrainTextures;
     [Range(0, 100)]
-    public float treeDensity = 1;
+    public float treeDensity;
+	public string seed;
+	public bool useRandomSeed = false;
 
     private float[,] heights;
     private Terrain terrain;
@@ -43,6 +46,7 @@ public class TerrainCreator : MonoBehaviour
     private GameObject terrain2dCollider;
     private GameObject persistentTerrainSettings = null;
     private PersistentTerrainSettings settings;
+	private System.Random pseudoRandom;
 
     private void OnEnable()
     {
@@ -59,19 +63,37 @@ public class TerrainCreator : MonoBehaviour
         terrain2dCollider = GameObject.Find("Terrain2dCollider");
         Debug.Assert(terrain2dCollider != null);
         terrain2dCollider.AddComponent<EdgeCollider2D>();
+
         Refresh();
 		settings.terrainPosition = transform.position;
     }
 
+	private void RandomOrigin() {
+		if (useRandomSeed) {
+			seed = Time.time.ToString ();
+		}
+		pseudoRandom = new System.Random(seed.GetHashCode());
+		gradientOrigin = new Vector3 (pseudoRandom.Next(0,100), pseudoRandom.Next(0,100), pseudoRandom.Next(0,100));
+	}
 	private void OnDestroy()
 	{
 		SetAllOptions ();
+		// On Destroy of PersistentTerrainSettings will set everything to its default value, so we
+		// just want to rebuild everything with the default values so that we don't change the
+		// terrain data every time we open it. 
+		SetEverythingToZero ();
 		print ("Destroyed TerrainCreator");
-		// Since trees are randomly placed, we need to remove them so that the asset doesn't
-		// contain a different array each time.
-		terrain.terrainData.treeInstances = new TreeInstance[0];
+
 	}
 
+	private void SetEverythingToZero() {
+		terrain.terrainData.treeInstances = new TreeInstance[0];
+		heights = new float[terrain.terrainData.heightmapResolution, terrain.terrainData.heightmapResolution];
+		terrain.terrainData.SetHeights(0, 0, heights);
+
+		float[,,] alphas = terrain.terrainData.GetAlphamaps(0, 0, terrain.terrainData.alphamapWidth, terrain.terrainData.alphamapHeight);
+		terrain.terrainData.SetAlphamaps(0, 0, alphas);
+	}
     private void SetAllOptions () {
         sideLength = settings.sideLength;
         frequency = settings.frequency;
@@ -86,12 +108,14 @@ public class TerrainCreator : MonoBehaviour
         tileSize = settings.tileSize;
         terrainTextures = settings.terrainTextures;
         treeDensity = settings.treeDensity;
-		transform.position = settings.terrainPosition; // We might not want to always set this. 
+		transform.position = settings.terrainPosition;
+		seed = settings.seed;
     }
 
     public void Refresh()
     {
         Generate();
+		terrain.terrainData.treeInstances = new TreeInstance[0];
 
         Quaternion curRotation = Quaternion.Euler(rotation);
         //Generate a random map of height values
@@ -148,10 +172,10 @@ public class TerrainCreator : MonoBehaviour
 	/// Gets the height of the player plane.
 	/// </summary>
 	public float[] GetHeights() {
-		float[] heights = new float[terrain.terrainData.heightmapResolution];
+		float[] heightsTemp = new float[terrain.terrainData.heightmapResolution];
 		for (int x = 0; x < terrain.terrainData.heightmapResolution; ++x)
-			heights [x] = terrain.terrainData.GetHeight (x, 1);
-		return heights;
+			heightsTemp [x] = terrain.terrainData.GetHeight (x, 1);
+		return heightsTemp;
 	}
 
     private void Generate()
@@ -162,6 +186,9 @@ public class TerrainCreator : MonoBehaviour
 
         terrain.terrainData.size = new Vector3(sideLength, height, sideLength);
         heights = new float[terrain.terrainData.heightmapResolution, terrain.terrainData.heightmapResolution];
+
+		RandomOrigin ();
+
 
         //Generate terrain texture maps (splatmaps) from the provided list of textures.
         Debug.Assert(terrainTextures != null);

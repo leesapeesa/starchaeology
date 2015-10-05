@@ -23,6 +23,7 @@ public class PersistentTerrainSettings : MonoBehaviour {
     public Texture2D[] terrainTextures;
     [Range(0, 100)]
     public float treeDensity = 22.5f;
+	public string seed = "0";
 
 	public Vector3 terrainPosition = Vector3.zero;
 
@@ -66,6 +67,7 @@ public class PersistentTerrainSettings : MonoBehaviour {
 		tileSize = 15;
 		treeDensity = 22.5f;
 		terrainPosition = Vector3.zero;
+		seed = "0";
 	}
 
 	public void OnDestroy()

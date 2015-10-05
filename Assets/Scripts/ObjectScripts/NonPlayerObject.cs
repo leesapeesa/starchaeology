@@ -15,6 +15,7 @@ public class NonPlayerObject : MonoBehaviour { // Eventually make abstract.
 
 	protected void RemoveObject() {
 		gameObject.SetActive (false);
+		// TODO: Destory it instead
 	}
 
 	private void Update() {
