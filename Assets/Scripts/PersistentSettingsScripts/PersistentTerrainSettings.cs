@@ -27,15 +27,16 @@ public class PersistentTerrainSettings : MonoBehaviour {
 	public string seed = "0";
 
 	public Vector3 terrainPosition = Vector3.zero;
+	public int difficulty = 20;
 
     void Awake () {
 		SetDefault ();
-        DontDestroyOnLoad(transform.gameObject);
+        DontDestroyOnLoad(gameObject);
     }
 
     // Temporary level loading mechanism, for now 
     // int difficulty doesn't really have a meaning
-    public void LoadLevelSettings(int difficulty) {
+    public void LoadLevelSettings() {
         print("Load level! :D");
         print(difficulty);
 
@@ -46,7 +47,7 @@ public class PersistentTerrainSettings : MonoBehaviour {
         } else {
             textureType = TerrainTextureType.Rocky;
         }
-        Application.LoadLevel(Application.loadedLevel);
+        Application.LoadLevel(3);
     }
 
 	public void SetDefault()
