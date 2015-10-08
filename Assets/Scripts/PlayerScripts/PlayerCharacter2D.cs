@@ -20,6 +20,9 @@ namespace UnityStandardAssets._2D
         private Animator m_Anim;            // Reference to the player's animator component.
         private Rigidbody2D m_Rigidbody2D;
         private bool m_FacingRight = true;  // For determining which way the player is currently facing.
+        private float prevSpeed = 10f;
+        private float minX = -50f;
+        private float maxX = 50f;
 
         private void Start()
         {
@@ -31,6 +34,21 @@ namespace UnityStandardAssets._2D
 
             print(PersistentTerrainSettings.settings == null);
             m_Rigidbody2D.gravityScale = PersistentTerrainSettings.settings.gravityEffect;
+
+            float cameraSize = Camera.main.orthographicSize;
+            float cameraAspect = Camera.main.aspect;
+            float cameraHeight = 2f * cameraSize;
+            float cameraWidth = (cameraHeight * cameraAspect)/2.0f;
+            float sideLength = PersistentTerrainSettings.settings.sideLength;
+            minX = sideLength / 2.0f;
+            maxX = sideLength / 2.0f;
+            minX = -minX;
+
+            //minX = -(minX - cameraWidth) + 1.0f;
+            //maxX = maxX - cameraWidth - 1.0f;
+            
+            print(minX);
+            print(maxX);
         }
         
 
@@ -51,6 +69,13 @@ namespace UnityStandardAssets._2D
             
             // Set the vertical animation
             m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
+
+            
+            // Limit x position 
+            Vector3 currentPosition = transform.position;
+            
+            currentPosition.x = Mathf.Clamp(m_Rigidbody2D.position.x, minX, maxX);
+            m_Rigidbody2D.position = currentPosition;
         }
         
         
@@ -105,11 +130,12 @@ namespace UnityStandardAssets._2D
         }
 
         private void OnTriggerEnter2D(Collider2D other) {
+            prevSpeed = m_MaxSpeed;
             if (other.CompareTag ("Collectible")) {
                 Destroy (other.gameObject);
             } 
             if (other.CompareTag("Slow")) {
-                m_MaxSpeed = 1f;
+               // m_MaxSpeed = 1f;
             }
             if (other.CompareTag ("TriggerBounds")) {
                 //Jumped off the ledge
@@ -118,12 +144,17 @@ namespace UnityStandardAssets._2D
                 Canvas lossScreen = GameObject.Find ("LossScreen").GetComponent<Canvas> ();
                 lossScreen.enabled = true;
             }
+            if (other.CompareTag("CameraBounds")) {
+                print("At edge of game");
+                Rigidbody2D playerBody = GameObject.Find("Player").GetComponent<Rigidbody2D>();
+                float xPos = playerBody.position.x;
+            }
     
         }
         
         private void OnTriggerExit2D(Collider2D other) {
             if (other.CompareTag("Slow")) {
-                m_MaxSpeed = 10f;
+                m_MaxSpeed = prevSpeed;
             }
         }
         
