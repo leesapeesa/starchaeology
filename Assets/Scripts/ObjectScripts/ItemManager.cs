@@ -3,7 +3,6 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
-// Move this code to the appropriate location after we figure out where it goes.
 public class ItemManager : MonoBehaviour {
 
     public int boxCount = 5;
@@ -14,6 +13,9 @@ public class ItemManager : MonoBehaviour {
     public Transform stickyBox;
     public Transform collect;
     public Transform slowCloud;
+
+    // Maps from name of collectible to how many there are of them.
+    public Dictionary<string, int> inventory;
 
     private float sideLength = 25f;
     private float closestToEdge = 5f;
@@ -36,6 +38,7 @@ public class ItemManager : MonoBehaviour {
         bouncyBoxRigidBody.gravityScale = gravityEffect;
 
         collectibles = new List<Transform> ();
+        inventory = new Dictionary<string, int>();
         addCollectibles ();
         addBoxes ();
         addSlowClouds();
@@ -78,8 +81,21 @@ public class ItemManager : MonoBehaviour {
         }
     }
 
-    public void Remove(NonPlayerObject npo) {
+    public void RemoveFromScene(NonPlayerObject npo) {
         if (collectibles.Contains (npo.transform))
             collectibles.Remove (npo.transform);
+    }
+
+    public void AddToInventory(Collectible item) {
+        if (inventory.ContainsKey (item.name))
+            ++inventory [item.name];
+        else 
+            inventory.Add (item.name, 1);
+        print (inventory.Count);
+        foreach (KeyValuePair<string,int> pair in inventory) {
+            print ("key: " + pair.Key + " value: " + pair.Value);
+        }
+
+
     }
 }
