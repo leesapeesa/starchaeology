@@ -16,18 +16,16 @@ public class ItemManager : MonoBehaviour {
     public Transform slowCloud;
 
 	private float sideLength = 25f;
-	private PersistentSettings settings;
 	private float closestToEdge = 5f;
 	private float[] heights;
 	private List<Transform> collectibles;
     private float gravityEffect;
 
 	// Use this for initialization
-	void Awake() {
-		settings = GameObject.FindWithTag("All Settings").GetComponent<PersistentSettings>();
+	void Start() {
 		heights = GameObject.FindObjectOfType<TerrainCreator> ().GetHeights();
-		sideLength = settings.ptSettings.sideLength - closestToEdge;
-        gravityEffect = settings.ptSettings.gravityEffect;
+		sideLength = PersistentTerrainSettings.settings.sideLength - closestToEdge;
+        gravityEffect = PersistentTerrainSettings.settings.gravityEffect;
 
         GameObject newStickyBox = stickyBox.gameObject;
         Rigidbody2D stickyBoxRigidBody = newStickyBox.GetComponent<Rigidbody2D>();

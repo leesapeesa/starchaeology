@@ -5,7 +5,6 @@ using System.Collections;
 public class LoadGameScript : MonoBehaviour {
     /* Code currently is used to change between levels, eventually will be 
      * added to whatever keeps track of the game progress */
-    private PersistentSettings settings;
     private bool alreadyLoaded = false;
 
     // Update is called once per frame
@@ -14,8 +13,8 @@ public class LoadGameScript : MonoBehaviour {
 
         if (loadLevel) {
 			print ("terrain difficulties");
-			print (settings.ptSettings.difficulty);
-            settings.ptSettings.difficulty = (settings.ptSettings.difficulty + 25) % 100;
+			print (PersistentTerrainSettings.settings.difficulty);
+            PersistentTerrainSettings.settings.difficulty = (PersistentTerrainSettings.settings.difficulty + 25) % 100;
             LoadLevelSettings(); //Creates a bunch of new objects, loads new terrain
         }
     }
@@ -27,17 +26,12 @@ public class LoadGameScript : MonoBehaviour {
     }
 
     void LoadLevelSettings () {
-        settings.ptSettings.LoadLevelSettings();
+        PersistentTerrainSettings.settings.LoadLevelSettings();
 
     }
 
     void Awake () {
-        //DontDestroyOnLoad(transform.gameObject);
-        GameObject settingsObject = GameObject.FindWithTag("All Settings");
-        settings = settingsObject.GetComponent<PersistentSettings>();
-        if (!alreadyLoaded) {
-            alreadyLoaded = true;
-        }
+
     }
 
 }

@@ -46,17 +46,11 @@ public class TerrainCreator : MonoBehaviour
     private float curHeight = 0;
     private float curLength = 0;
     private GameObject terrain2dCollider;
-    private GameObject persistentTerrainSettings = null;
-    private PersistentTerrainSettings settings;
 	private System.Random pseudoRandom;
 	private GameObject triggerBounds;
 
-    private void OnEnable()
+    private void Start()
     {
-        persistentTerrainSettings = GameObject.FindWithTag("Terrain Settings"); 
-        Assert.IsNotNull(persistentTerrainSettings);
-        settings = persistentTerrainSettings.GetComponent<PersistentTerrainSettings>();
-		persistentTerrainSettings.GetComponent<PersistentTerrainSettings>().SetDefault ();
         SetAllOptions();
 
         terrain = GetComponent<Terrain>();
@@ -68,7 +62,7 @@ public class TerrainCreator : MonoBehaviour
         terrain2dCollider.AddComponent<EdgeCollider2D>();
 
         Refresh();
-		settings.terrainPosition = transform.position;
+		PersistentTerrainSettings.settings.terrainPosition = transform.position;
 		print ("transform positions");
 		print (transform.position.ToString ());
 		print (transform.localPosition.ToString ());
@@ -114,21 +108,21 @@ public class TerrainCreator : MonoBehaviour
 	}
 
     private void SetAllOptions () {
-        sideLength = settings.sideLength;
-        frequency = settings.frequency;
-        dimensions = settings.dimensions;
-        octaves = settings.octaves;
-        lacunarity = settings.lacunarity;
-        gain = settings.gain;
-        gradientOrigin = settings.gradientOrigin;
-        height = settings.height;
-        rotation = settings.rotation;
-        textureType = settings.textureType;
-        tileSize = settings.tileSize;
-        terrainTextures = settings.terrainTextures;
-        treeDensity = settings.treeDensity;
-		transform.position = settings.terrainPosition;
-		seed = settings.seed;
+        sideLength = PersistentTerrainSettings.settings.sideLength;
+        frequency = PersistentTerrainSettings.settings.frequency;
+        dimensions = PersistentTerrainSettings.settings.dimensions;
+        octaves = PersistentTerrainSettings.settings.octaves;
+        lacunarity = PersistentTerrainSettings.settings.lacunarity;
+        gain = PersistentTerrainSettings.settings.gain;
+        gradientOrigin = PersistentTerrainSettings.settings.gradientOrigin;
+        height = PersistentTerrainSettings.settings.height;
+        rotation = PersistentTerrainSettings.settings.rotation;
+        textureType = PersistentTerrainSettings.settings.textureType;
+        tileSize = PersistentTerrainSettings.settings.tileSize;
+        terrainTextures = PersistentTerrainSettings.settings.terrainTextures;
+        treeDensity = PersistentTerrainSettings.settings.treeDensity;
+		transform.position = PersistentTerrainSettings.settings.terrainPosition;
+		seed = PersistentTerrainSettings.settings.seed;
     }
 
     public void Refresh()

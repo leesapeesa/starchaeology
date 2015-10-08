@@ -20,9 +20,8 @@ namespace UnityStandardAssets._2D
 		private Animator m_Anim;            // Reference to the player's animator component.
 		private Rigidbody2D m_Rigidbody2D;
 		private bool m_FacingRight = true;  // For determining which way the player is currently facing.
-        private PersistentSettings settings;
 
-        private void Awake()
+        private void Start()
 		{
 			// Setting up references.
 			m_GroundCheck = transform.Find("GroundCheck");
@@ -30,9 +29,8 @@ namespace UnityStandardAssets._2D
 			m_Anim = GetComponent<Animator>();
 			m_Rigidbody2D = GetComponent<Rigidbody2D>();
 
-            settings = GameObject.FindWithTag("All Settings").GetComponent<PersistentSettings>();
-            print(settings.ptSettings.gravityEffect);
-            m_Rigidbody2D.gravityScale = settings.ptSettings.gravityEffect;
+            print(PersistentTerrainSettings.settings == null);
+            m_Rigidbody2D.gravityScale = PersistentTerrainSettings.settings.gravityEffect;
 		}
 		
 

@@ -3,6 +3,8 @@ using System.Collections;
 
 public class PersistentTerrainSettings : MonoBehaviour {
 
+	public static PersistentTerrainSettings settings;
+
     public float sideLength = 100f;
     public float gravityEffect = 1f;
     public float frequency = 6.27f;
@@ -30,8 +32,15 @@ public class PersistentTerrainSettings : MonoBehaviour {
 	public int difficulty = 20;
 
     void Awake () {
-		SetDefault ();
-        DontDestroyOnLoad(gameObject);
+		if (settings == null) {
+			SetDefault ();
+			DontDestroyOnLoad (gameObject);
+			settings = this;
+			print ("settings");
+			print (settings);
+		} else if (settings != this) {
+			Destroy (gameObject);
+		}
     }
 
     // Temporary level loading mechanism, for now 
