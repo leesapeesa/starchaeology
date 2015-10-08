@@ -30,11 +30,14 @@ public class InGameMenuScript : MonoBehaviour {
 
     public void Update() {
 
-        if (Input.GetKeyDown("escape") && !isPaused) {
+        if (Input.GetKeyDown(KeyCode.Escape) && !isPaused) {
+            print("Not paused, escape press");
             PausePress();
         } else if (Input.GetKeyDown(KeyCode.Tab)) {
+            print("TAB");
             InventoryPress();
-        } else if (Input.GetKeyDown("escape") && isPaused) {
+        } else if (Input.GetKeyDown(KeyCode.Escape) && isPaused) {
+            print("Paused, escape press");
             Resume();
         }
     }
@@ -77,6 +80,7 @@ public class InGameMenuScript : MonoBehaviour {
     }
 
     public void Resume () {
+        print("RESUME");
         isPaused = false;
         pauseMenu.enabled = false;
         pauseButton.interactable = true;
