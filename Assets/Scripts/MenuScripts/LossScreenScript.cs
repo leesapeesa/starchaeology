@@ -15,7 +15,7 @@ public class LossScreenScript : MonoBehaviour {
 	
 	}
 
-    public void newGame () {
+    public void NewGame () {
         Application.LoadLevel(2);
     }
 }

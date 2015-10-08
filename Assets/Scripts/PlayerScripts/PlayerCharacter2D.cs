@@ -115,6 +115,8 @@ namespace UnityStandardAssets._2D
 				//Jumped off the ledge
 				print ("life off the edge");
 				gameObject.SetActive(false);
+				Canvas lossScreen = GameObject.Find ("LossScreen").GetComponent<Canvas> ();
+				lossScreen.enabled = true;
 			}
 	
 		}

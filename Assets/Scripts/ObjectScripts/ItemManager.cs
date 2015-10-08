@@ -43,8 +43,10 @@ public class ItemManager : MonoBehaviour {
 	}
 
 	void Update() {
-		if (!collectibles.Any ())
-			print ("YAY");
+		if (!collectibles.Any ()) {
+			Canvas winScreen = GameObject.Find ("WinScreen").GetComponent<Canvas> ();
+			winScreen.enabled = true;
+		}
 	}
 
     private void addSlowClouds() {

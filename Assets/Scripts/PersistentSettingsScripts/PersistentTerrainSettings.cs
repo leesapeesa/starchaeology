@@ -36,8 +36,6 @@ public class PersistentTerrainSettings : MonoBehaviour {
 			SetDefault ();
 			DontDestroyOnLoad (gameObject);
 			settings = this;
-			print ("settings");
-			print (settings);
 		} else if (settings != this) {
 			Destroy (gameObject);
 		}
