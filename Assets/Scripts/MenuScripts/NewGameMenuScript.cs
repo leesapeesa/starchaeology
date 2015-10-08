@@ -7,8 +7,8 @@ public class NewGameMenuScript : MonoBehaviour {
 
     public Button startButton;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
     }
 
     // Should be changed to reflect how we end up loading the game

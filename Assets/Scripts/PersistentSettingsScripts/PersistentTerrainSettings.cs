@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PersistentTerrainSettings : MonoBehaviour {
 
-	public static PersistentTerrainSettings settings;
+    public static PersistentTerrainSettings settings;
 
     public float sideLength = 100f;
     public float gravityEffect = 1f;
@@ -26,22 +26,22 @@ public class PersistentTerrainSettings : MonoBehaviour {
     public Texture2D[] terrainTextures;
     [Range(0, 100)]
     public float treeDensity = 22.5f;
-	public string seed = "0";
+    public string seed = "0";
 
-	public Vector3 terrainPosition = Vector3.zero;
-	public int difficulty = 20;
+    public Vector3 terrainPosition = Vector3.zero;
+    public int difficulty = 20;
 
     void Awake () {
-		if (settings == null) {
-			SetDefault ();
-			DontDestroyOnLoad (gameObject);
-			settings = this;
-		} else if (settings != this) {
-			Destroy (gameObject);
-		}
+        if (settings == null) {
+            SetDefault ();
+            DontDestroyOnLoad (gameObject);
+            settings = this;
+        } else if (settings != this) {
+            Destroy (gameObject);
+        }
     }
 
-    // Temporary level loading mechanism, for now 
+    // Temporary level loading mechanism, for now
     // int difficulty doesn't really have a meaning
     public void LoadLevelSettings() {
         print("Load level! :D");
@@ -57,30 +57,30 @@ public class PersistentTerrainSettings : MonoBehaviour {
         Application.LoadLevel(3);
     }
 
-	public void SetDefault()
-	{
-		print ("Set default terrain");
-		sideLength = 100f;
-		frequency = 6.27f;
-		dimensions = 3;
-		noiseType = NoiseType.Perlin;
-		octaves = 3;
-		lacunarity = 2f;
-		gain = 0.5f;
-		gradientOrigin = Vector3.zero;
-		height = 10f;
-		rotation = Vector3.zero;
-		textureType = TerrainTextureType.Rocky;
-		tileSize = 15;
-		treeDensity = 22.5f;
-		terrainPosition = Vector3.zero;
-		seed = "0";
-	}
+    public void SetDefault()
+    {
+        print ("Set default terrain");
+        sideLength = 100f;
+        frequency = 6.27f;
+        dimensions = 3;
+        noiseType = NoiseType.Perlin;
+        octaves = 3;
+        lacunarity = 2f;
+        gain = 0.5f;
+        gradientOrigin = Vector3.zero;
+        height = 10f;
+        rotation = Vector3.zero;
+        textureType = TerrainTextureType.Rocky;
+        tileSize = 15;
+        treeDensity = 22.5f;
+        terrainPosition = Vector3.zero;
+        seed = "0";
+    }
 
-	public void OnDestroy()
-	{
-		print ("Destroyed PersistentTerrainSettings");
-		SetDefault ();
+    public void OnDestroy()
+    {
+        print ("Destroyed PersistentTerrainSettings");
+        SetDefault ();
 
-	}
+    }
 }

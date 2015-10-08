@@ -10,8 +10,8 @@ public class OptionsMenuScript : MonoBehaviour {
 
     Resolution[] resolutions;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         resolutionsDropdown = resolutionsDropdown.GetComponent<Dropdown>();
         qualityDropdown = qualityDropdown.GetComponent<Dropdown>();
 

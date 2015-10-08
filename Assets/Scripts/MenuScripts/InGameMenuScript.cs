@@ -21,12 +21,12 @@ public class InGameMenuScript : MonoBehaviour {
 
     private bool isPaused;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         // Hide menus that shouldn't be in view
         pauseMenu.enabled = false;
         DisableMenus();
-	}
+    }
 
     public void Update() {
 

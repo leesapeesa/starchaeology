@@ -15,7 +15,7 @@ public enum TerrainTextureType
 [RequireComponent(typeof(Terrain))]
 public class TerrainCreator : MonoBehaviour
 {
-	// Eventually all of these will be private.
+    // Eventually all of these will be private.
     public float sideLength;
     public float frequency;
     [Range(1, 3)]
@@ -36,18 +36,18 @@ public class TerrainCreator : MonoBehaviour
     public Texture2D[] terrainTextures;
     [Range(0, 100)]
     public float treeDensity;
-	public string seed;
-	public bool useRandomSeed = false;
-	private float triggerOffset = 50f;
-	private float fallHeight = 10f;
+    public string seed;
+    public bool useRandomSeed = false;
+    private float triggerOffset = 50f;
+    private float fallHeight = 10f;
 
     private float[,] heights;
     private Terrain terrain;
     private float curHeight = 0;
     private float curLength = 0;
     private GameObject terrain2dCollider;
-	private System.Random pseudoRandom;
-	private GameObject triggerBounds;
+    private System.Random pseudoRandom;
+    private GameObject triggerBounds;
 
     private void Start()
     {
@@ -62,50 +62,50 @@ public class TerrainCreator : MonoBehaviour
         terrain2dCollider.AddComponent<EdgeCollider2D>();
 
         Refresh();
-		PersistentTerrainSettings.settings.terrainPosition = transform.position;
-		print ("transform positions");
-		print (transform.position.ToString ());
-		print (transform.localPosition.ToString ());
-		// Now we need to place the gameObject that will kill off everything if it hits it.
-		AddTriggerBounds ();
+        PersistentTerrainSettings.settings.terrainPosition = transform.position;
+        print ("transform positions");
+        print (transform.position.ToString ());
+        print (transform.localPosition.ToString ());
+        // Now we need to place the gameObject that will kill off everything if it hits it.
+        AddTriggerBounds ();
     }
-	private void AddTriggerBounds() {
-		triggerBounds = GameObject.Find ("TriggerBounds");
-		Debug.Assert (triggerBounds != null);
-		// For now, set the height to be the same height as the terrain.
-		triggerBounds.transform.localScale = new Vector3 (sideLength + triggerOffset, height, 0);
-		triggerBounds.transform.position = transform.position + new Vector3 (sideLength / 2, -fallHeight, 0);
-		print ("Trigger bound positions");
-		print (triggerBounds.transform.position.ToString ());
-		print (triggerBounds.transform.localPosition.ToString ());
-	}
+    private void AddTriggerBounds() {
+        triggerBounds = GameObject.Find ("TriggerBounds");
+        Debug.Assert (triggerBounds != null);
+        // For now, set the height to be the same height as the terrain.
+        triggerBounds.transform.localScale = new Vector3 (sideLength + triggerOffset, height, 0);
+        triggerBounds.transform.position = transform.position + new Vector3 (sideLength / 2, -fallHeight, 0);
+        print ("Trigger bound positions");
+        print (triggerBounds.transform.position.ToString ());
+        print (triggerBounds.transform.localPosition.ToString ());
+    }
 
-	private void RandomOrigin() {
-		if (useRandomSeed) {
-			seed = Time.time.ToString ();
-		}
-		pseudoRandom = new System.Random(seed.GetHashCode());
-		gradientOrigin = new Vector3 (pseudoRandom.Next(0,100), pseudoRandom.Next(0,100), pseudoRandom.Next(0,100));
-	}
-	private void OnDestroy()
-	{
-		SetAllOptions ();
-		// On Destroy of PersistentTerrainSettings will set everything to its default value, so we
-		// just want to rebuild everything with the default values so that we don't change the
-		// terrain data every time we open it. 
-		SetEverythingToZero ();
-		print ("Destroyed TerrainCreator");
+    private void RandomOrigin() {
+        if (useRandomSeed) {
+            seed = Time.time.ToString ();
+        }
+        pseudoRandom = new System.Random(seed.GetHashCode());
+        gradientOrigin = new Vector3 (pseudoRandom.Next(0,100), pseudoRandom.Next(0,100), pseudoRandom.Next(0,100));
+    }
+    private void OnDestroy()
+    {
+        SetAllOptions ();
+        // On Destroy of PersistentTerrainSettings will set everything to its default value, so we
+        // just want to rebuild everything with the default values so that we don't change the
+        // terrain data every time we open it. 
+        SetEverythingToZero ();
+        print ("Destroyed TerrainCreator");
 
-	}
+    }
 
-	private void SetEverythingToZero() {
-		terrain.terrainData.treeInstances = new TreeInstance[0];
-		heights = new float[terrain.terrainData.heightmapResolution, terrain.terrainData.heightmapResolution];
-		terrain.terrainData.SetHeights(0, 0, heights);
+    private void SetEverythingToZero() {
+        terrain.terrainData.treeInstances = new TreeInstance[0];
+        heights = new float[terrain.terrainData.heightmapResolution, terrain.terrainData.heightmapResolution];
+        terrain.terrainData.SetHeights(0, 0, heights);
 
-		float[,,] alphas = terrain.terrainData.GetAlphamaps(0, 0, terrain.terrainData.alphamapWidth, terrain.terrainData.alphamapHeight);
-		terrain.terrainData.SetAlphamaps(0, 0, alphas);
-	}
+        float[,,] alphas = terrain.terrainData.GetAlphamaps(0, 0, terrain.terrainData.alphamapWidth, terrain.terrainData.alphamapHeight);
+        terrain.terrainData.SetAlphamaps(0, 0, alphas);
+    }
 
     private void SetAllOptions () {
         sideLength = PersistentTerrainSettings.settings.sideLength;
@@ -121,14 +121,14 @@ public class TerrainCreator : MonoBehaviour
         tileSize = PersistentTerrainSettings.settings.tileSize;
         terrainTextures = PersistentTerrainSettings.settings.terrainTextures;
         treeDensity = PersistentTerrainSettings.settings.treeDensity;
-		transform.position = PersistentTerrainSettings.settings.terrainPosition;
-		seed = PersistentTerrainSettings.settings.seed;
+        transform.position = PersistentTerrainSettings.settings.terrainPosition;
+        seed = PersistentTerrainSettings.settings.seed;
     }
 
     public void Refresh()
     {
         Generate();
-		terrain.terrainData.treeInstances = new TreeInstance[0];
+        terrain.terrainData.treeInstances = new TreeInstance[0];
 
         Quaternion curRotation = Quaternion.Euler(rotation);
         //Generate a random map of height values
@@ -181,15 +181,15 @@ public class TerrainCreator : MonoBehaviour
         return result;
     }
 
-	/// <summary>
-	/// Gets the height of the player plane.
-	/// </summary>
-	public float[] GetHeights() {
-		float[] heightsTemp = new float[terrain.terrainData.heightmapResolution];
-		for (int x = 0; x < terrain.terrainData.heightmapResolution; ++x)
-			heightsTemp [x] = terrain.terrainData.GetHeight (x, 1);
-		return heightsTemp;
-	}
+    /// <summary>
+    /// Gets the height of the player plane.
+    /// </summary>
+    public float[] GetHeights() {
+        float[] heightsTemp = new float[terrain.terrainData.heightmapResolution];
+        for (int x = 0; x < terrain.terrainData.heightmapResolution; ++x)
+            heightsTemp [x] = terrain.terrainData.GetHeight (x, 1);
+        return heightsTemp;
+    }
 
     private void Generate()
     {
@@ -200,7 +200,7 @@ public class TerrainCreator : MonoBehaviour
         terrain.terrainData.size = new Vector3(sideLength, height, sideLength);
         heights = new float[terrain.terrainData.heightmapResolution, terrain.terrainData.heightmapResolution];
 
-		RandomOrigin ();
+        RandomOrigin ();
 
 
         //Generate terrain texture maps (splatmaps) from the provided list of textures.

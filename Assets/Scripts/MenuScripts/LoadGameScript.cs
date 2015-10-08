@@ -12,8 +12,8 @@ public class LoadGameScript : MonoBehaviour {
         bool loadLevel = Input.GetKeyDown(KeyCode.L);
 
         if (loadLevel) {
-			print ("terrain difficulties");
-			print (PersistentTerrainSettings.settings.difficulty);
+            print ("terrain difficulties");
+            print (PersistentTerrainSettings.settings.difficulty);
             PersistentTerrainSettings.settings.difficulty = (PersistentTerrainSettings.settings.difficulty + 25) % 100;
             LoadLevelSettings(); //Creates a bunch of new objects, loads new terrain
         }
