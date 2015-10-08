@@ -89,7 +89,6 @@ public class TerrainCreator : MonoBehaviour
     }
     private void OnDestroy()
     {
-        SetAllOptions ();
         // On Destroy of PersistentTerrainSettings will set everything to its default value, so we
         // just want to rebuild everything with the default values so that we don't change the
         // terrain data every time we open it. 
@@ -99,6 +98,20 @@ public class TerrainCreator : MonoBehaviour
     }
 
     private void SetEverythingToZero() {
+        sideLength = 0f;
+        frequency = 0f;
+        dimensions = 0;
+        octaves = 0;
+        lacunarity = 0f;
+        gain = 0f;
+        gradientOrigin = Vector3.zero;
+        height = 0f;
+        rotation = Vector3.zero;
+        textureType = TerrainTextureType.Desert;
+        tileSize = 0;
+        treeDensity = 0f;
+        transform.position = Vector3.zero;
+        seed = "0";
         terrain.terrainData.treeInstances = new TreeInstance[0];
         heights = new float[terrain.terrainData.heightmapResolution, terrain.terrainData.heightmapResolution];
         terrain.terrainData.SetHeights(0, 0, heights);

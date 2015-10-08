@@ -132,6 +132,7 @@ namespace UnityStandardAssets._2D
         private void OnTriggerEnter2D(Collider2D other) {
             prevSpeed = m_MaxSpeed;
             if (other.CompareTag ("Collectible")) {
+                other.gameObject.GetComponent<Collectible>().CollectedItem();
                 Destroy (other.gameObject);
             } 
             if (other.CompareTag("Slow")) {
