@@ -9,6 +9,8 @@ public class ItemManager : MonoBehaviour {
     public int collectCount = 10;
     public int slowCloudCount = 5;
 
+    public bool allCollected = false;
+
     public Transform bouncyBox;
     public Transform stickyBox;
     public Transform collect;
@@ -47,8 +49,7 @@ public class ItemManager : MonoBehaviour {
 
     void Update() {
         if (!collectibles.Any ()) {
-            Canvas winScreen = GameObject.Find ("WinScreen").GetComponent<Canvas> ();
-            winScreen.enabled = true;
+            allCollected = true;
         }
     }
 

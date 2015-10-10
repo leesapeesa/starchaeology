@@ -16,6 +16,7 @@ public class LossScreenScript : MonoBehaviour {
     }
 
     public void NewGame () {
+        Time.timeScale = 1;
         Application.LoadLevel(2);
     }
 }
