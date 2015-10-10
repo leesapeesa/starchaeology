@@ -23,6 +23,7 @@ namespace UnityStandardAssets._2D
         private float prevSpeed = 10f;
         private float minX = -50f;
         private float maxX = 50f;
+        private float normalSpeed = 10f;
 
         private void Start()
         {
@@ -35,25 +36,19 @@ namespace UnityStandardAssets._2D
             print(PersistentTerrainSettings.settings == null);
             m_Rigidbody2D.gravityScale = PersistentTerrainSettings.settings.gravityEffect;
 
-            float cameraSize = Camera.main.orthographicSize;
-            float cameraAspect = Camera.main.aspect;
-            float cameraHeight = 2f * cameraSize;
-            float cameraWidth = (cameraHeight * cameraAspect)/2.0f;
             float sideLength = PersistentTerrainSettings.settings.sideLength;
-            minX = sideLength / 2.0f;
-            maxX = sideLength / 2.0f;
+            minX = sideLength / 2.0f - 1.0f;
+            maxX = sideLength / 2.0f - 1.0f ;
             minX = -minX;
-
-            //minX = -(minX - cameraWidth) + 1.0f;
-            //maxX = maxX - cameraWidth - 1.0f;
-            
-            print(minX);
-            print(maxX);
         }
         
 
         private void FixedUpdate()
         {
+            // Limit x position 
+            Vector3 currentPosition = m_Rigidbody2D.position;
+            currentPosition.x = Mathf.Clamp(m_Rigidbody2D.position.x, minX, maxX);
+            m_Rigidbody2D.position = currentPosition;
 
             m_Grounded = false;
             
@@ -70,12 +65,6 @@ namespace UnityStandardAssets._2D
             // Set the vertical animation
             m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
 
-            
-            // Limit x position 
-            Vector3 currentPosition = transform.position;
-            
-            currentPosition.x = Mathf.Clamp(m_Rigidbody2D.position.x, minX, maxX);
-            m_Rigidbody2D.position = currentPosition;
         }
         
         
@@ -130,13 +119,12 @@ namespace UnityStandardAssets._2D
         }
 
         private void OnTriggerEnter2D(Collider2D other) {
-            prevSpeed = m_MaxSpeed;
             if (other.CompareTag ("Collectible")) {
                 other.gameObject.GetComponent<Collectible>().CollectedItem();
                 Destroy (other.gameObject);
             } 
             if (other.CompareTag("Slow")) {
-               // m_MaxSpeed = 1f;
+                m_MaxSpeed = 1f;
             }
             if (other.CompareTag ("TriggerBounds")) {
                 //Jumped off the ledge
@@ -155,7 +143,7 @@ namespace UnityStandardAssets._2D
         
         private void OnTriggerExit2D(Collider2D other) {
             if (other.CompareTag("Slow")) {
-                m_MaxSpeed = prevSpeed;
+                m_MaxSpeed = normalSpeed;
             }
         }
         
