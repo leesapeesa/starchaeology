@@ -8,7 +8,7 @@ public class LevelScript : MonoBehaviour {
     public bool objectiveFailed = false;
     public Objective objective;
 
-    private int numObjectives = 1;
+    private int numObjectives = 2;
 
     private void Start() {
         CreateRandomObjective();
@@ -16,15 +16,17 @@ public class LevelScript : MonoBehaviour {
 
     private void CreateRandomObjective () {
         float random = Random.value;
-        int objectiveToChoose = (int) (Random.value * numObjectives);
+        int objectiveToChoose = (int)(Random.value * numObjectives);
 
         if (objectiveToChoose == 0) {
-            objective = level.AddComponent<ItemsObjective>();
+            objective = new ItemsObjective();
+        } else {
+            objective = new TimerObjective();
         }
     }
 
     private void Update() {
-        if (objective) {
+        if (objective != null) {
             objectiveCompleted = objective.ObjectiveComplete();
             objectiveFailed = objective.ObjectiveFailed();
         }

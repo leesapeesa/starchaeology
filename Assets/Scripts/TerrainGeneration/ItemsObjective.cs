@@ -1,25 +1,24 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class ItemsObjective : Objective {
+    /* Win condition: Collect all collectibles
+     * Loss condition: None */
 
-    private bool objectiveComplete = false;
     private ItemManager itemManager;
 
-	// Use this for initialization
-	void Start () {
+	public ItemsObjective () {
         itemManager = GameObject.Find("ObjectManager").GetComponent<ItemManager>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        if (itemManager.allCollected == true) {
-            objectiveComplete = true;
-        }
+        Text text = GameObject.Find("Timer").GetComponent<Text>();
+        text.enabled = false;
     }
 
     public override bool ObjectiveComplete() {
-        return objectiveComplete;
+        if (itemManager.allCollected == true) {
+            return true;
+        }
+        return false;
     }
 
     public override bool ObjectiveFailed() {
