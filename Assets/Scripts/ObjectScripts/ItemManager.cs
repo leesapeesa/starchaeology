@@ -14,17 +14,16 @@ public class ItemManager : MonoBehaviour {
     public Transform collect;
     public Transform slowCloud;
 
-    // Maps from name of collectible to how many there are of them.
-    public Dictionary<string, int> inventory;
-
     private float sideLength = 25f;
     private float closestToEdge = 5f;
     private float[] heights;
     private List<Transform> collectibles;
     private float gravityEffect;
+    private InventoryScript inventory;
 
     // Use this for initialization
     void Start() {
+        inventory = GameObject.Find ("Inventory").GetComponent<InventoryScript> ();
         heights = GameObject.FindObjectOfType<TerrainCreator> ().GetHeights();
         sideLength = PersistentTerrainSettings.settings.sideLength - closestToEdge;
         gravityEffect = PersistentTerrainSettings.settings.gravityEffect;
@@ -38,7 +37,6 @@ public class ItemManager : MonoBehaviour {
         bouncyBoxRigidBody.gravityScale = gravityEffect;
 
         collectibles = new List<Transform> ();
-        inventory = new Dictionary<string, int>();
         addCollectibles ();
         addBoxes ();
         addSlowClouds();
@@ -87,15 +85,6 @@ public class ItemManager : MonoBehaviour {
     }
 
     public void AddToInventory(Collectible item) {
-        if (inventory.ContainsKey (item.name))
-            ++inventory [item.name];
-        else 
-            inventory.Add (item.name, 1);
-        print (inventory.Count);
-        foreach (KeyValuePair<string,int> pair in inventory) {
-            print ("key: " + pair.Key + " value: " + pair.Value);
-        }
-
-
+        inventory.AddItemToInventory (item);
     }
 }

@@ -2,8 +2,8 @@
 using System.Collections;
 
 public class Collectible : NonPlayerObject {
-    public Texture image;
     public string type;
+    public Sprite itemIcon;
 	
     public Collectible() {
         type = "empty";
