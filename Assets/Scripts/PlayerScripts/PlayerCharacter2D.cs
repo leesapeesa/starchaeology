@@ -20,6 +20,10 @@ namespace UnityStandardAssets._2D
         private Animator m_Anim;            // Reference to the player's animator component.
         private Rigidbody2D m_Rigidbody2D;
         private bool m_FacingRight = true;  // For determining which way the player is currently facing.
+        private float prevSpeed = 10f;
+        private float minX = -50f;
+        private float maxX = 50f;
+        private float normalSpeed = 10f;
 
         private void Start()
         {
@@ -31,11 +35,20 @@ namespace UnityStandardAssets._2D
 
             print(PersistentTerrainSettings.settings == null);
             m_Rigidbody2D.gravityScale = PersistentTerrainSettings.settings.gravityEffect;
+
+            float sideLength = PersistentTerrainSettings.settings.sideLength;
+            minX = sideLength / 2.0f - 1.0f;
+            maxX = sideLength / 2.0f - 1.0f ;
+            minX = -minX;
         }
         
 
         private void FixedUpdate()
         {
+            // Limit x position 
+            Vector3 currentPosition = m_Rigidbody2D.position;
+            currentPosition.x = Mathf.Clamp(m_Rigidbody2D.position.x, minX, maxX);
+            m_Rigidbody2D.position = currentPosition;
 
             m_Grounded = false;
             
@@ -51,6 +64,7 @@ namespace UnityStandardAssets._2D
             
             // Set the vertical animation
             m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
+
         }
         
         
@@ -119,12 +133,17 @@ namespace UnityStandardAssets._2D
                 Canvas lossScreen = GameObject.Find ("LossScreen").GetComponent<Canvas> ();
                 lossScreen.enabled = true;
             }
+            if (other.CompareTag("CameraBounds")) {
+                print("At edge of game");
+                Rigidbody2D playerBody = GameObject.Find("Player").GetComponent<Rigidbody2D>();
+                float xPos = playerBody.position.x;
+            }
     
         }
         
         private void OnTriggerExit2D(Collider2D other) {
             if (other.CompareTag("Slow")) {
-                m_MaxSpeed = 10f;
+                m_MaxSpeed = normalSpeed;
             }
         }
         

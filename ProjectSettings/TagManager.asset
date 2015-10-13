@@ -10,6 +10,7 @@ TagManager:
   - Dropdown
   - Slow
   - TriggerBounds
+  - CameraBounds
   layers:
   - Default
   - TransparentFX

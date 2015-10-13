@@ -15,6 +15,8 @@ namespace UnityStandardAssets._2D
         private Vector3 m_LastTargetPosition;
         private Vector3 m_CurrentVelocity;
         private Vector3 m_LookAheadPos;
+        private float minX;
+        private float maxX;
         
         // Use this for initialization
         private void Start()
@@ -22,9 +24,20 @@ namespace UnityStandardAssets._2D
             m_LastTargetPosition = target.position;
             m_OffsetZ = (transform.position - target.position).z;
             transform.parent = null;
+
+            float cameraSize = Camera.main.orthographicSize;
+            float cameraAspect = Camera.main.aspect;
+            float cameraHeight = 2f * cameraSize;
+            float cameraWidth = (cameraHeight * cameraAspect) / 2.0f;
+            float sideLength = PersistentTerrainSettings.settings.sideLength;
+            minX = sideLength / 2.0f;
+            maxX = sideLength / 2.0f;
+            
+            minX = -(minX - cameraWidth) + 1.0f;
+            maxX = maxX - cameraWidth - 1.0f;
         }
-        
-        
+
+
         // Update is called once per frame
         private void Update()
         {
@@ -48,6 +61,12 @@ namespace UnityStandardAssets._2D
             transform.position = newPos;
             
             m_LastTargetPosition = target.position;
+
+            // Limit x position 
+            Vector3 currentPosition = transform.position;
+
+            currentPosition.x = Mathf.Clamp(transform.position.x, minX, maxX);
+            transform.position = currentPosition;
         }
     }
 }
