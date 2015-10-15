@@ -13,8 +13,8 @@ public class ItemManager : MonoBehaviour {
 
     public Transform bouncyBox;
     public Transform stickyBox;
-    public Transform collect;
     public Transform slowCloud;
+    public Transform[] collectibleList;
 
     private float sideLength = 25f;
     private float closestToEdge = 5f;
@@ -70,6 +70,7 @@ public class ItemManager : MonoBehaviour {
             float height = heights[(int)xCoor] + Random.Range (0, 3);
             height = Mathf.Max(height, 5);
             Vector3 position = new Vector3(xCoor - sideLength / 2, height);
+            Transform collect = collectibleList[Random.Range(0, collectibleList.Length)].transform;
             collectibles.Add (Instantiate(collect, position, Quaternion.identity) as Transform);
         }
     }

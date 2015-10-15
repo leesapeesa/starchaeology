@@ -4,9 +4,9 @@ using System.Collections;
 public class Collectible : NonPlayerObject {
     public string type;
     public Sprite itemIcon;
-	
-    public Collectible() {
-        type = "empty";
+
+    void Start() {
+        itemIcon = gameObject.GetComponent<SpriteRenderer> ().sprite;
     }
 
     public void CollectedItem() {

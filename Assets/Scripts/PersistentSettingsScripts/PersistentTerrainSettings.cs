@@ -47,6 +47,8 @@ public class PersistentTerrainSettings : MonoBehaviour {
         print("Load level! :D");
         print(difficulty);
 
+        height += 2; // increase the height a little bit every time this function is called.
+
         if (difficulty > 30 && difficulty < 70) {
             textureType = TerrainTextureType.Grassy;
         } else if (difficulty >= 0 && difficulty < 30) {

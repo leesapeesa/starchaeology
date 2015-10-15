@@ -19,4 +19,8 @@ public class LossScreenScript : MonoBehaviour {
         Time.timeScale = 1;
         Application.LoadLevel(2);
     }
+
+    public void NextLevel() {
+        Application.LoadLevel (3);
+    }
 }
