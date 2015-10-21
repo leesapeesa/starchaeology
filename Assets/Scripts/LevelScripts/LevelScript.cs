@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class LevelScript : MonoBehaviour {
@@ -9,9 +10,16 @@ public class LevelScript : MonoBehaviour {
     public Objective objective;
 
     private int numObjectives = 2;
+    private Text objectivesText;
+    private PlayerCharacter2D player;
+    private RectTransform healthBar;
+    private const float HEALTHBAR_WIDTH = 200f;
 
     private void Start() {
         CreateRandomObjective();
+        player = GameObject.FindWithTag("Player").GetComponent<PlayerCharacter2D>();
+        objectivesText = GameObject.Find("ObjectivesText").GetComponent<Text>();
+        healthBar = GameObject.Find("CurrentHealth").GetComponent<RectTransform>();
     }
 
     private void CreateRandomObjective () {
@@ -26,9 +34,18 @@ public class LevelScript : MonoBehaviour {
     }
 
     private void Update() {
+
+        //Update health display
+        float fracHealth = player.Health() / PlayerCharacter2D.MAX_HEALTH;
+        float newWidth = fracHealth * HEALTHBAR_WIDTH;
+        healthBar.sizeDelta = new Vector2(newWidth, healthBar.sizeDelta.y);
+        healthBar.anchoredPosition = new Vector2(newWidth / 2, 0);
+
         if (objective != null) {
             objectiveCompleted = objective.ObjectiveComplete();
             objectiveFailed = objective.ObjectiveFailed();
+            //Update the displayed objectives text
+            objectivesText.text = objective.ToString();
         }
 
         if (objectiveCompleted && !objectiveFailed) {

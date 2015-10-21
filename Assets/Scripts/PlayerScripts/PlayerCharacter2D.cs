@@ -22,6 +22,9 @@ public class PlayerCharacter2D : MonoBehaviour
     private float minX = -50f;
     private float maxX = 50f;
     private float normalSpeed = 10f;
+    private float health = MAX_HEALTH;
+
+    public const float MAX_HEALTH = 100f;
 
     private void Start()
     {
@@ -62,6 +65,11 @@ public class PlayerCharacter2D : MonoBehaviour
         
         // Set the vertical animation
         m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
+
+        //TEMPORARY quick way to decrease player health for testing
+        //TODO: remove me
+        if (Input.GetKey(KeyCode.H))
+            --health;
 
     }
     
@@ -157,6 +165,11 @@ public class PlayerCharacter2D : MonoBehaviour
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+    }
+
+    public float Health()
+    {
+        return health;
     }
 }
 

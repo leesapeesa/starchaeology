@@ -26,4 +26,9 @@ public class ItemsObjective : Objective {
         return false;
     }
 
+    public override string ToString()
+    {
+        return "Collect all the items!";
+    }
+
 }

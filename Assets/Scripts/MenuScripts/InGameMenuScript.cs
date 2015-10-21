@@ -18,6 +18,7 @@ public class InGameMenuScript : MonoBehaviour {
     public Button inventoryButton;
     public Button pauseButton;
     public Text timerText;
+    public Text objectivesText;
 
 
     private bool isPaused;
