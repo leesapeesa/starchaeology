@@ -5,7 +5,7 @@ using UnityEngine.Assertions;
 public class SlotScript : MonoBehaviour {
 
     private InventoryScript inventory;
-    public string type;
+    public Collectible item;
    
 	// Use this for initialization
 	void Start () {
@@ -16,7 +16,7 @@ public class SlotScript : MonoBehaviour {
         // we need to trust that whoever made the slot is remembering to update the name/type of thing
         // this slot is holding.
         print ("OnClick called");
-        Assert.IsNotNull(type);
-        inventory.RemoveItemFromInventory (type);
+        Assert.IsNotNull(item);
+        inventory.RemoveItemFromInventory (item);
     }
 }

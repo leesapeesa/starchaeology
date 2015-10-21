@@ -144,9 +144,9 @@ public class PlayerCharacter2D : MonoBehaviour
         }
     }
 
-    public void UseItem(string type) {
-        print ("Using Item: " + type);
-    }
+    //public void UseItem(string type) {
+    //    print ("Using Item: " + type);
+    //}
 
     private void Flip()
     {

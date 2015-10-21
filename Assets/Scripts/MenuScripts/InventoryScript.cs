@@ -15,7 +15,6 @@ public class InventoryScript : MonoBehaviour {
     private GameObject slotPanel;
     private PlayerCharacter2D player;
 
-    //private List<Collectible> collected;
     // Use this for initialization
     void Start () {
         slotPanel = GameObject.Find ("SlotPanel");
@@ -30,14 +29,11 @@ public class InventoryScript : MonoBehaviour {
     }
 
     public void AddItemToInventory(Collectible item) {
-        // TODO: Identify difference between collectibles that only accumulate score
-        // and consumables/quest items. Use another wrapper class or a tag?
         print ("added Item to inventory!");
-        //collected.Add (item);
         if (!inventorySlots.ContainsKey (item.type)) {
             // We need to make the slot.
             GameObject go = Instantiate (slot, new Vector3 (0, 0, 0), Quaternion.identity) as GameObject;
-            go.transform.GetComponent<SlotScript>().type = item.type;
+            go.transform.GetComponent<SlotScript>().item = item;
             go.transform.FindChild ("Item").gameObject.GetComponent<Image> ().sprite = item.itemIcon;
             go.transform.SetParent (slotPanel.transform);
             go.transform.localScale = new Vector3 (1, 1, 1);
@@ -48,16 +44,19 @@ public class InventoryScript : MonoBehaviour {
         ChangeInventory(item.type, 1);
     }
 
-    public void RemoveItemFromInventory(string type) {
-        Assert.IsNotNull (type);
-        if (!inventorySlots.ContainsKey (type)) {
+    public void RemoveItemFromInventory(Collectible item) {
+        Assert.IsNotNull (item);
+        if (!inventorySlots.ContainsKey (item.type)) {
             print ("Item missing");
             return;
         }
-        // TODO: distinguish between consumables and non-consumables;
         // Update GameObject Counter;
-        player.UseItem (type);
-        ChangeInventory(type, -1);
+        PersistentPlayerSettings.settings.UseItem (item);
+        ChangeInventory(item, -1);
+    }
+
+    void ChangeInventory(Collectible item, int amount) {
+        ChangeInventory (item.type, amount);
     }
 
     void ChangeInventory(string type, int amount) {
