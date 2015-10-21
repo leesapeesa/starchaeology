@@ -15,6 +15,7 @@ public class PersistentPlayerSettings : MonoBehaviour {
     void Awake () {
         if (settings == null) {
             DontDestroyOnLoad (gameObject);
+            SetDefault();
             settings = this;
         } else if (settings != this) {
             Destroy (gameObject);
@@ -46,5 +47,10 @@ public class PersistentPlayerSettings : MonoBehaviour {
             print ("Health increased: " + health.ToString ());
         }
         print ("Used item: " + item.type);
+    }
+
+    private void SetDefault()
+    {
+        health = PlayerCharacter2D.MAX_HEALTH;
     }
 }

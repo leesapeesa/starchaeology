@@ -21,6 +21,7 @@ public class LossScreenScript : MonoBehaviour {
     }
 
     public void NextLevel() {
-        Application.LoadLevel (3);
+        Time.timeScale = 1;
+        GameObject.FindWithTag("LoadGame").GetComponent<LoadGameScript>().NextLevel();
     }
 }

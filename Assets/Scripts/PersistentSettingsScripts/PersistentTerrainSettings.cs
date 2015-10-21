@@ -30,6 +30,7 @@ public class PersistentTerrainSettings : MonoBehaviour {
 
     public Vector3 terrainPosition = Vector3.zero;
     public int difficulty = 20;
+    public static float poisonAmount = 0.1f; //how much the player gets hurt from staying in a poison cloud
 
     void Awake () {
         if (settings == null) {
@@ -48,6 +49,7 @@ public class PersistentTerrainSettings : MonoBehaviour {
         print(difficulty);
 
         height += 2; // increase the height a little bit every time this function is called.
+        poisonAmount += 0.05f; //make poison clouds a little more dangerous
 
         if (difficulty > 30 && difficulty < 70) {
             textureType = TerrainTextureType.Grassy;
@@ -77,6 +79,7 @@ public class PersistentTerrainSettings : MonoBehaviour {
         treeDensity = 22.5f;
         terrainPosition = Vector3.zero;
         seed = "0";
+        poisonAmount = 0.1f;
     }
 
     public void OnDestroy()

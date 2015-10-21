@@ -40,4 +40,9 @@ public class TimerObjective : Objective {
         }
         return false;
     }
+
+    public override string ToString()
+    {
+        return "Score " + winningScore + " points. Time remaining: " + (int)time;
+    }
 }
