@@ -1921,7 +1921,7 @@ GameObject:
   - 114: {fileID: 1058370136}
   m_Layer: 0
   m_Name: LoadGame
-  m_TagString: Untagged
+  m_TagString: LoadGame
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3430,10 +3430,12 @@ MonoBehaviour:
   boxCount: 5
   collectCount: 10
   slowCloudCount: 3
+  poisonCloudCount: 4
   allCollected: 0
   bouncyBox: {fileID: 400000, guid: fc535e32951a64244b8d874f16383350, type: 2}
   stickyBox: {fileID: 400000, guid: c7dc5a32717854897854db2a45477a5c, type: 2}
   slowCloud: {fileID: 494106, guid: 158ad5e602753984da90579b329ab0ac, type: 2}
+  poisonCloud: {fileID: 479328, guid: 6ee5c6f513e87c543b70517de53a2d70, type: 2}
   collectibleList:
   - {fileID: 437304, guid: 66642fa2712154062a000e5e86ba4aa1, type: 2}
   - {fileID: 436294, guid: 82cb542c20eda4628b34abfa413c178b, type: 2}
@@ -4238,3 +4240,43 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
+--- !u!1 &2095569354
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2095569356}
+  - 114: {fileID: 2095569355}
+  m_Layer: 0
+  m_Name: PersistentPlayerSettingsObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2095569355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2095569354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f9106fa67310014595cc99f3930d6ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+--- !u!4 &2095569356
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2095569354}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 373.48056, y: 166.196671, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12

@@ -22,9 +22,15 @@ public class PlayerCharacter2D : MonoBehaviour
     private float minX = -50f;
     private float maxX = 50f;
     private float normalSpeed = 10f;
-    private float health = MAX_HEALTH;
+    private float m_health = MAX_HEALTH;
 
     public const float MAX_HEALTH = 100f;
+
+    public float health
+    {
+        get { return m_health; }
+        set { m_health = Mathf.Max(value, 0); }
+    }
 
     private void Start()
     {
@@ -41,6 +47,8 @@ public class PlayerCharacter2D : MonoBehaviour
         minX = sideLength / 2.0f - 1.0f;
         maxX = sideLength / 2.0f - 1.0f ;
         minX = -minX;
+
+        m_health = PersistentPlayerSettings.settings.health;
     }
     
 
@@ -65,11 +73,6 @@ public class PlayerCharacter2D : MonoBehaviour
         
         // Set the vertical animation
         m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
-
-        //TEMPORARY quick way to decrease player health for testing
-        //TODO: remove me
-        if (Input.GetKey(KeyCode.H))
-            --health;
 
     }
     
@@ -152,6 +155,13 @@ public class PlayerCharacter2D : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("Poison")) {
+            health -= PersistentTerrainSettings.poisonAmount;
+        }
+    }
+
     public void UseItem(string type) {
         print ("Using Item: " + type);
     }
@@ -165,11 +175,6 @@ public class PlayerCharacter2D : MonoBehaviour
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
-    }
-
-    public float Health()
-    {
-        return health;
     }
 }
 

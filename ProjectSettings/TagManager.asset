@@ -11,6 +11,9 @@ TagManager:
   - Slow
   - TriggerBounds
   - CameraBounds
+  - ItemSlot
+  - Poison
+  - LoadGame
   layers:
   - Default
   - TransparentFX

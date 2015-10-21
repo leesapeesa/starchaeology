@@ -8,12 +8,14 @@ public class ItemManager : MonoBehaviour {
     public int boxCount = 5;
     public int collectCount = 10;
     public int slowCloudCount = 5;
+    public int poisonCloudCount = 4;
 
     public bool allCollected = false;
 
     public Transform bouncyBox;
     public Transform stickyBox;
     public Transform slowCloud;
+    public Transform poisonCloud;
     public Transform[] collectibleList;
 
     private float sideLength = 25f;
@@ -40,9 +42,10 @@ public class ItemManager : MonoBehaviour {
 
         collectibles = new List<Transform> ();
         addCollectibles ();
-        addBoxes ();
-        addSlowClouds();
-        addSticky ();
+        addObjects(bouncyBox, boxCount, 2);
+        addObjects(slowCloud, slowCloudCount, 1);
+        addObjects(stickyBox, boxCount, 5);
+        addObjects(poisonCloud, poisonCloudCount);
     }
 
     void Update() {
@@ -51,19 +54,6 @@ public class ItemManager : MonoBehaviour {
         }
     }
 
-    private void addSlowClouds() {
-        for (int i = 0; i < slowCloudCount; ++i) {
-            Vector3 position = new Vector3(Random.Range(-sideLength / 2, sideLength / 2), 1);
-            Instantiate(slowCloud, position, Quaternion.identity);
-        }
-    }
-
-    private void addBoxes(){
-        for (int i = 0; i < boxCount; ++i) {
-            Vector3 position = new Vector3(Random.Range(-sideLength / 2, sideLength / 2), 2);
-            Instantiate(bouncyBox, position, Quaternion.identity);
-        }
-    }
     private void addCollectibles() {
         for (int i = 0; i < collectCount; ++i) {
             float xCoor = Random.Range(0, sideLength);
@@ -74,10 +64,12 @@ public class ItemManager : MonoBehaviour {
             collectibles.Add (Instantiate(collect, position, Quaternion.identity) as Transform);
         }
     }
-    private void addSticky() {
-        for (int i = 0; i < boxCount; ++i) {
-            Vector3 position = new Vector3(Random.Range(-sideLength / 2, sideLength / 2), 5);
-            Instantiate(stickyBox, position, Quaternion.identity);
+
+    private void addObjects(Transform obj, int count, float y = 1f)
+    {
+        for (int i = 0; i < count; ++i) {
+            Vector3 position = new Vector3(Random.Range(-sideLength / 2, sideLength / 2), y);
+            Instantiate(obj, position, Quaternion.identity);
         }
     }
 

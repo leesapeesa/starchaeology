@@ -12,10 +12,7 @@ public class LoadGameScript : MonoBehaviour {
         bool loadLevel = Input.GetKeyDown(KeyCode.L);
 
         if (loadLevel) {
-            print ("terrain difficulties");
-            print (PersistentTerrainSettings.settings.difficulty);
-            PersistentTerrainSettings.settings.difficulty = (PersistentTerrainSettings.settings.difficulty + 25) % 100;
-            LoadLevelSettings(); //Creates a bunch of new objects, loads new terrain
+            NextLevel();
         }
     }
 
@@ -28,6 +25,15 @@ public class LoadGameScript : MonoBehaviour {
     void LoadLevelSettings () {
         PersistentTerrainSettings.settings.LoadLevelSettings();
 
+    }
+
+    public void NextLevel()
+    {
+        print("terrain difficulties");
+        print(PersistentTerrainSettings.settings.difficulty);
+        PersistentTerrainSettings.settings.difficulty = (PersistentTerrainSettings.settings.difficulty + 25) % 100;
+        PersistentPlayerSettings.settings.health = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerCharacter2D>().health;
+        LoadLevelSettings(); //Creates a bunch of new objects, loads new terrain
     }
 
     void Awake () {
