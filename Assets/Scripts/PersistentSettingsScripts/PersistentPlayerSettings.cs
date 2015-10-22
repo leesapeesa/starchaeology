@@ -10,7 +10,7 @@ public class PersistentPlayerSettings : MonoBehaviour {
 
     private InventoryScript inventory;
     private int score = 0;
-    private int health = 100;
+    public float health = 100f;
 
     void Awake () {
         if (settings == null) {
@@ -41,6 +41,7 @@ public class PersistentPlayerSettings : MonoBehaviour {
     }
 
     public void UseItem(Collectible item) {
+        // LOL JONATHAN AND I IMPLEMENTED HEALTH IN TWO DIFFERENT PLACES.........
         if (item.function == ItemFunction.Health) {
             health += item.value; // TODO: After we have something to decrease health, make it capped.
             healthText.text = "Health: " + health.ToString();
