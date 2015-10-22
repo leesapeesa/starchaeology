@@ -9,6 +9,7 @@ public class ItemManager : MonoBehaviour {
     public int collectCount = 10;
     public int slowCloudCount = 5;
     public int poisonCloudCount = 4;
+    public int enemyCount = 3;
 
     public bool allCollected = false;
 
@@ -16,6 +17,7 @@ public class ItemManager : MonoBehaviour {
     public Transform stickyBox;
     public Transform slowCloud;
     public Transform poisonCloud;
+    public Transform groundPathEnemy;
     public Transform[] collectibleList;
 
     private float sideLength = 25f;
@@ -40,12 +42,17 @@ public class ItemManager : MonoBehaviour {
         Rigidbody2D bouncyBoxRigidBody = newBouncyBox.GetComponent<Rigidbody2D>();
         bouncyBoxRigidBody.gravityScale = gravityEffect;
 
+        GameObject newGroundPathEnemy = groundPathEnemy.gameObject;
+        Rigidbody2D groundPathEnemyRigidBody = newGroundPathEnemy.GetComponent<Rigidbody2D>();
+        groundPathEnemyRigidBody.gravityScale = gravityEffect;
+
         collectibles = new List<Transform> ();
         addCollectibles ();
         addObjects(bouncyBox, boxCount, 2);
         addObjects(slowCloud, slowCloudCount, 1);
         addObjects(stickyBox, boxCount, 5);
         addObjects(poisonCloud, poisonCloudCount);
+        addObjects(groundPathEnemy, enemyCount, 5);
     }
 
     void Update() {

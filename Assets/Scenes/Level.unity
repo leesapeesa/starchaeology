@@ -3431,11 +3431,13 @@ MonoBehaviour:
   collectCount: 10
   slowCloudCount: 3
   poisonCloudCount: 4
+  enemyCount: 3
   allCollected: 0
   bouncyBox: {fileID: 400000, guid: fc535e32951a64244b8d874f16383350, type: 2}
   stickyBox: {fileID: 400000, guid: c7dc5a32717854897854db2a45477a5c, type: 2}
   slowCloud: {fileID: 494106, guid: 158ad5e602753984da90579b329ab0ac, type: 2}
   poisonCloud: {fileID: 479328, guid: 6ee5c6f513e87c543b70517de53a2d70, type: 2}
+  groundPathEnemy: {fileID: 412148, guid: 7ab34c7bde17d7847b7bd74d0228c742, type: 2}
   collectibleList:
   - {fileID: 437304, guid: 66642fa2712154062a000e5e86ba4aa1, type: 2}
   - {fileID: 436294, guid: 82cb542c20eda4628b34abfa413c178b, type: 2}
