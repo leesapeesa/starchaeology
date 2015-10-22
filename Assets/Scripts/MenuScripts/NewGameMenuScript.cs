@@ -13,7 +13,7 @@ public class NewGameMenuScript : MonoBehaviour {
 
     // Should be changed to reflect how we end up loading the game
     public void NewGame() {
-        Application.LoadLevel(1);
+        Application.LoadLevel(3);
     }
 
 

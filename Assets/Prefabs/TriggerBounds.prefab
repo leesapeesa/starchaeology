@@ -47,7 +47,23 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_Color.r
+      value: .200000018
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Color.g
+      value: .31764707
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Color.b
+      value: .886274576
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 1d0c184845252df44a655359de388cb8, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 188196}

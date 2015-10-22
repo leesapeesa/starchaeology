@@ -42,6 +42,20 @@ public class PersistentTerrainSettings : MonoBehaviour {
         }
     }
 
+    public void SetMediumDifficulty() {
+        print ("Set Medium Difficulty");
+        sideLength = 150f;
+        height = 20f;
+        poisonAmount = 0.3f;
+    }
+
+    public void SetHardDifficulty() {
+        print ("Set Hard Difficulty");
+        sideLength = 200f;
+        height = 40f;
+        poisonAmount = 0.5f;
+    }
+
     // Temporary level loading mechanism, for now
     // int difficulty doesn't really have a meaning
     public void LoadLevelSettings() {

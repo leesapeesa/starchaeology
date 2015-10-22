@@ -351,6 +351,7 @@ GameObject:
   - 114: {fileID: 194060806}
   - 114: {fileID: 194060805}
   - 114: {fileID: 194060804}
+  - 114: {fileID: 194060808}
   m_Layer: 5
   m_Name: NewGameMenu
   m_TagString: Untagged
@@ -448,6 +449,17 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
+--- !u!114 &194060808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 194060802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fae2a490813a49a588c69d3820c53fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &224893548
 GameObject:
   m_ObjectHideFlags: 0
@@ -945,7 +957,7 @@ RectTransform:
   m_RootOrder: 2
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -180, y: -260}
+  m_AnchoredPosition: {x: -180, y: -320}
   m_SizeDelta: {x: 240, y: 30}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &949277541
@@ -1353,7 +1365,7 @@ RectTransform:
   m_RootOrder: 5
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -180, y: -320}
+  m_AnchoredPosition: {x: -180, y: -269}
   m_SizeDelta: {x: 240, y: 30}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1493519449
@@ -1400,15 +1412,26 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: Option A
+    - m_Text: Easy
       m_Image: {fileID: 0}
-    - m_Text: Option B
+    - m_Text: Medium
       m_Image: {fileID: 0}
-    - m_Text: Option C
+    - m_Text: Hard
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 194060808}
+        m_MethodName: SetLevelDifficulty
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Dropdown+DropdownEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1493519450
@@ -1516,6 +1539,48 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1585458764}
+--- !u!1001 &1586440653
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 400372, guid: 793cc603b07c74d28ab94e21017bbeba, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400372, guid: 793cc603b07c74d28ab94e21017bbeba, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400372, guid: 793cc603b07c74d28ab94e21017bbeba, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400372, guid: 793cc603b07c74d28ab94e21017bbeba, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400372, guid: 793cc603b07c74d28ab94e21017bbeba, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400372, guid: 793cc603b07c74d28ab94e21017bbeba, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400372, guid: 793cc603b07c74d28ab94e21017bbeba, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400372, guid: 793cc603b07c74d28ab94e21017bbeba, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 793cc603b07c74d28ab94e21017bbeba, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1995321774
 GameObject:
   m_ObjectHideFlags: 0
@@ -1662,7 +1727,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Option A
+  m_Text: Easy
 --- !u!222 &2022031028
 CanvasRenderer:
   m_ObjectHideFlags: 0

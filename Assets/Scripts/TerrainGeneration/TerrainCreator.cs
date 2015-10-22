@@ -16,30 +16,30 @@ public enum TerrainTextureType
 public class TerrainCreator : MonoBehaviour
 {
     // Eventually all of these will be private.
-    public float sideLength;
-    public float frequency;
+    private float sideLength;
+    private float frequency;
     [Range(1, 3)]
-    public int dimensions;
-    public NoiseType noiseType;
+    private int dimensions;
+    private NoiseType noiseType;
     [Range(1, 8)]
-    public int octaves;
+    private int octaves;
     [Range(1, 4)]
-    public float lacunarity;
+    private float lacunarity;
     [Range(0f, 1f)]
-    public float gain;
-    public Vector3 gradientOrigin;
-    public float height;
-    public Vector3 rotation;
-    public TerrainTextureType textureType;
+    private float gain;
+    private Vector3 gradientOrigin;
+    private float height;
+    private Vector3 rotation;
+    private TerrainTextureType textureType;
     [Range(1, 50)]
-    public int tileSize;
-    public Texture2D[] terrainTextures;
+    private int tileSize;
+    private Texture2D[] terrainTextures;
     [Range(0, 100)]
-    public float treeDensity;
-    public string seed;
-    public bool useRandomSeed = false;
+    private float treeDensity;
+    private string seed;
+    private bool useRandomSeed = false;
     private float triggerOffset = 50f;
-    private float fallHeight = 10f;
+    private float fallHeight;
 
     private float[,] heights;
     private Terrain terrain;
@@ -60,7 +60,8 @@ public class TerrainCreator : MonoBehaviour
         terrain2dCollider = GameObject.Find("Terrain2dCollider");
         Debug.Assert(terrain2dCollider != null);
         terrain2dCollider.AddComponent<EdgeCollider2D>();
-
+        print ("sidelength");
+        print (sideLength);
         Refresh();
         PersistentTerrainSettings.settings.terrainPosition = transform.position;
         print ("transform positions");
@@ -70,6 +71,7 @@ public class TerrainCreator : MonoBehaviour
         AddTriggerBounds ();
     }
     private void AddTriggerBounds() {
+        fallHeight = height / 2;
         triggerBounds = GameObject.Find ("TriggerBounds");
         Debug.Assert (triggerBounds != null);
         // For now, set the height to be the same height as the terrain.

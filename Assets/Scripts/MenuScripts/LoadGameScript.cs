@@ -34,9 +34,4 @@ public class LoadGameScript : MonoBehaviour {
         PersistentTerrainSettings.settings.difficulty = (PersistentTerrainSettings.settings.difficulty + 25) % 100;
         LoadLevelSettings(); //Creates a bunch of new objects, loads new terrain
     }
-
-    void Awake () {
-
-    }
-
 }
