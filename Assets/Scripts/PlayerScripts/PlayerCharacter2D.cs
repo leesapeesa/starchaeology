@@ -23,6 +23,7 @@ public class PlayerCharacter2D : MonoBehaviour
     private float maxX = 50f;
     private float normalSpeed = 10f;
     private float m_health = MAX_HEALTH;
+    private float m_extraTime = 0;
     private InventoryScript inventory;
 
     public const float MAX_HEALTH = 100f;
@@ -31,6 +32,11 @@ public class PlayerCharacter2D : MonoBehaviour
     {
         get { return m_health; }
         set { m_health = Mathf.Max(value, 0); }
+    }
+
+    public float extraTime {
+        get { return m_extraTime; }
+        set { m_extraTime = value; }
     }
 
     private void Start()
@@ -166,6 +172,11 @@ public class PlayerCharacter2D : MonoBehaviour
 
     public void UseItem(string type) {
         print ("Using Item: " + type);
+    }
+
+    public void AddTime(int value) {
+        m_extraTime += value;
+        print ("Extra Time increased");
     }
 
     private void Flip()

@@ -34,5 +34,6 @@ public class LevelTransitionScript : MonoBehaviour {
     }
     void OnDestroy() {
         print ("switching levels");
+        PersistentPlayerSettings.settings.levelScore = 0;
     }
 }

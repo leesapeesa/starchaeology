@@ -11,6 +11,6 @@ public class TimeCollectible : Collectible
 
     public override void OnUse(PlayerCharacter2D player)
     {
-        throw new NotImplementedException();
+        player.AddTime (value);
     }
 }

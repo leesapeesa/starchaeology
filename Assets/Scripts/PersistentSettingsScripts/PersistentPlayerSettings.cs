@@ -1,35 +1,36 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
 public class PersistentPlayerSettings : MonoBehaviour {
 
     public static PersistentPlayerSettings settings;
-    public Text scoreText;
-    public Text healthText;
 
     private InventoryScript inventory;
-    public int score = 0;
+    public int overallScore = 0; // Score for the overall game.
+    public int levelScore = 0; // Score for the level.
     public float health = 100f;
 
     void Awake () {
         if (settings == null) {
             DontDestroyOnLoad (gameObject);
-            SetDefault();
+            SetDefault ();
             settings = this;
         } else if (settings != this) {
             Destroy (gameObject);
         }
+
     }
+
     void Start() {
         inventory = GameObject.Find ("Inventory").GetComponent<InventoryScript> ();
-        score = 0;
-        health = 100;
-        //scoreText.text = "Score: 0";
+        SetDefault ();
     }
 
     private void SetDefault()
     {
+        levelScore = 0;
+        overallScore = 0;
         health = PlayerCharacter2D.MAX_HEALTH;
     }
 }

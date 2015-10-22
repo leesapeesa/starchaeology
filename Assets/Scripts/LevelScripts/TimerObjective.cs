@@ -6,36 +6,35 @@ public class TimerObjective : Objective {
     /* Win condition: Reach a score of 10
      * Loss condition: Run out of time */
 
-    public float time = 120; // Countdown time, in seconds
-    public int score = 0;
+    public float timeLimit = 120; // Countdown time, in seconds
+    public float timeRemaining;
 
     private int winningScore = 10;
     private bool objectiveComplete = false;
     private Text text;
+    private PlayerCharacter2D player;
 
     public TimerObjective() { 
         text = GameObject.Find("Timer").GetComponent<Text>();
+        player = GameObject.Find ("Player").GetComponent<PlayerCharacter2D> ();
         text.enabled = true;
+        timeRemaining = timeLimit;
 	}
 
     public override bool ObjectiveComplete () {
-        // Temporary method of increasing score
-        if (Input.GetKeyDown(KeyCode.M)) {
-            score += 10;
-        }
-
-        if (score >= winningScore) {
+        if (PersistentPlayerSettings.settings.levelScore >= winningScore) {
+            Debug.Log ("Objective Complete: " + PersistentPlayerSettings.settings.levelScore);
             return true;
         }
         return false;
     }
 
     public override bool ObjectiveFailed () {
-        time -= Time.deltaTime;
-        int timeAsInt = (int)time;
+        timeRemaining = Mathf.Min (timeLimit, timeLimit - Time.timeSinceLevelLoad + player.extraTime);
+        int timeAsInt = (int)timeRemaining;
         text.text = timeAsInt.ToString();
 
-        if (time <= 0.0f) {
+        if (timeRemaining <= 0.0f) {
             return true;
         }
         return false;
@@ -43,6 +42,6 @@ public class TimerObjective : Objective {
 
     public override string ToString()
     {
-        return "Score " + winningScore + " points. Time remaining: " + (int)time;
+        return "Score " + winningScore + " points. \n Time remaining: " + (int)timeRemaining;
     }
 }

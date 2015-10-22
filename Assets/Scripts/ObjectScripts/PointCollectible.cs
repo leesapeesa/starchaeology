@@ -7,9 +7,9 @@ public class PointCollectible : Collectible
     public override void OnCollect(InventoryScript inventory)
     {
         print("LOLOLOLOLOL");
-        PersistentPlayerSettings.settings.score += value;
+        PersistentPlayerSettings.settings.levelScore += value;
         //PersistentPlayerSettings.settings.scoreText.text = "Score: " + PersistentPlayerSettings.settings.score.ToString();
-        print("Score: " + PersistentPlayerSettings.settings.score);
+        print("Score: " + PersistentPlayerSettings.settings.levelScore);
     }
 
     public override void OnUse(PlayerCharacter2D player)

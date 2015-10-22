@@ -14,6 +14,7 @@ public class LevelScript : MonoBehaviour {
     private PlayerCharacter2D player;
     private RectTransform healthBar;
     private const float HEALTHBAR_WIDTH = 200f;
+    private Text scoreText;
 
     private void Start() {
         Time.timeScale = 1;
@@ -21,6 +22,7 @@ public class LevelScript : MonoBehaviour {
         player = GameObject.FindWithTag("Player").GetComponent<PlayerCharacter2D>();
         objectivesText = GameObject.Find("ObjectivesText").GetComponent<Text>();
         healthBar = GameObject.Find("CurrentHealth").GetComponent<RectTransform>();
+        scoreText = GameObject.Find ("Score").GetComponent<Text> ();
     }
 
     private void CreateRandomObjective () {
@@ -42,12 +44,16 @@ public class LevelScript : MonoBehaviour {
         healthBar.sizeDelta = new Vector2(newWidth, healthBar.sizeDelta.y);
         healthBar.anchoredPosition = new Vector2(newWidth / 2, 0);
 
+        // Update score display
+        scoreText.text = "Score: " + PersistentPlayerSettings.settings.levelScore.ToString ();
+
         if (objective != null) {
             objectiveCompleted = objective.ObjectiveComplete();
             objectiveFailed = objective.ObjectiveFailed();
             //Update the displayed objectives text
             objectivesText.text = objective.ToString();
         }
+
 
         if (objectiveCompleted && !objectiveFailed) {
             Canvas winScreen = GameObject.Find("WinScreen").GetComponent<Canvas>();
