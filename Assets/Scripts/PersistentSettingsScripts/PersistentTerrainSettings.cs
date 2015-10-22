@@ -30,6 +30,8 @@ public class PersistentTerrainSettings : MonoBehaviour {
 
     public Vector3 terrainPosition = Vector3.zero;
     public int difficulty = 20;
+    public int numEnemies = 3;
+
     public static float poisonAmount = 0.1f; //how much the player gets hurt from staying in a poison cloud
 
     void Awake () {

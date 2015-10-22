@@ -18,6 +18,7 @@ public class ItemManager : MonoBehaviour {
     public Transform slowCloud;
     public Transform poisonCloud;
     public Transform groundPathEnemy;
+    public Transform deathPathEnemy;
     public Transform[] collectibleList;
 
     private float sideLength = 25f;
@@ -31,6 +32,7 @@ public class ItemManager : MonoBehaviour {
         heights = GameObject.FindObjectOfType<TerrainCreator> ().GetHeights();
         sideLength = PersistentTerrainSettings.settings.sideLength - closestToEdge;
         gravityEffect = PersistentTerrainSettings.settings.gravityEffect;
+        enemyCount = PersistentTerrainSettings.settings.numEnemies;
 
         GameObject newStickyBox = stickyBox.gameObject;
         Rigidbody2D stickyBoxRigidBody = newStickyBox.GetComponent<Rigidbody2D>();
@@ -43,6 +45,10 @@ public class ItemManager : MonoBehaviour {
         GameObject newGroundPathEnemy = groundPathEnemy.gameObject;
         Rigidbody2D groundPathEnemyRigidBody = newGroundPathEnemy.GetComponent<Rigidbody2D>();
         groundPathEnemyRigidBody.gravityScale = gravityEffect;
+
+        GameObject newDeathPathEnemy = deathPathEnemy.gameObject;
+        Rigidbody2D deathPathEnemyRigidBody = newDeathPathEnemy.GetComponent<Rigidbody2D>();
+        deathPathEnemyRigidBody.gravityScale = gravityEffect;
 
         collectibles = new List<Transform> ();
         addCollectibles ();

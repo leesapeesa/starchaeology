@@ -6,12 +6,13 @@ using System.Collections;
 /// </summary>
 public class GroundPathEnemy : Enemy {
 
-    private float[] waypoints; // An ordered list of points that this enemy must visit
-    private int numWaypoints = 2; // Number of waypoints this enemy should use, measured as x-coordinates. Keeping it at 2 for now to stay simple.
+    private float[] waypoints; // An ordered list of points that this enemy must visit, measured as x-coordinates
+    private int numWaypoints = 2; // Number of waypoints this enemy should use. Keeping it at 2 for now to stay simple.
     private int waypointIndex = 0; // The current waypoint the enemy is moving towards
     private Rigidbody2D rigidbody2d;
     [SerializeField] private float velocity = 1;
-    private const float THRESHOLD = 0.5f;
+    protected const float THRESHOLD = 0.5f;
+    protected const float DAMAGE = 20;
 
 	// Use this for initialization
 	void Start () {
@@ -34,4 +35,24 @@ public class GroundPathEnemy : Enemy {
         if (Mathf.Abs(distanceToWaypoint) <= THRESHOLD)
             waypointIndex = (waypointIndex + 1) % numWaypoints;
 	}
+
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        // if we are colliding with the player, hurt the player
+        if (coll.gameObject.tag == "Player") {
+            coll.gameObject.GetComponent<PlayerCharacter2D>().health -= DAMAGE;
+        }
+    }
+
+    void OnCollisionStay2D(Collision2D coll)
+    {
+        //If there is an object blocking our way to the next waypoint, "bounce" off it and go to the next one
+        if (coll.gameObject.tag != "TerrainCollider") {
+            float distanceToWaypoint = rigidbody2d.position.x - waypoints[waypointIndex];
+            float objDistToWaypoint = coll.gameObject.GetComponent<Rigidbody2D>().position.x - waypoints[waypointIndex];
+            if (Mathf.Abs(objDistToWaypoint) < Mathf.Abs(distanceToWaypoint)) {
+                waypointIndex = (waypointIndex + 1) % numWaypoints;
+            }
+        }
+    }
 }

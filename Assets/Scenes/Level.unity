@@ -2954,19 +2954,19 @@ Prefab:
     m_Modifications:
     - target: {fileID: 22409802, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22400966, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22405014, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22437888, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22446194, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_LocalPosition.x
@@ -3504,6 +3504,7 @@ MonoBehaviour:
   slowCloud: {fileID: 494106, guid: 158ad5e602753984da90579b329ab0ac, type: 2}
   poisonCloud: {fileID: 479328, guid: 6ee5c6f513e87c543b70517de53a2d70, type: 2}
   groundPathEnemy: {fileID: 412148, guid: 7ab34c7bde17d7847b7bd74d0228c742, type: 2}
+  deathPathEnemy: {fileID: 445520, guid: 4ff08601b9709b143b39fc54c7c98873, type: 2}
   collectibleList:
   - {fileID: 437304, guid: 66642fa2712154062a000e5e86ba4aa1, type: 2}
   - {fileID: 436294, guid: 82cb542c20eda4628b34abfa413c178b, type: 2}
@@ -4303,7 +4304,7 @@ GameObject:
   - 4: {fileID: 2009485742}
   m_Layer: 8
   m_Name: Terrain2dCollider
-  m_TagString: Untagged
+  m_TagString: TerrainCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

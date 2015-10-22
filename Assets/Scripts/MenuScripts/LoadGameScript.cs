@@ -32,6 +32,8 @@ public class LoadGameScript : MonoBehaviour {
         print("terrain difficulties");
         print(PersistentTerrainSettings.settings.difficulty);
         PersistentTerrainSettings.settings.difficulty = (PersistentTerrainSettings.settings.difficulty + 25) % 100;
+        PersistentTerrainSettings.settings.numEnemies++;
+        PersistentPlayerSettings.settings.health = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerCharacter2D>().health;
         LoadLevelSettings(); //Creates a bunch of new objects, loads new terrain
     }
 }
