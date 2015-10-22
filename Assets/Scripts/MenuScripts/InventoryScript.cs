@@ -51,7 +51,7 @@ public class InventoryScript : MonoBehaviour {
             return;
         }
         // Update GameObject Counter;
-        PersistentPlayerSettings.settings.UseItem (item);
+        item.OnUse(player);
         ChangeInventory(item, -1);
     }
 

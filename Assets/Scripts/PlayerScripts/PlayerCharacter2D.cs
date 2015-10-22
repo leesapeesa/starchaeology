@@ -23,6 +23,7 @@ public class PlayerCharacter2D : MonoBehaviour
     private float maxX = 50f;
     private float normalSpeed = 10f;
     private float m_health = MAX_HEALTH;
+    private InventoryScript inventory;
 
     public const float MAX_HEALTH = 100f;
 
@@ -39,6 +40,7 @@ public class PlayerCharacter2D : MonoBehaviour
         m_CeilingCheck = transform.Find("CeilingCheck");
         m_Anim = GetComponent<Animator>();
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
+        inventory = GameObject.Find("Inventory").GetComponent<InventoryScript>();
 
         print(PersistentTerrainSettings.settings == null);
         m_Rigidbody2D.gravityScale = PersistentTerrainSettings.settings.gravityEffect;
@@ -129,7 +131,7 @@ public class PlayerCharacter2D : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag ("Collectible")) {
-            other.gameObject.GetComponent<Collectible>().CollectedItem();
+            other.gameObject.GetComponent<Collectible>().OnCollect(inventory);
             Destroy (other.gameObject);
         } 
         if (other.CompareTag("Slow")) {
