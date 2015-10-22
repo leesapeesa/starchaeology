@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 403188}
   - 212: {fileID: 21276832}
   - 58: {fileID: 5886472}
-  - 114: {fileID: 11496192}
+  - 114: {fileID: 11432946}
   m_Layer: 0
   m_Name: TimeCollectible
   m_TagString: Collectible
@@ -43,7 +43,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: .57587254
---- !u!114 &11496192
+--- !u!114 &11432946
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -51,13 +51,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 193680}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c6e608466a7b40ec9d79e95b1d9395f, type: 3}
+  m_Script: {fileID: 11500000, guid: 80f62283e0ab59b478b62f07a879d468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: TimeCollectible
+  type: Time
   itemIcon: {fileID: 0}
-  value: 0
-  function: 2
+  value: 30
 --- !u!212 &21276832
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -94,6 +93,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: function
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: value
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: type
+      value: Time
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

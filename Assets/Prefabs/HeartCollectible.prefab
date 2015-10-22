@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 436294}
   - 212: {fileID: 21229384}
   - 58: {fileID: 5882416}
-  - 114: {fileID: 11426962}
+  - 114: {fileID: 11496332}
   m_Layer: 0
   m_Name: HeartCollectible
   m_TagString: Collectible
@@ -43,7 +43,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: .565184653
---- !u!114 &11426962
+--- !u!114 &11496332
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -51,13 +51,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 155344}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c6e608466a7b40ec9d79e95b1d9395f, type: 3}
+  m_Script: {fileID: 11500000, guid: 4620b36a3d330984b9639754998ae9f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: HeartCollectible
+  type: Health
   itemIcon: {fileID: 0}
   value: 5
-  function: 1
 --- !u!212 &21229384
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -93,7 +92,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: type
-      value: HeartCollectible
+      value: Health
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Layer
