@@ -35,5 +35,7 @@ public class LevelTransitionScript : MonoBehaviour {
     void OnDestroy() {
         print ("switching levels");
         PersistentPlayerSettings.settings.levelScore = 0;
+        PersistentTerrainSettings.settings.gravityEffect = Random.Range (0.5f, 2f);
+        print (PersistentTerrainSettings.settings.gravityEffect);
     }
 }

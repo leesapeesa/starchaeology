@@ -25,11 +25,9 @@ public class ItemManager : MonoBehaviour {
     private float[] heights;
     private List<Transform> collectibles;
     private float gravityEffect;
-    // private InventoryScript inventory;
 
     // Use this for initialization
     void Start() {
-        //inventory = GameObject.Find ("Inventory").GetComponent<InventoryScript> ();
         heights = GameObject.FindObjectOfType<TerrainCreator> ().GetHeights();
         sideLength = PersistentTerrainSettings.settings.sideLength - closestToEdge;
         gravityEffect = PersistentTerrainSettings.settings.gravityEffect;
@@ -62,10 +60,10 @@ public class ItemManager : MonoBehaviour {
     }
 
     private void addCollectibles() {
+        heights = GameObject.FindObjectOfType<TerrainCreator> ().GetHeights();
         for (int i = 0; i < collectCount; ++i) {
             float xCoor = Random.Range(0, sideLength);
-            float height = heights[(int)xCoor] + Random.Range (0, 3);
-            height = Mathf.Max(height, 5);
+            float height = heights[(int)xCoor] + Random.Range(3, PersistentTerrainSettings.settings.height / 1.5f);
             Vector3 position = new Vector3(xCoor - sideLength / 2, height);
             Transform collect = collectibleList[Random.Range(0, collectibleList.Length)].transform;
             collectibles.Add (Instantiate(collect, position, Quaternion.identity) as Transform);
@@ -84,8 +82,4 @@ public class ItemManager : MonoBehaviour {
         if (collectibles.Contains (npo.transform))
             collectibles.Remove (npo.transform);
     }
-
-    //public void AddToInventory(Collectible item) {
-    //    inventory.AddItemToInventory (item);
-    //}
 }

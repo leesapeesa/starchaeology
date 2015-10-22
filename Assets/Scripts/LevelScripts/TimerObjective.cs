@@ -30,7 +30,7 @@ public class TimerObjective : Objective {
     }
 
     public override bool ObjectiveFailed () {
-        timeRemaining = Mathf.Min (timeLimit, timeLimit - Time.timeSinceLevelLoad + player.extraTime);
+        timeRemaining = timeLimit - Time.timeSinceLevelLoad + player.extraTime;
         int timeAsInt = (int)timeRemaining;
         text.text = timeAsInt.ToString();
 

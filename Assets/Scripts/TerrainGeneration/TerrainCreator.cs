@@ -200,7 +200,7 @@ public class TerrainCreator : MonoBehaviour
     public float[] GetHeights() {
         float[] heightsTemp = new float[terrain.terrainData.heightmapResolution];
         for (int x = 0; x < terrain.terrainData.heightmapResolution; ++x)
-            heightsTemp [x] = terrain.terrainData.GetHeight (x, 1);
+            heightsTemp [x] = terrain.terrainData.GetHeight (x, 1) - height / 2;
         return heightsTemp;
     }
 
