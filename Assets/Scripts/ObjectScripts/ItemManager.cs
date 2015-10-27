@@ -22,14 +22,14 @@ public class ItemManager : MonoBehaviour {
 
     private float sideLength = 25f;
     private float closestToEdge = 5f;
-    private float[] heights;
+    private Vector2[] heights;
     private List<Transform> collectibles;
     private float gravityEffect;
     private Dictionary<Transform, float> pTable; //enemy type probability table
 
     // Use this for initialization
     void Start() {
-        heights = GameObject.FindObjectOfType<TerrainCreator> ().GetHeights();
+        heights = GameObject.FindObjectOfType<TerrainCreator> ().getPathHeights();
         sideLength = PersistentTerrainSettings.settings.sideLength - closestToEdge;
         gravityEffect = PersistentTerrainSettings.settings.gravityEffect;
         enemyCount = PersistentTerrainSettings.settings.numEnemies;
@@ -69,10 +69,10 @@ public class ItemManager : MonoBehaviour {
     }
 
     private void addCollectibles() {
-        heights = GameObject.FindObjectOfType<TerrainCreator> ().GetHeights();
+        heights = GameObject.FindObjectOfType<TerrainCreator> ().getPathHeights();
         for (int i = 0; i < collectCount; ++i) {
             float xCoor = Random.Range(0, sideLength);
-            float height = heights[(int)xCoor] + Random.Range(3, PersistentTerrainSettings.settings.height / 1.5f);
+            float height = heights[(int)xCoor].y + Random.Range(3, PersistentTerrainSettings.settings.height / 1.5f);
             Vector3 position = new Vector3(xCoor - sideLength / 2, height);
             Transform collect = collectibleList[Random.Range(0, collectibleList.Length)].transform;
             collectibles.Add (Instantiate(collect, position, Quaternion.identity) as Transform);
