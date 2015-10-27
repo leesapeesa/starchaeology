@@ -57,6 +57,7 @@ MonoBehaviour:
   type: Point
   itemIcon: {fileID: 0}
   value: 10
+  pickupSound: {fileID: 8300000, guid: ad03aba1a1583422b87a3966c8f741d3, type: 3}
 --- !u!212 &21295934
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -107,6 +108,10 @@ Prefab:
       propertyPath: value
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: pickupSound
+      value: 
+      objectReference: {fileID: 8300000, guid: ad03aba1a1583422b87a3966c8f741d3, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 198088}

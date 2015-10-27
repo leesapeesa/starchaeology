@@ -6,6 +6,7 @@ public abstract class Collectible : NonPlayerObject {
     public string type;
     public Sprite itemIcon;
     public int value;
+    public AudioClip pickupSound;
 
     void Start() {
         itemIcon = gameObject.GetComponent<SpriteRenderer> ().sprite;

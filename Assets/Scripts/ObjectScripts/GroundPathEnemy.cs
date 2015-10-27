@@ -11,12 +11,14 @@ public class GroundPathEnemy : Enemy {
     private int waypointIndex = 0; // The current waypoint the enemy is moving towards
     private Rigidbody2D rigidbody2d;
     [SerializeField] private float velocity = 1;
+    protected AudioSource audioSource;
     protected const float THRESHOLD = 0.5f;
     protected const float DAMAGE = 20;
 
 	// Use this for initialization
 	void Start () {
         rigidbody2d = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
 
         //Right now we are having the enemy walk back and forth along a path of random length
         float curX = rigidbody2d.position.x;
@@ -41,6 +43,7 @@ public class GroundPathEnemy : Enemy {
         // if we are colliding with the player, hurt the player
         if (coll.gameObject.tag == "Player") {
             coll.gameObject.GetComponent<PlayerCharacter2D>().health -= DAMAGE;
+            audioSource.Play();
         }
     }
 

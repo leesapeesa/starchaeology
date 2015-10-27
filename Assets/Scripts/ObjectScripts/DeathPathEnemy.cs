@@ -11,6 +11,7 @@ public class DeathPathEnemy : GroundPathEnemy {
         // kill player upon contact
         if (coll.gameObject.tag == "Player") {
             coll.gameObject.GetComponent<PlayerCharacter2D>().health = 0;
+            audioSource.Play();
         }
     }
 }

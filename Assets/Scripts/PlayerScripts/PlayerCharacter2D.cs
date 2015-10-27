@@ -9,6 +9,9 @@ public class PlayerCharacter2D : MonoBehaviour
     [SerializeField] private bool m_AirControl = true;                 // Whether or not a player can steer while jumping;
     [SerializeField] private LayerMask m_WhatIsGround;                  // A mask determining what is ground to the character
     [SerializeField] private float m_gravity = 8f;
+    [SerializeField] private AudioClip m_AudioJump;
+    [SerializeField] private AudioClip m_AudioLand;
+    [SerializeField] private AudioClip m_AudioDeath;
     
     private Transform m_GroundCheck;    // A position marking where to check if the player is grounded.
     const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
@@ -25,6 +28,9 @@ public class PlayerCharacter2D : MonoBehaviour
     private float m_health = MAX_HEALTH;
     private float m_extraTime = 0;
     private InventoryScript inventory;
+    private AudioSource m_AudioSource;
+    private bool m_PlayingFootsteps;
+    private bool m_PlayingDeath;
 
     public const float MAX_HEALTH = 100f;
 
@@ -47,6 +53,7 @@ public class PlayerCharacter2D : MonoBehaviour
         m_Anim = GetComponent<Animator>();
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
         inventory = GameObject.Find("Inventory").GetComponent<InventoryScript>();
+        m_AudioSource = GetComponent<AudioSource>();
 
         print(PersistentTerrainSettings.settings == null);
         m_Rigidbody2D.gravityScale = PersistentTerrainSettings.settings.gravityEffect;
@@ -57,6 +64,8 @@ public class PlayerCharacter2D : MonoBehaviour
         minX = -minX;
 
         m_health = PersistentPlayerSettings.settings.health;
+
+        m_PlayingDeath = false;
     }
     
 
@@ -83,10 +92,33 @@ public class PlayerCharacter2D : MonoBehaviour
         m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
 
     }
+
+    void Update()
+    {
+        // Upon death, play death sound
+        if (health <= 0 && !m_PlayingDeath) {
+            m_AudioSource.Stop();
+            m_AudioSource.volume = 1;
+            m_AudioSource.PlayOneShot(m_AudioDeath);
+            m_PlayingDeath = true;
+        }
+    }
     
     
     public void Move(float move, bool crouch, bool jump)
     {
+        //Play footstep sounds if player is moving across the ground
+        if (Mathf.Abs(move) >= 0.1 && m_Grounded && !m_PlayingFootsteps) {
+            m_AudioSource.volume = 0.01f;
+            m_AudioSource.Play();
+            m_PlayingFootsteps = true;
+        }
+        else if ((Mathf.Abs(move) < 0.1 || !m_Grounded) && m_PlayingFootsteps) {
+            m_AudioSource.Stop();
+            m_AudioSource.volume = 1;
+            m_PlayingFootsteps = false;
+        }
+
         // If crouching, check to see if the character can stand up
         if (!crouch && m_Anim.GetBool("Crouch"))
         {
@@ -132,12 +164,16 @@ public class PlayerCharacter2D : MonoBehaviour
             m_Grounded = false;
             m_Anim.SetBool("Ground", false);
             m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+            m_AudioSource.volume = 1;
+            m_AudioSource.PlayOneShot(m_AudioJump);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag ("Collectible")) {
             other.gameObject.GetComponent<Collectible>().OnCollect(inventory);
+            m_AudioSource.volume = 1;
+            m_AudioSource.PlayOneShot(other.gameObject.GetComponent<Collectible>().pickupSound);
             Destroy (other.gameObject);
         } 
         if (other.CompareTag("Slow")) {

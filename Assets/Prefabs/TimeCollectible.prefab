@@ -57,6 +57,7 @@ MonoBehaviour:
   type: Time
   itemIcon: {fileID: 0}
   value: 30
+  pickupSound: {fileID: 8300000, guid: 8904096a3646d43fd88ea2a4d254fa10, type: 3}
 --- !u!212 &21276832
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -102,6 +103,10 @@ Prefab:
       propertyPath: type
       value: Time
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: pickupSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 8904096a3646d43fd88ea2a4d254fa10, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 193680}
