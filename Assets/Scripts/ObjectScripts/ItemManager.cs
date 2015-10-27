@@ -17,8 +17,7 @@ public class ItemManager : MonoBehaviour {
     public Transform stickyBox;
     public Transform slowCloud;
     public Transform poisonCloud;
-    public Transform groundPathEnemy;
-    public Transform deathPathEnemy;
+    public Transform[] enemyList;
     public Transform[] collectibleList;
 
     private float sideLength = 25f;
@@ -26,6 +25,7 @@ public class ItemManager : MonoBehaviour {
     private float[] heights;
     private List<Transform> collectibles;
     private float gravityEffect;
+    private Dictionary<Transform, float> pTable; //enemy type probability table
 
     // Use this for initialization
     void Start() {
@@ -33,6 +33,11 @@ public class ItemManager : MonoBehaviour {
         sideLength = PersistentTerrainSettings.settings.sideLength - closestToEdge;
         gravityEffect = PersistentTerrainSettings.settings.gravityEffect;
         enemyCount = PersistentTerrainSettings.settings.numEnemies;
+
+        //initialize the probability table
+        pTable = new Dictionary<Transform, float>(enemyList.Length);
+        pTable[enemyList[0]] = 0.8f;
+        pTable[enemyList[1]] = 0.2f;
 
         GameObject newStickyBox = stickyBox.gameObject;
         Rigidbody2D stickyBoxRigidBody = newStickyBox.GetComponent<Rigidbody2D>();
@@ -42,13 +47,11 @@ public class ItemManager : MonoBehaviour {
         Rigidbody2D bouncyBoxRigidBody = newBouncyBox.GetComponent<Rigidbody2D>();
         bouncyBoxRigidBody.gravityScale = gravityEffect;
 
-        GameObject newGroundPathEnemy = groundPathEnemy.gameObject;
-        Rigidbody2D groundPathEnemyRigidBody = newGroundPathEnemy.GetComponent<Rigidbody2D>();
-        groundPathEnemyRigidBody.gravityScale = gravityEffect;
-
-        GameObject newDeathPathEnemy = deathPathEnemy.gameObject;
-        Rigidbody2D deathPathEnemyRigidBody = newDeathPathEnemy.GetComponent<Rigidbody2D>();
-        deathPathEnemyRigidBody.gravityScale = gravityEffect;
+        foreach (Transform enemy in enemyList) {
+            GameObject newEnemy = enemy.gameObject;
+            Rigidbody2D enemyRigidbody = newEnemy.GetComponent<Rigidbody2D>();
+            enemyRigidbody.gravityScale = gravityEffect;
+        }
 
         collectibles = new List<Transform> ();
         addCollectibles ();
@@ -56,7 +59,7 @@ public class ItemManager : MonoBehaviour {
         addObjects(slowCloud, slowCloudCount, 1);
         addObjects(stickyBox, boxCount, 5);
         addObjects(poisonCloud, poisonCloudCount);
-        addObjects(groundPathEnemy, enemyCount, 5);
+        addEnemies(enemyCount);
     }
 
     void Update() {
@@ -81,6 +84,26 @@ public class ItemManager : MonoBehaviour {
         for (int i = 0; i < count; ++i) {
             Vector3 position = new Vector3(Random.Range(-sideLength / 2, sideLength / 2), y);
             Instantiate(obj, position, Quaternion.identity);
+        }
+    }
+
+    /// <summary>
+    /// Add enemies to the scene, randomly choosing the enemy type based on the current probability table.
+    /// </summary>
+    private void addEnemies(int count)
+    {
+        for (int i = 0; i < count; ++i) {
+            float pValue = Random.value;
+            float prior = 0;
+            foreach (Transform enemy in enemyList) {
+                if (pValue < pTable[enemy] + prior) {
+                    Vector3 position = new Vector3(Random.Range(-sideLength / 2, sideLength / 2), 5f);
+                    Instantiate(enemy, position, Quaternion.identity);
+                    prior += pTable[enemy];
+                    break;
+                }
+                prior += pTable[enemy];
+            }
         }
     }
 
