@@ -7,6 +7,8 @@ using System;
 
 public class InventoryScript : MonoBehaviour {
 
+    public static InventoryScript inventory;
+
     public float inX, inY = 0f;
     public int totalSlots = 20;
     public GameObject slot;
@@ -14,6 +16,15 @@ public class InventoryScript : MonoBehaviour {
     private Dictionary<string, GameObject> inventorySlots;
     private GameObject slotPanel;
     private PlayerCharacter2D player;
+
+    void Awake () {
+        if (inventory == null) {
+            DontDestroyOnLoad (gameObject);
+            inventory = this;
+        } else if (inventory != this) {
+            Destroy (gameObject);
+        }
+    }
 
     // Use this for initialization
     void Start () {
