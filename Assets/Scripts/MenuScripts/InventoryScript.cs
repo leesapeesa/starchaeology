@@ -16,6 +16,7 @@ public class InventoryScript : MonoBehaviour {
     private Dictionary<string, GameObject> inventorySlots;
     private GameObject slotPanel;
     private PlayerCharacter2D player;
+    private AudioSource audioSource;
 
     void Awake () {
         if (inventory == null) {
@@ -32,6 +33,7 @@ public class InventoryScript : MonoBehaviour {
         print (slotPanel.ToString ());
         inventorySlots = new Dictionary<string, GameObject>();
         player = GameObject.Find ("Player").transform.GetComponent<PlayerCharacter2D> ();
+        audioSource = GetComponent<AudioSource>();
     }
     void OnDestroy() {
         print ("Destroy Inventory");
@@ -64,6 +66,7 @@ public class InventoryScript : MonoBehaviour {
         // Update GameObject Counter;
         item.OnUse(player);
         ChangeInventory(item, -1);
+        audioSource.Play();
     }
 
     void ChangeInventory(Collectible item, int amount) {

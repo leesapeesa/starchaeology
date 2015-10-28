@@ -49,13 +49,15 @@ public class TerrainCreator : MonoBehaviour
     private System.Random pseudoRandom;
     private GameObject triggerBounds;
 
+    private const float REAL_HEIGHT = 100f; //what the engine sees as the height of the TerrainData
+
     private void Start()
     {
         SetAllOptions();
 
         terrain = GetComponent<Terrain>();
         Debug.Assert(terrain != null);
-        terrain.terrainData.size = new Vector3(sideLength, height, sideLength);
+        terrain.terrainData.size = new Vector3(sideLength, REAL_HEIGHT, sideLength);
         terrain.terrainData.treeInstances = new TreeInstance[0];
         terrain2dCollider = GameObject.Find("Terrain2dCollider");
         Debug.Assert(terrain2dCollider != null);
@@ -155,6 +157,9 @@ public class TerrainCreator : MonoBehaviour
 
         NoiseFunction noiseFunction = Noise.noiseMethods[(int)noiseType][dimensions - 1];
         float stepSize = 1f / terrain.terrainData.heightmapResolution;
+        //Ratio of desired terrain height to the actual height of the TerrainData
+        //Needed so that the front-facing "wall" can extend below the bottom of the terrain, such that the user never sees the bottom
+        float heightRatio = height / REAL_HEIGHT;
         //Compute the gradient value at each vertex of the surface.
         //Note: coordinates here are in gradient space, not local space
         for (int y = 0; y < terrain.terrainData.heightmapResolution; y++)
@@ -170,12 +175,12 @@ public class TerrainCreator : MonoBehaviour
                 if (y == 0) //drop down the vertices facing the camera to create a front-facing wall for the 2d view
                     heights[y, x] = -100;
                 else
-                    heights[y, x] = sample;
+                    heights[y, x] = heightRatio * (sample - 1) + 1;
             }
         }
 
         terrain.terrainData.SetHeights(0, 0, heights);
-        transform.position = new Vector3(-sideLength / 2, -height / 2, -sideLength / terrain.terrainData.heightmapResolution);
+        transform.position = new Vector3(-sideLength / 2, -REAL_HEIGHT + height / 2, -sideLength / terrain.terrainData.heightmapResolution);
 
         terrain2dCollider.GetComponent<EdgeCollider2D>().points = getPathHeights();
 
@@ -192,18 +197,8 @@ public class TerrainCreator : MonoBehaviour
         Vector2[] result = new Vector2[terrain.terrainData.heightmapResolution];
         for (int x = 0; x < terrain.terrainData.heightmapResolution; x++)
             result[x] = new Vector2(x * sideLength / terrain.terrainData.heightmapResolution - sideLength / 2,
-                                    terrain.terrainData.GetHeight(x, 1) - height / 2);
+                                    terrain.terrainData.GetHeight(x, 1) - REAL_HEIGHT + height / 2);
         return result;
-    }
-
-    /// <summary>
-    /// Gets the height of the player plane.
-    /// </summary>
-    public float[] GetHeights() {
-        float[] heightsTemp = new float[terrain.terrainData.heightmapResolution];
-        for (int x = 0; x < terrain.terrainData.heightmapResolution; ++x)
-            heightsTemp [x] = terrain.terrainData.GetHeight (x, 1) - height / 2;
-        return heightsTemp;
     }
 
     private void Generate()
@@ -212,7 +207,7 @@ public class TerrainCreator : MonoBehaviour
         curLength = sideLength;
         curHeight = height;
 
-        terrain.terrainData.size = new Vector3(sideLength, height, sideLength);
+        terrain.terrainData.size = new Vector3(sideLength, REAL_HEIGHT, sideLength);
         heights = new float[terrain.terrainData.heightmapResolution, terrain.terrainData.heightmapResolution];
 
         RandomOrigin ();
@@ -232,7 +227,7 @@ public class TerrainCreator : MonoBehaviour
         {
             splats[i] = new SplatPrototype();
             splats[i].texture = terrainTextures[i - terrainTextures.Length];
-            splats[i].tileSize = new Vector2(terrain.terrainData.alphamapResolution, 1);
+            splats[i].tileSize = new Vector2(terrain.terrainData.alphamapResolution, 0.1f);
         }
         terrain.terrainData.splatPrototypes = splats;
     }
@@ -263,6 +258,7 @@ public class TerrainCreator : MonoBehaviour
             for (int tex = 0; tex < terrain.terrainData.alphamapLayers; tex++)
             {
                 alphas[0, j, tex] = ((tex - terrainTextures.Length) == textureIndex) ? 1 : 0;
+                alphas[1, j, tex] = ((tex - terrainTextures.Length) == textureIndex) ? 1 : 0;
             }
         }
 
