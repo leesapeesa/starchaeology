@@ -2,7 +2,7 @@
 using System.Collections;
 
 
-public abstract class Collectible : NonPlayerObject {
+public abstract class Collectible : MonoBehaviour {
     public string type;
     public Sprite itemIcon;
     public int value;

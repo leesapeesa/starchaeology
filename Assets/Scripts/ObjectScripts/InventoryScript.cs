@@ -41,7 +41,8 @@ public class InventoryScript : MonoBehaviour {
     // Use this for initialization
     void Start () {
         slotPanel = GameObject.Find ("SlotPanel");
-        player = GameObject.Find ("Player").transform.GetComponent<PlayerCharacter2D> ();
+        if (GameObject.Find ("Player") != null)
+            player = GameObject.Find ("Player").transform.GetComponent<PlayerCharacter2D> ();
         audioSource = GetComponent<AudioSource>();
     }
 
