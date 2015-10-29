@@ -36,7 +36,7 @@ public class PlayerCharacter2D : MonoBehaviour
     public float health
     {
         get { return m_health; }
-        set { m_health = Mathf.Clamp(m_health, 0, MAX_HEALTH); }
+        set { m_health = Mathf.Clamp(value, 0, MAX_HEALTH); }
     }
 
     public float extraTime {
