@@ -81,6 +81,7 @@ public class PersistentTerrainSettings : MonoBehaviour {
     {
         print ("Set default terrain");
         sideLength = 100f;
+        gravityEffect = 1f;
         frequency = 6.27f;
         dimensions = 3;
         noiseType = NoiseType.Perlin;

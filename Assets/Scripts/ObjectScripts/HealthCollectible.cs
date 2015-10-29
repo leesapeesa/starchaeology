@@ -3,9 +3,9 @@ using System.Collections;
 using System;
 
 public class HealthCollectible : Collectible {
-    public override void OnCollect(InventoryScript inventory)
+    public override void OnCollect()
     {
-        inventory.AddItemToInventory(this);
+        InventoryScript.inventory.AddItemToInventory(this);
     }
 
     public override void OnUse(PlayerCharacter2D player)

@@ -4,7 +4,7 @@ using System;
 
 public class PointCollectible : Collectible
 {
-    public override void OnCollect(InventoryScript inventory)
+    public override void OnCollect()
     {
         PersistentPlayerSettings.settings.levelScore += value;
         //PersistentPlayerSettings.settings.scoreText.text = "Score: " + PersistentPlayerSettings.settings.score.ToString();

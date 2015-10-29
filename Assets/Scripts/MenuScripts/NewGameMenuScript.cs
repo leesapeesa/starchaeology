@@ -13,6 +13,9 @@ public class NewGameMenuScript : MonoBehaviour {
 
     // Should be changed to reflect how we end up loading the game
     public void NewGame() {
+        PersistentTerrainSettings.settings.SetDefault ();
+        if (PersistentPlayerSettings.settings != null)
+            PersistentPlayerSettings.settings.SetDefault ();
         Application.LoadLevel(3);
     }
 

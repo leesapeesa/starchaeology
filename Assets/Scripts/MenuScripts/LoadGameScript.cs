@@ -3,9 +3,6 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class LoadGameScript : MonoBehaviour {
-    /* Code currently is used to change between levels, eventually will be 
-     * added to whatever keeps track of the game progress */
-    private bool alreadyLoaded = false;
 
     // Update is called once per frame
     void Update () {
@@ -24,7 +21,6 @@ public class LoadGameScript : MonoBehaviour {
 
     void LoadLevelSettings () {
         PersistentTerrainSettings.settings.LoadLevelSettings();
-
     }
 
     public void NextLevel()

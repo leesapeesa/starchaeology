@@ -14,6 +14,7 @@ public class PersistentPlayerSettings : MonoBehaviour {
     void Awake () {
         if (settings == null) {
             DontDestroyOnLoad (gameObject);
+            inventory = InventoryScript.inventory;
             SetDefault ();
             settings = this;
         } else if (settings != this) {
@@ -22,15 +23,17 @@ public class PersistentPlayerSettings : MonoBehaviour {
 
     }
 
-    void Start() {
-        inventory = GameObject.Find ("Inventory").GetComponent<InventoryScript> ();
-        SetDefault ();
-    }
-
-    private void SetDefault()
+    public void SetDefault()
     {
         levelScore = 0;
         overallScore = 0;
         health = PlayerCharacter2D.MAX_HEALTH;
+        if (inventory)
+            inventory.EmptyInventory ();
+    }
+
+    void OnDestroy() {
+        print ("Persistent Player Settings Destroyed");
+        SetDefault ();
     }
 }

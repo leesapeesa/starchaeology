@@ -27,7 +27,6 @@ public class PlayerCharacter2D : MonoBehaviour
     private float normalSpeed = 10f;
     private float m_health = MAX_HEALTH;
     private float m_extraTime = 0;
-    private InventoryScript inventory;
     private AudioSource m_AudioSource;
     private bool m_PlayingFootsteps;
     private bool m_PlayingDeath;
@@ -52,7 +51,6 @@ public class PlayerCharacter2D : MonoBehaviour
         m_CeilingCheck = transform.Find("CeilingCheck");
         m_Anim = GetComponent<Animator>();
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
-        inventory = GameObject.Find("Inventory").GetComponent<InventoryScript>();
         m_AudioSource = GetComponent<AudioSource>();
 
         print(PersistentTerrainSettings.settings == null);
@@ -171,7 +169,7 @@ public class PlayerCharacter2D : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag ("Collectible")) {
-            other.gameObject.GetComponent<Collectible>().OnCollect(inventory);
+            other.gameObject.GetComponent<Collectible>().OnCollect();
             m_AudioSource.volume = 1;
             m_AudioSource.PlayOneShot(other.gameObject.GetComponent<Collectible>().pickupSound);
             Destroy (other.gameObject);
