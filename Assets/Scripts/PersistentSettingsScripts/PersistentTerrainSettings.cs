@@ -18,7 +18,7 @@ public class PersistentTerrainSettings : MonoBehaviour {
     [Range(0f, 1f)]
     public float gain = 0.5f;
     public Vector3 gradientOrigin = Vector3.zero;
-    public float height = 10f;
+    public float height = 100f;
     public Vector3 rotation = Vector3.zero;
     public TerrainTextureType textureType = TerrainTextureType.Rocky;
     [Range(1, 50)]

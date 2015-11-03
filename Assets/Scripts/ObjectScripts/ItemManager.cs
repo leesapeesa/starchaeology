@@ -73,7 +73,6 @@ public class ItemManager : MonoBehaviour {
         heights = GameObject.FindObjectOfType<TerrainCreator> ().getPathHeights();
         for (int i = 0; i < collectCount; ++i) {
             float xCoor = Random.Range(0, sideLength);
-            print ("xCoor " + xCoor);
             float height = heights[(int)xCoor].y + Random.Range(3, PersistentTerrainSettings.settings.height / 1.5f);
             Vector3 position = new Vector3(xCoor - sideLength / 2, height);
             Transform collect = collectibleList[Random.Range(0, collectibleList.Length)].transform;

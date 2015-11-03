@@ -69,6 +69,8 @@ public class TerrainCreator : MonoBehaviour
         print ("transform positions");
         print (transform.position.ToString ());
         print (transform.localPosition.ToString ());
+        // If we need to save any options.
+        SaveAllOptions ();
         // Now we need to place the gameObject that will kill off everything if it hits it.
         AddTriggerBounds ();
     }
@@ -140,6 +142,24 @@ public class TerrainCreator : MonoBehaviour
         treeDensity = PersistentTerrainSettings.settings.treeDensity;
         transform.position = PersistentTerrainSettings.settings.terrainPosition;
         seed = PersistentTerrainSettings.settings.seed;
+    }
+
+    public void SaveAllOptions () {
+        PersistentTerrainSettings.settings.sideLength = sideLength;
+        PersistentTerrainSettings.settings.frequency = frequency;
+        PersistentTerrainSettings.settings.dimensions = dimensions;
+        PersistentTerrainSettings.settings.octaves = octaves;
+        PersistentTerrainSettings.settings.lacunarity = lacunarity;
+        PersistentTerrainSettings.settings.gain = gain;
+        PersistentTerrainSettings.settings.gradientOrigin = gradientOrigin;
+        PersistentTerrainSettings.settings.height = height;
+        PersistentTerrainSettings.settings.rotation = rotation;
+        PersistentTerrainSettings.settings.textureType = textureType;
+        PersistentTerrainSettings.settings.tileSize = tileSize;
+        PersistentTerrainSettings.settings.terrainTextures = terrainTextures;
+        PersistentTerrainSettings.settings.treeDensity = treeDensity;
+        PersistentTerrainSettings.settings.terrainPosition = transform.position;
+        PersistentTerrainSettings.settings.seed = seed;
     }
 
     public void Refresh()
