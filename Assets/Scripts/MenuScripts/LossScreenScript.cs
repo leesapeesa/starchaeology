@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class LossScreenScript : MonoBehaviour {
+public class LossScreenScript : LevelEndScreen {
     public Button newGameButton;
 
     // Use this for initialization
@@ -15,13 +15,4 @@ public class LossScreenScript : MonoBehaviour {
     
     }
 
-    public void NewGame () {
-        Time.timeScale = 1;
-        Application.LoadLevel(2);
-    }
-
-    public void NextLevel() {
-        Time.timeScale = 1;
-        GameObject.FindWithTag("LoadGame").GetComponent<LoadGameScript>().NextLevel();
-    }
 }

@@ -10,11 +10,17 @@ public class DropDownScript : MonoBehaviour {
         print (value.ToString ());
         PersistentTerrainSettings.settings.SetDefault ();
         switch (value) {
-        case 1: PersistentTerrainSettings.settings.SetMediumDifficulty();
+        case 1:
+            PersistentTerrainSettings.settings.SetMediumDifficulty();
+            PersistentLevelSettings.settings.numPlanetsTotal = PersistentLevelSettings.NUM_PLANETS_MEDIUM;
             break;
-        case 2: PersistentTerrainSettings.settings.SetHardDifficulty();
+        case 2:
+            PersistentTerrainSettings.settings.SetHardDifficulty();
+            PersistentLevelSettings.settings.numPlanetsTotal = PersistentLevelSettings.NUM_PLANETS_HARD;
             break;
-        default: PersistentTerrainSettings.settings.SetDefault();
+        default:
+            PersistentTerrainSettings.settings.SetDefault();
+            PersistentLevelSettings.settings.numPlanetsTotal = PersistentLevelSettings.NUM_PLANETS_EASY;
             break;
         }
     }

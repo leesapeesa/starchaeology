@@ -16,6 +16,7 @@ public class NewGameMenuScript : MonoBehaviour {
         PersistentTerrainSettings.settings.SetDefault ();
         if (PersistentPlayerSettings.settings != null)
             PersistentPlayerSettings.settings.SetDefault ();
+        PersistentLevelSettings.settings.SetDefault();
         Application.LoadLevel(3);
     }
 
