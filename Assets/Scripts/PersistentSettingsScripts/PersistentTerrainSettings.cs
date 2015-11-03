@@ -60,6 +60,7 @@ public class PersistentTerrainSettings : MonoBehaviour {
 
     // Temporary level loading mechanism, for now
     // int difficulty doesn't really have a meaning
+    // TODO: is this still temporary? If so where should the logic go? JPC 11/2/15
     public void LoadLevelSettings() {
         print("Load level! :D");
         print(difficulty);
@@ -74,7 +75,6 @@ public class PersistentTerrainSettings : MonoBehaviour {
         } else {
             textureType = TerrainTextureType.Rocky;
         }
-        Application.LoadLevel(3);
     }
 
     public void SetDefault()

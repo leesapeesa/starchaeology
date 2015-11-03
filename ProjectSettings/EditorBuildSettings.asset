@@ -13,3 +13,5 @@ EditorBuildSettings:
     path: Assets/Scenes/NewGameMenu.unity
   - enabled: 1
     path: Assets/Scenes/LevelTransistionScene.unity
+  - enabled: 1
+    path: Assets/Scenes/WinScene.unity
