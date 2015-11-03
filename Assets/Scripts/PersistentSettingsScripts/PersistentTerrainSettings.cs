@@ -40,35 +40,6 @@ public class PersistentTerrainSettings : MonoBehaviour {
         }
     }
 
-    public void SetMediumDifficulty() {
-        print ("Set Medium Difficulty");
-        sideLength = 150f;
-        height = 20f;
-        //poisonAmount = 0.3f;
-    }
-
-    public void SetHardDifficulty() {
-        print ("Set Hard Difficulty");
-        sideLength = 200f;
-        height = 40f;
-        //poisonAmount = 0.5f;
-    }
-
-    // Temporary level loading mechanism, for now
-    // int difficulty doesn't really have a meaning
-    // TODO: is this still temporary? If so where should the logic go? JPC 11/2/15
-    public void LoadLevelSettings() {
-        height += 2; // increase the height a little bit every time this function is called.
-
-        /*if (difficulty > 30 && difficulty < 70) {
-            textureType = TerrainTextureType.Grassy;
-        } else if (difficulty >= 0 && difficulty < 30) {
-            textureType = TerrainTextureType.Desert;
-        } else {
-            textureType = TerrainTextureType.Rocky;
-        }*/
-    }
-
     public void SetDefault()
     {
         print ("Set default terrain");

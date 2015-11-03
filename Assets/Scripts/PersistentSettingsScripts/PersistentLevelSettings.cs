@@ -16,10 +16,9 @@ public class PersistentLevelSettings : MonoBehaviour {
 
     public int numPlanetsCleared = 0;
     public int numPlanetsTotal = NUM_PLANETS_EASY;
-    public int difficulty = 20;
     public int numEnemies = 3;
-
-    public static float poisonAmount = 0.1f; //how much the player gets hurt from staying in a poison cloud
+    public float poisonAmount = 0.1f; //how much the player gets hurt from staying in a poison cloud
+    public Difficulty difficulty;
 
     void Awake()
     {
@@ -38,11 +37,6 @@ public class PersistentLevelSettings : MonoBehaviour {
         numPlanetsTotal = NUM_PLANETS_EASY;
         poisonAmount = 0.1f;
         numEnemies = 3;
-    }
-
-    public void LoadLevelSettings()
-    {
-        poisonAmount += 0.05f; //make poison clouds a little more dangerous
-        numEnemies++;
+        difficulty = new Difficulty(DifficultySetting.EASY, NUM_PLANETS_EASY);
     }
 }
