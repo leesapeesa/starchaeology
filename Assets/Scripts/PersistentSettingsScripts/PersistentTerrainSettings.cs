@@ -29,10 +29,6 @@ public class PersistentTerrainSettings : MonoBehaviour {
     public string seed = "0";
 
     public Vector3 terrainPosition = Vector3.zero;
-    public int difficulty = 20;
-    public int numEnemies = 3;
-
-    public static float poisonAmount = 0.1f; //how much the player gets hurt from staying in a poison cloud
 
     void Awake () {
         if (settings == null) {
@@ -48,33 +44,29 @@ public class PersistentTerrainSettings : MonoBehaviour {
         print ("Set Medium Difficulty");
         sideLength = 150f;
         height = 20f;
-        poisonAmount = 0.3f;
+        //poisonAmount = 0.3f;
     }
 
     public void SetHardDifficulty() {
         print ("Set Hard Difficulty");
         sideLength = 200f;
         height = 40f;
-        poisonAmount = 0.5f;
+        //poisonAmount = 0.5f;
     }
 
     // Temporary level loading mechanism, for now
     // int difficulty doesn't really have a meaning
     // TODO: is this still temporary? If so where should the logic go? JPC 11/2/15
     public void LoadLevelSettings() {
-        print("Load level! :D");
-        print(difficulty);
-
         height += 2; // increase the height a little bit every time this function is called.
-        poisonAmount += 0.05f; //make poison clouds a little more dangerous
 
-        if (difficulty > 30 && difficulty < 70) {
+        /*if (difficulty > 30 && difficulty < 70) {
             textureType = TerrainTextureType.Grassy;
         } else if (difficulty >= 0 && difficulty < 30) {
             textureType = TerrainTextureType.Desert;
         } else {
             textureType = TerrainTextureType.Rocky;
-        }
+        }*/
     }
 
     public void SetDefault()
@@ -96,7 +88,6 @@ public class PersistentTerrainSettings : MonoBehaviour {
         treeDensity = 22.5f;
         terrainPosition = Vector3.zero;
         seed = "0";
-        poisonAmount = 0.1f;
     }
 
     public void OnDestroy()

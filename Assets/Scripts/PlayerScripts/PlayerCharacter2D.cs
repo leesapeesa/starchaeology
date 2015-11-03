@@ -200,7 +200,7 @@ public class PlayerCharacter2D : MonoBehaviour
     private void OnTriggerStay2D(Collider2D other)
     {
         if (other.CompareTag("Poison")) {
-            health -= PersistentTerrainSettings.poisonAmount;
+            health -= PersistentLevelSettings.poisonAmount;
         }
     }
 
