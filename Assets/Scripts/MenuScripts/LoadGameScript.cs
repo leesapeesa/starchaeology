@@ -19,20 +19,19 @@ public class LoadGameScript : MonoBehaviour {
         Application.LoadLevel(1);
     }
 
-    void LoadLevelSettings () {
-        PersistentTerrainSettings.settings.LoadLevelSettings();
+    public static void LoadLevelSettings () {
+        //Update difficulty, and then update parameters based on the new difficulty
+        PersistentLevelSettings.settings.difficulty.UpdateDifficultyValue(PersistentLevelSettings.settings.numPlanetsCleared);
+        PersistentLevelSettings.settings.difficulty.UpdateTerrainParameters(PersistentTerrainSettings.settings);
+        PersistentLevelSettings.settings.difficulty.UpdateLevelParameters(PersistentLevelSettings.settings);
     }
 
     public void NextLevel()
     {
-        print("terrain difficulties");
-        print(PersistentTerrainSettings.settings.difficulty);
         PersistentLevelSettings.settings.numPlanetsCleared++;
         if (PersistentLevelSettings.settings.numPlanetsCleared >= PersistentLevelSettings.settings.numPlanetsTotal)
             Application.LoadLevel(4);
         else {
-            PersistentTerrainSettings.settings.difficulty = (PersistentTerrainSettings.settings.difficulty + 25) % 100;
-            PersistentTerrainSettings.settings.numEnemies++;
             PersistentPlayerSettings.settings.health = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerCharacter2D>().health;
             LoadLevelSettings(); //Creates a bunch of new objects, loads new terrain
             Application.LoadLevel(3);

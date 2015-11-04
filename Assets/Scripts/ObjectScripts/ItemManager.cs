@@ -36,7 +36,7 @@ public class ItemManager : MonoBehaviour {
         heights = terrainCreator.getPathHeights();
         sideLength = PersistentTerrainSettings.settings.sideLength - closestToEdge;
         gravityEffect = PersistentTerrainSettings.settings.gravityEffect;
-        enemyCount = PersistentTerrainSettings.settings.numEnemies;
+        enemyCount = PersistentLevelSettings.settings.numEnemies;
 
         //initialize the probability table
         pTable = new Dictionary<Transform, float>(enemyList.Length);
