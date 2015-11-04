@@ -7,12 +7,9 @@ public class Enemy : NonPlayerObject {
     protected float maxX = 50f;
 
     // Use this for initialization
-    void Start () {
-	
+    protected void Start () {
+        maxX = PersistentTerrainSettings.settings.sideLength / 2;
+        minX = -maxX;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
 }

@@ -38,6 +38,7 @@ public class Difficulty {
     private const float LACUNARITY_COEFF = 1f / 125f;
     private const float LACUNARITY_OFFSET = 1;
     private const float GAIN_COEFF = 1f / 375f;
+    private const float GROUND_PATH_ENEMY_DAMAGE_COEFF = 1f / 7f;
 
     public Difficulty(DifficultySetting startSetting, int levels)
     {
@@ -98,6 +99,15 @@ public class Difficulty {
     {
         settings.numEnemies = (int)(ENEMIES_OFFSET + ENEMIES_COEFF * difficulty);
         settings.poisonAmount = POISON_COEFF * difficulty;
+    }
+
+    /// <summary>
+    /// Any enemy type that has level-specific static parameters should get those parameters
+    /// updated here.
+    /// </summary>
+    public void UpdateEnemyParameters()
+    {
+        GroundPathEnemy.contactDamage = GROUND_PATH_ENEMY_DAMAGE_COEFF * difficulty;
     }
 	
 }

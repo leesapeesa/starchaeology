@@ -13,10 +13,12 @@ public class GroundPathEnemy : Enemy {
     [SerializeField] private float velocity = 1;
     protected AudioSource audioSource;
     protected const float THRESHOLD = 0.5f;
-    protected const float DAMAGE = 20;
+
+    public static float contactDamage = 20;
 
 	// Use this for initialization
-	void Start () {
+	new void Start () {
+        base.Start();
         rigidbody2d = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
 
@@ -42,7 +44,7 @@ public class GroundPathEnemy : Enemy {
     {
         // if we are colliding with the player, hurt the player
         if (coll.gameObject.tag == "Player") {
-            coll.gameObject.GetComponent<PlayerCharacter2D>().health -= DAMAGE;
+            coll.gameObject.GetComponent<PlayerCharacter2D>().health -= contactDamage;
             audioSource.Play();
         }
     }

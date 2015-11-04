@@ -24,6 +24,7 @@ public class LoadGameScript : MonoBehaviour {
         PersistentLevelSettings.settings.difficulty.UpdateDifficultyValue(PersistentLevelSettings.settings.numPlanetsCleared);
         PersistentLevelSettings.settings.difficulty.UpdateTerrainParameters(PersistentTerrainSettings.settings);
         PersistentLevelSettings.settings.difficulty.UpdateLevelParameters(PersistentLevelSettings.settings);
+        PersistentLevelSettings.settings.difficulty.UpdateEnemyParameters();
     }
 
     public void NextLevel()
