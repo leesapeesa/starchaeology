@@ -10,6 +10,7 @@ public class PersistentPlayerSettings : MonoBehaviour {
     public int overallScore = 0; // Score for the overall game.
     public int levelScore = 0; // Score for the level.
     public float health = 100f;
+    public float jumpForce = 400f;
 
     void Awake () {
         if (settings == null) {
@@ -28,6 +29,7 @@ public class PersistentPlayerSettings : MonoBehaviour {
         levelScore = 0;
         overallScore = 0;
         health = PlayerCharacter2D.MAX_HEALTH;
+        jumpForce = 400f;
         if (inventory)
             inventory.EmptyInventory ();
     }
