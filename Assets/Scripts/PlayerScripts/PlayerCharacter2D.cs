@@ -55,7 +55,7 @@ public class PlayerCharacter2D : MonoBehaviour
 
         print(PersistentTerrainSettings.settings == null);
         m_Rigidbody2D.gravityScale = PersistentTerrainSettings.settings.gravityEffect;
-
+        m_JumpForce = PersistentPlayerSettings.settings.jumpForce;
         float sideLength = PersistentTerrainSettings.settings.sideLength;
         minX = sideLength / 2.0f - 1.0f;
         maxX = sideLength / 2.0f - 1.0f ;

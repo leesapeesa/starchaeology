@@ -10,6 +10,7 @@ public class ItemManager : MonoBehaviour {
     public int slowCloudCount = 5;
     public int poisonCloudCount = 4;
     public int enemyCount = 3;
+    public float unreachableFactor = 2f;
 
     public bool allCollected = false;
 
@@ -20,18 +21,20 @@ public class ItemManager : MonoBehaviour {
     public Transform[] enemyList;
     public Transform[] collectibleList;
 
+    private TerrainCreator terrainCreator;
+    private Vector2[] heights;
+
     private float sideLength = 25f;
     private float closestToEdge = 5f;
-    private Vector2[] heights;
     private List<Transform> collectibles;
     private float gravityEffect;
     private Dictionary<Transform, float> pTable; //enemy type probability table
 
     // Use this for initialization
     void Start() {
-        heights = GameObject.FindObjectOfType<TerrainCreator> ().getPathHeights();
+        terrainCreator = GameObject.FindObjectOfType<TerrainCreator> ();
+        heights = terrainCreator.getPathHeights();
         sideLength = PersistentTerrainSettings.settings.sideLength - closestToEdge;
-        print ("sideLength " + PersistentTerrainSettings.settings.sideLength);
         gravityEffect = PersistentTerrainSettings.settings.gravityEffect;
         enemyCount = PersistentTerrainSettings.settings.numEnemies;
 
@@ -70,14 +73,41 @@ public class ItemManager : MonoBehaviour {
     }
 
     private void addCollectibles() {
-        heights = GameObject.FindObjectOfType<TerrainCreator> ().getPathHeights();
+        // PathHeights is of length HeightmapResolution and corresponds to an actual
+        // index by index * SideLength / HeightmapResolution.
+        heights = terrainCreator.getPathHeights();
         for (int i = 0; i < collectCount; ++i) {
-            float xCoor = Random.Range(0, sideLength);
-            float height = heights[(int)xCoor].y + Random.Range(3, PersistentTerrainSettings.settings.height / 1.5f);
-            Vector3 position = new Vector3(xCoor - sideLength / 2, height);
+            Vector2 randomPointOnTerrain = GetRandomPointOnTerrain();
+
+            float maxHeight = randomPointOnTerrain.y + apex();
+            // Let the possibility of genereting a few collectibles slightly out of reach.
+            float height = Random.Range(randomPointOnTerrain.y, maxHeight + unreachableFactor);
+            Vector3 position = new Vector3(randomPointOnTerrain.x - sideLength / 2, height);
             Transform collect = collectibleList[Random.Range(0, collectibleList.Length)].transform;
             collectibles.Add (Instantiate(collect, position, Quaternion.identity) as Transform);
         }
+    }
+
+    // From Path Height Index to Screen Coordinates
+    private Vector2 GetRandomPointOnTerrain() {
+        int heightmapResolution = terrainCreator.GetHeightmapResolution();
+        float index = Random.Range(0, heightmapResolution);
+
+        float yCoor = heights[(int) index].y;
+        float xCoor = index * (float) PersistentTerrainSettings.settings.sideLength / heightmapResolution;
+        return new Vector2 (xCoor, yCoor);
+    }
+
+
+    // The maximum reachable height that the player can jump to.
+    private float apex() {
+        // Simple mechanics: maxHeight = v_0^2 / (2 * g) + y_0
+        // where v_0 = (jumpForce - gravityEffect), g = gravityEffect and y_0 = terrainHeight.
+        float approxLengthOfOneFrame = Time.fixedDeltaTime;
+        float gravity = PersistentTerrainSettings.settings.gravityEffect * 6f;
+        float initialVelocity = (PersistentPlayerSettings.settings.jumpForce - gravity) * approxLengthOfOneFrame;
+
+        return initialVelocity * initialVelocity / (2 * gravity);
     }
 
     private void addObjects(Transform obj, int count, float y = 1f)

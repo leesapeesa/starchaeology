@@ -221,6 +221,11 @@ public class TerrainCreator : MonoBehaviour
         return result;
     }
 
+    // Returns the resolution of the height map
+    public int GetHeightmapResolution() {
+        return terrain.terrainData.heightmapResolution;
+    }
+
     private void Generate()
     {
         //update parameters for dynamic updating in debug mode
