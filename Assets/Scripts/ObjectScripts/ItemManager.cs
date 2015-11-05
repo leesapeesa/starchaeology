@@ -10,7 +10,7 @@ public class ItemManager : MonoBehaviour {
     public int slowCloudCount = 5;
     public int poisonCloudCount = 4;
     public int enemyCount = 3;
-    public float unreachableFactor = 10f;
+    public float unreachableFactor = 5f;
     public int jumpPlatformCount = 5;
 
     public bool allCollected = false;

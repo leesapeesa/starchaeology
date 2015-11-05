@@ -52,9 +52,9 @@ public class GroundPathEnemy : Enemy {
     void OnCollisionStay2D(Collision2D coll)
     {
         //If there is an object blocking our way to the next waypoint, "bounce" off it and go to the next one
-        if (coll.gameObject.tag != "TerrainCollider" && coll.gameObject.tag != "Platform") {
+        if (coll.gameObject.tag != "TerrainCollider") {
             float distanceToWaypoint = rigidbody2d.position.x - waypoints[waypointIndex];
-            float objDistToWaypoint = coll.gameObject.GetComponent<Rigidbody2D>().position.x - waypoints[waypointIndex];
+            float objDistToWaypoint = coll.gameObject.transform.position.x - waypoints[waypointIndex];
             if (Mathf.Abs(objDistToWaypoint) < Mathf.Abs(distanceToWaypoint)) {
                 waypointIndex = (waypointIndex + 1) % numWaypoints;
             }

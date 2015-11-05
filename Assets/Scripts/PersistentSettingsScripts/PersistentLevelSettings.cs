@@ -24,6 +24,7 @@ public class PersistentLevelSettings : MonoBehaviour {
     {
         if (settings == null) {
             DontDestroyOnLoad(gameObject);
+            SetDefault();
             settings = this;
         }
         else if (settings != this) {

@@ -36,4 +36,10 @@ public class GroundObject : MonoBehaviour {
             print ("Falling off the edge. Really shouldn't be anymore though...");
         }
     }
+
+    void OnDestroy() {
+        // set the gravity effect back to default
+        if (gameObject.GetComponent<Rigidbody2D> () != null)
+            gameObject.GetComponent<Rigidbody2D> ().gravityScale = 1f;
+    }
 }
