@@ -39,6 +39,10 @@ public class Difficulty {
     private const float LACUNARITY_OFFSET = 1;
     private const float GAIN_COEFF = 1f / 375f;
     private const float GROUND_PATH_ENEMY_DAMAGE_COEFF = 1f / 7f;
+    private const float SLOW_CLOUDS_COEFF = 1f / 25f;
+    private const float SLOW_CLOUDS_OFFSET = 2;
+    private const float POISON_CLOUDS_COEFF = 1f / 40f;
+    private const float POISON_CLOUDS_OFFSET = 2;
 
     public Difficulty(DifficultySetting startSetting, int levels)
     {
@@ -76,12 +80,12 @@ public class Difficulty {
     /// </summary>
     public void UpdateTerrainParameters(PersistentTerrainSettings settings)
     {
-        settings.height = HEIGHT_OFFSET + HEIGHT_COEFF * difficulty;
-        settings.sideLength = SIDE_LENGTH_COEFF * difficulty;
-        settings.frequency = FREQ_OFFSET + FREQ_COEFF * difficulty;
-        settings.octaves = (int)(OCTAVES_OFFSET + OCTAVES_COEFF * difficulty);
-        settings.lacunarity = LACUNARITY_OFFSET + LACUNARITY_COEFF * difficulty;
-        settings.gain = GAIN_COEFF * difficulty;
+        settings.height = linearUpdate(HEIGHT_COEFF, HEIGHT_OFFSET);
+        settings.sideLength = linearUpdate(SIDE_LENGTH_COEFF);
+        settings.frequency = linearUpdate(FREQ_COEFF, FREQ_OFFSET);
+        settings.octaves = (int)linearUpdate(OCTAVES_COEFF, OCTAVES_OFFSET);
+        settings.lacunarity = linearUpdate(LACUNARITY_COEFF, LACUNARITY_OFFSET);
+        settings.gain = linearUpdate(GAIN_COEFF);
 
         if (difficulty > 30 && difficulty < 70) {
             settings.textureType = TerrainTextureType.Grassy;
@@ -97,17 +101,27 @@ public class Difficulty {
     /// </summary>
     public void UpdateLevelParameters(PersistentLevelSettings settings)
     {
-        settings.numEnemies = (int)(ENEMIES_OFFSET + ENEMIES_COEFF * difficulty);
-        settings.poisonAmount = POISON_COEFF * difficulty;
+        settings.numEnemies = (int)linearUpdate(ENEMIES_COEFF, ENEMIES_OFFSET);
+        settings.poisonAmount = linearUpdate(POISON_COEFF);
+        settings.numSlowClouds = (int)linearUpdate(SLOW_CLOUDS_COEFF, SLOW_CLOUDS_OFFSET);
+        settings.numPoisonClouds = (int)linearUpdate(POISON_CLOUDS_COEFF, POISON_CLOUDS_OFFSET);
     }
 
     /// <summary>
-    /// Any enemy type that has level-specific static parameters should get those parameters
+    /// Any NPO type that has level-specific static parameters should get those parameters
     /// updated here.
     /// </summary>
-    public void UpdateEnemyParameters()
+    public void UpdateNPOParameters()
     {
-        GroundPathEnemy.contactDamage = GROUND_PATH_ENEMY_DAMAGE_COEFF * difficulty;
+        GroundPathEnemy.contactDamage = linearUpdate(GROUND_PATH_ENEMY_DAMAGE_COEFF);
+    }
+
+    /// <summary>
+    /// Computes a parameter update of the form newValue = offset + coefficient * difficulty
+    /// </summary>
+    private float linearUpdate(float coefficient, float offset = 0)
+    {
+        return offset + coefficient * difficulty;
     }
 	
 }

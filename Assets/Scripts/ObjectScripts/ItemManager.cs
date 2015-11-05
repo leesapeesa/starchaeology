@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class ItemManager : MonoBehaviour {
-
+    //TODO make all these be modified by Difficulty - JPC 11/5/15
     public int boxCount = 5;
     public int collectCount = 10;
     public int slowCloudCount = 5;
@@ -39,6 +39,8 @@ public class ItemManager : MonoBehaviour {
         sideLength = PersistentTerrainSettings.settings.sideLength - closestToEdge;
         gravityEffect = PersistentTerrainSettings.settings.gravityEffect;
         enemyCount = PersistentLevelSettings.settings.numEnemies;
+        slowCloudCount = PersistentLevelSettings.settings.numSlowClouds;
+        poisonCloudCount = PersistentLevelSettings.settings.numPoisonClouds;
 
         //initialize the probability table
         pTable = new Dictionary<Transform, float>(enemyList.Length);
