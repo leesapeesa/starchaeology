@@ -10,7 +10,8 @@ public class ItemManager : MonoBehaviour {
     public int slowCloudCount = 5;
     public int poisonCloudCount = 4;
     public int enemyCount = 3;
-    public float unreachableFactor = 2f;
+    public float unreachableFactor = 10f;
+    public int jumpPlatformCount = 5;
 
     public bool allCollected = false;
 
@@ -18,6 +19,7 @@ public class ItemManager : MonoBehaviour {
     public Transform stickyBox;
     public Transform slowCloud;
     public Transform poisonCloud;
+    public Transform jumpPlatform;
     public Transform[] enemyList;
     public Transform[] collectibleList;
 
@@ -60,9 +62,10 @@ public class ItemManager : MonoBehaviour {
         collectibles = new List<Transform> ();
         addCollectibles ();
         addObjects(bouncyBox, boxCount, 2);
-        addObjects(slowCloud, slowCloudCount, 1);
+        addObjects(slowCloud, slowCloudCount, 2);
         addObjects(stickyBox, boxCount, 5);
-        addObjects(poisonCloud, poisonCloudCount);
+        addObjects(poisonCloud, poisonCloudCount, 2);
+        addObjects(jumpPlatform, jumpPlatformCount, apex ());
         addEnemies(enemyCount);
     }
 
@@ -81,8 +84,8 @@ public class ItemManager : MonoBehaviour {
 
             float maxHeight = randomPointOnTerrain.y + apex();
             // Let the possibility of genereting a few collectibles slightly out of reach.
-            float height = Random.Range(randomPointOnTerrain.y, maxHeight + unreachableFactor);
-            Vector3 position = new Vector3(randomPointOnTerrain.x - sideLength / 2, height);
+            float height = Random.Range(randomPointOnTerrain.y, maxHeight);
+            Vector3 position = new Vector3(randomPointOnTerrain.x, height + unreachableFactor) ;
             Transform collect = collectibleList[Random.Range(0, collectibleList.Length)].transform;
             collectibles.Add (Instantiate(collect, position, Quaternion.identity) as Transform);
         }
@@ -94,10 +97,14 @@ public class ItemManager : MonoBehaviour {
         float index = Random.Range(0, heightmapResolution);
 
         float yCoor = heights[(int) index].y;
-        float xCoor = index * (float) PersistentTerrainSettings.settings.sideLength / heightmapResolution;
-        return new Vector2 (xCoor, yCoor);
+        float xCoor = (int) index * (float) sideLength / heightmapResolution;
+        return new Vector2 (xCoor - sideLength / 2, yCoor);
     }
 
+    private Vector3 GetRandomPointAboveTerrain(float height) {
+        Vector2 pos = GetRandomPointOnTerrain ();
+        return new Vector3 (pos.x, Random.Range (pos.y, pos.y + height), 0f);
+    }
 
     // The maximum reachable height that the player can jump to.
     private float apex() {
@@ -110,10 +117,10 @@ public class ItemManager : MonoBehaviour {
         return initialVelocity * initialVelocity / (2 * gravity);
     }
 
-    private void addObjects(Transform obj, int count, float y = 1f)
+    private void addObjects(Transform obj, int count, float height = 2f)
     {
         for (int i = 0; i < count; ++i) {
-            Vector3 position = new Vector3(Random.Range(-sideLength / 2, sideLength / 2), y);
+            Vector3 position = GetRandomPointAboveTerrain(height);
             Instantiate(obj, position, Quaternion.identity);
         }
     }
@@ -128,7 +135,8 @@ public class ItemManager : MonoBehaviour {
             float prior = 0;
             foreach (Transform enemy in enemyList) {
                 if (pValue < pTable[enemy] + prior) {
-                    Vector3 position = new Vector3(Random.Range(-sideLength / 2, sideLength / 2), 5f);
+                    Vector3 position = GetRandomPointAboveTerrain(unreachableFactor);
+                    position = position + new Vector3(0, 5f, 0);
                     Instantiate(enemy, position, Quaternion.identity);
                     prior += pTable[enemy];
                     break;

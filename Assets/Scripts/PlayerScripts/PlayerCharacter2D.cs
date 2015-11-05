@@ -25,6 +25,7 @@ public class PlayerCharacter2D : MonoBehaviour
     private float minX = -50f;
     private float maxX = 50f;
     private float normalSpeed = 10f;
+    private float slowDown = 5f;
     private float m_health = MAX_HEALTH;
     private float m_extraTime = 0;
     private AudioSource m_AudioSource;
@@ -78,9 +79,15 @@ public class PlayerCharacter2D : MonoBehaviour
         
         // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
         // This can be done using layers instead but Sample Assets will not overwrite your project settings.
+
+
+
         Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
         for (int i = 0; i < colliders.Length; i++)
         {
+            // TODO?: Add platforms that don't awkwardly stop player from moving when approached from the side.
+            if (colliders[i].CompareTag("Platform") && m_Rigidbody2D.velocity.y > 0)
+               m_Grounded = false;
             if (colliders[i].gameObject != gameObject && !colliders[i].isTrigger)
                 m_Grounded = true;
         }
@@ -175,7 +182,7 @@ public class PlayerCharacter2D : MonoBehaviour
             Destroy (other.gameObject);
         } 
         if (other.CompareTag("Slow")) {
-            m_MaxSpeed = 1f;
+            m_MaxSpeed = normalSpeed - slowDown;
         }
         if (other.CompareTag ("TriggerBounds")) {
             //Jumped off the ledge

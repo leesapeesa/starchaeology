@@ -15,6 +15,7 @@ TagManager:
   - Poison
   - LoadGame
   - TerrainCollider
+  - Platform
   layers:
   - Default
   - TransparentFX
@@ -26,8 +27,8 @@ TagManager:
   - 
   - Ground
   - Items
-  - 
-  - 
+  - Player
+  - Platform
   - 
   - 
   - 

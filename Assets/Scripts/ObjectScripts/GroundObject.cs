@@ -33,7 +33,7 @@ public class GroundObject : MonoBehaviour {
         // Add things here if you want objects to do things when
         // it hits other things.
         if (other.CompareTag ("TriggerBounds")) {
-            print ("Really shouldn't be touching this anymore");
+            print ("Falling off the edge. Really shouldn't be anymore though...");
         }
     }
 }
