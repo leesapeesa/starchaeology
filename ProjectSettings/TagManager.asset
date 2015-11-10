@@ -16,6 +16,7 @@ TagManager:
   - LoadGame
   - TerrainCollider
   - Platform
+  - Spaceship
   layers:
   - Default
   - TransparentFX

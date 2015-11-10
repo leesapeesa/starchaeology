@@ -20,6 +20,7 @@ public class PersistentLevelSettings : MonoBehaviour {
     public float poisonAmount = 0.1f; //how much the player gets hurt from staying in a poison cloud
     public int numPoisonClouds = 4;
     public int numSlowClouds = 5;
+    public int collectCount = 10;
     public Difficulty difficulty;
 
     void Awake()

@@ -15,15 +15,15 @@ public class ItemManager : MonoBehaviour {
 
     public bool allCollected = false;
 
-    public Transform bouncyBox;
-    public Transform stickyBox;
-    public Transform slowCloud;
-    public Transform poisonCloud;
-    public Transform jumpPlatform;
-    public Transform[] enemyList;
-    public Transform[] collectibleList;
-    public Transform specialItem;
-    public Transform spaceship;
+    [SerializeField] private Transform bouncyBox;
+    [SerializeField] private Transform stickyBox;
+    [SerializeField] private Transform slowCloud;
+    [SerializeField] private Transform poisonCloud;
+    [SerializeField] private Transform jumpPlatform;
+    [SerializeField] private Transform[] enemyList;
+    [SerializeField] private Transform[] collectibleList;
+    [SerializeField] private Transform specialItem;
+    [SerializeField] private Transform spaceship;
 
     private TerrainCreator terrainCreator;
     private Vector2[] heights;
@@ -40,6 +40,7 @@ public class ItemManager : MonoBehaviour {
     private const float SPACESHIP_HEIGHT = 6.8f;
     private const float SPACESHIP_DEPTH = 3.25f;
     private const float RAYCAST_ORIGIN = 1000;
+    private const int POINT_COLLECTIBLE_INDEX = 0; //index of the point collectible in the collectibles list
 
     // Use this for initialization
     void Start() {
@@ -50,6 +51,7 @@ public class ItemManager : MonoBehaviour {
         enemyCount = PersistentLevelSettings.settings.numEnemies;
         slowCloudCount = PersistentLevelSettings.settings.numSlowClouds;
         poisonCloudCount = PersistentLevelSettings.settings.numPoisonClouds;
+        collectCount = PersistentLevelSettings.settings.collectCount;
 
         //initialize the probability table
         pTable = new Dictionary<Transform, float>(enemyList.Length);
@@ -87,7 +89,10 @@ public class ItemManager : MonoBehaviour {
     /// </summary>
     public void InitializeItems(Objective objective)
     {
-        addCollectibles();
+        //First, make sure we will have enough items to complete the objective
+        collectCount = Mathf.Max(collectCount, objective.NumSpecialItems, objective.NumPointItems);
+
+        addCollectibles(objective);
         addObjects(bouncyBox, boxCount, 2);
         addObjects(slowCloud, slowCloudCount, 2);
         addObjects(stickyBox, boxCount, 5);
@@ -98,19 +103,29 @@ public class ItemManager : MonoBehaviour {
         maybeAddSpecialItems(objective);
     }
 
-    private void addCollectibles() {
+    private void addCollectibles(Objective objective) {
         // PathHeights is of length HeightmapResolution and corresponds to an actual
         // index by index * SideLength / HeightmapResolution.
         heights = terrainCreator.getPathHeights();
+        int numPointCollectiblesAdded = 0;
         for (int i = 0; i < collectCount; ++i) {
             Vector2 randomPointOnTerrain;
             GetRandomPointOnTerrain(out randomPointOnTerrain, "Platform");
+
+            //ensure that enough point collectibles are spawned before spawning any other types
+            int itemIndex = numPointCollectiblesAdded < objective.NumPointItems ?
+                            POINT_COLLECTIBLE_INDEX :
+                            Random.Range(0, collectibleList.Length);
+
+            //update how many point collectibles have been added
+            if (itemIndex == POINT_COLLECTIBLE_INDEX)
+                ++numPointCollectiblesAdded;
 
             float maxHeight = randomPointOnTerrain.y + apex();
             // Let the possibility of genereting a few collectibles slightly out of reach.
             float height = Random.Range(randomPointOnTerrain.y, maxHeight);
             Vector3 position = new Vector3(randomPointOnTerrain.x, height + unreachableFactor) ;
-            Transform collect = collectibleList[Random.Range(0, collectibleList.Length)].transform;
+            Transform collect = collectibleList[itemIndex].transform;
             collectibles.Add (Instantiate(collect, position, Quaternion.identity) as Transform);
         }
     }

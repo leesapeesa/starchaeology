@@ -8,7 +8,7 @@ public abstract class Collectible : NonPlayerObject {
     public int value;
     public AudioClip pickupSound;
 
-    void Start() {
+    protected virtual void Start() {
         // Icon Image for inventory.
         itemIcon = gameObject.GetComponent<SpriteRenderer> ().sprite;
     }
