@@ -4,6 +4,8 @@ using System;
 
 public class PointCollectible : Collectible
 {
+    public override bool usable { get { return false; } }
+
     public override void OnCollect()
     {
         PersistentPlayerSettings.settings.levelScore += value;

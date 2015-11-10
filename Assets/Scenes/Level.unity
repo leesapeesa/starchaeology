@@ -3166,19 +3166,19 @@ Prefab:
     m_Modifications:
     - target: {fileID: 22409802, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22400966, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22405014, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22437888, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22446194, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_LocalPosition.x
@@ -3748,6 +3748,7 @@ MonoBehaviour:
   - {fileID: 436294, guid: 82cb542c20eda4628b34abfa413c178b, type: 2}
   - {fileID: 403188, guid: ea1ce19fcb1c6454582c74f8a3141ba4, type: 2}
   specialItem: {fileID: 474754, guid: bcf3c44d60899a540a6ad9277fed2146, type: 2}
+  spaceship: {fileID: 466974, guid: 4656b7860f1e43a49847008bfd9bd35f, type: 2}
 --- !u!4 &1682520552
 Transform:
   m_ObjectHideFlags: 0

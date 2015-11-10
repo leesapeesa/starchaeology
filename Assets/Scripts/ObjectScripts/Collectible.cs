@@ -13,6 +13,8 @@ public abstract class Collectible : NonPlayerObject {
         itemIcon = gameObject.GetComponent<SpriteRenderer> ().sprite;
     }
 
+    public virtual bool usable { get { return true; } }
+
     public abstract void OnUse(PlayerCharacter2D player);
     public abstract void OnCollect();
 }

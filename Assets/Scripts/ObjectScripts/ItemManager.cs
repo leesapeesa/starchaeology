@@ -23,6 +23,7 @@ public class ItemManager : MonoBehaviour {
     public Transform[] enemyList;
     public Transform[] collectibleList;
     public Transform specialItem;
+    public Transform spaceship;
 
     private TerrainCreator terrainCreator;
     private Vector2[] heights;
@@ -35,6 +36,10 @@ public class ItemManager : MonoBehaviour {
     private Dictionary<Transform, float> pTable; //enemy type probability table
 
     private const float PLATFORM_HEIGHT_OFFSET = 5f; //half the platform height
+    private const float SPACESHIP_POSITION = 6f;
+    private const float SPACESHIP_HEIGHT = 6.8f;
+    private const float SPACESHIP_DEPTH = 3.25f;
+    private const float RAYCAST_ORIGIN = 1000;
 
     // Use this for initialization
     void Start() {
@@ -89,6 +94,7 @@ public class ItemManager : MonoBehaviour {
         addObjects(poisonCloud, poisonCloudCount, 2);
         addObjects(jumpPlatform, jumpPlatformCount, apex() - PLATFORM_HEIGHT_OFFSET);
         addEnemies(enemyCount);
+        addSpaceship();
         maybeAddSpecialItems(objective);
     }
 
@@ -118,7 +124,10 @@ public class ItemManager : MonoBehaviour {
         // We're casting a ray to see if it hits any object. Once it hits an object,
         // that will be our new "height" at that point in the terrain. In this way
         // we can generate items above platforms.
-        RaycastHit2D hit = Physics2D.Raycast (new Vector2 (xCoor, yCoor), -Vector2.up);
+        RaycastHit2D hit = Physics2D.Raycast (new Vector2 (xCoor, yCoor), 
+                                              -Vector2.up,
+                                              distance: Mathf.Infinity,
+                                              layerMask: LayerMask.GetMask(new string[] { "Ground", "Platform" }));
         if (hit.collider != null) {
             point = hit.point;
             print("tag hit is " + hit.transform.gameObject.tag + " checking tag: " + tag);
@@ -146,7 +155,7 @@ public class ItemManager : MonoBehaviour {
         // Simple mechanics: maxHeight = v_0^2 / (2 * g) + y_0
         // where v_0 = (jumpForce - gravityEffect), g = gravityEffect and y_0 = terrainHeight.
         float approxLengthOfOneFrame = Time.fixedDeltaTime;
-        float gravity = PersistentTerrainSettings.settings.gravityEffect * 6f;
+        float gravity = PersistentTerrainSettings.settings.gravityEffect * 9.8f;
         float initialVelocity = (PersistentPlayerSettings.settings.jumpForce - gravity) * approxLengthOfOneFrame;
 
         return initialVelocity * initialVelocity / (2 * gravity);
@@ -197,9 +206,12 @@ public class ItemManager : MonoBehaviour {
     private void maybeAddSpecialItems(Objective objective)
     {
         for (int i = 0; i < objective.NumSpecialItems; ++i) {
-            Vector2 maxPos = Vector2.zero;
+            Vector2 maxPos = new Vector2(float.NegativeInfinity, float.NegativeInfinity);
             for (float x = -sideLength / 2; x < sideLength / 2; ++x) {
-                RaycastHit2D hit = Physics2D.Raycast(new Vector2(0, 1000), Vector2.down);
+                RaycastHit2D hit = Physics2D.Raycast(new Vector2(x, RAYCAST_ORIGIN), 
+                                                     Vector2.down, 
+                                                     distance: Mathf.Infinity,
+                                                     layerMask: LayerMask.GetMask(new string[] { "Ground", "Platform" }));
                 if (hit.collider != null) {
                     Vector2 hitPos = hit.point;
                     if (hitPos.y > maxPos.y)
@@ -208,6 +220,21 @@ public class ItemManager : MonoBehaviour {
             }
             maxPos.y += apex();
             specialItems.Add(Instantiate(specialItem, maxPos, Quaternion.identity) as Transform);
+        }
+    }
+
+    /// <summary>
+    /// Add the player's spaceship to the scene
+    /// </summary>
+    private void addSpaceship()
+    {
+        float xPos = -sideLength / 2 + SPACESHIP_POSITION;
+        //Get the y coordinate at the "landing site"
+        RaycastHit hit;
+        if (Physics.Raycast(new Vector3(xPos, RAYCAST_ORIGIN, SPACESHIP_DEPTH), Vector3.down, out hit)) {
+            if (hit.collider != null) {
+                Instantiate(spaceship, new Vector2(xPos, hit.point.y + SPACESHIP_HEIGHT / 2), Quaternion.identity);
+            }
         }
     }
 
@@ -220,7 +247,6 @@ public class ItemManager : MonoBehaviour {
 
     public int GetSpecialItemsRemaining()
     {
-        print(specialItems.Count);
         return specialItems.Count;
     }
 }

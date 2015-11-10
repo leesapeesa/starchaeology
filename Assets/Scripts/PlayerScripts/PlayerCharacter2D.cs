@@ -196,6 +196,9 @@ public class PlayerCharacter2D : MonoBehaviour
             Rigidbody2D playerBody = GameObject.Find("Player").GetComponent<Rigidbody2D>();
             float xPos = playerBody.position.x;
         }
+        if (other.CompareTag("Spaceship")) {
+            OnSpaceshipEnter();
+        }
     }
     
     private void OnTriggerExit2D(Collider2D other) {
@@ -229,6 +232,18 @@ public class PlayerCharacter2D : MonoBehaviour
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+    }
+
+    /// <summary>
+    /// Occurs when the player returns to the spaceship
+    /// </summary>
+    private void OnSpaceshipEnter()
+    {
+        //Deposit the special item in the spaceship if the player has it.
+        if (InventoryScript.inventory.HasItemOfType("SpecialItem")) {
+            Collectible specialItem = InventoryScript.inventory.GetItemOfType("SpecialItem");
+            InventoryScript.inventory.RemoveItemFromInventory(specialItem);
+        }
     }
 }
 

@@ -115,6 +115,24 @@ public class InventoryScript : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Checks whether or not the inventory contains one or more items of the specified type
+    /// </summary>
+    public bool HasItemOfType(string type)
+    {
+        return inventorySlots.ContainsKey(type);
+    }
+
+    /// <summary>
+    /// Retrieve an item of the specified type from the inventory.
+    /// </summary>
+    public Collectible GetItemOfType(string type)
+    {
+        Assert.IsTrue(HasItemOfType(type));
+        Entry typeEntry = inventorySlots[type];
+        return typeEntry.item;
+    }
+
     void RemoveAllOldSlots() {
         slotPanel = GameObject.Find ("SlotPanel");
         foreach (Transform child in slotPanel.transform) {
