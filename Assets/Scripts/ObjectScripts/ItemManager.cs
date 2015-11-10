@@ -10,7 +10,7 @@ public class ItemManager : MonoBehaviour {
     public int slowCloudCount = 5;
     public int poisonCloudCount = 4;
     public int enemyCount = 3;
-    public float unreachableFactor = 5f;
+    public float unreachableFactor = 3f;
     public int jumpPlatformCount = 5;
 
     public bool allCollected = false;
@@ -62,12 +62,13 @@ public class ItemManager : MonoBehaviour {
         }
 
         collectibles = new List<Transform> ();
-        addCollectibles ();
+
         addObjects(bouncyBox, boxCount, 2);
         addObjects(slowCloud, slowCloudCount, 2);
         addObjects(stickyBox, boxCount, 5);
         addObjects(poisonCloud, poisonCloudCount, 2);
-        addObjects(jumpPlatform, jumpPlatformCount, apex ());
+        addPlatforms(jumpPlatform, jumpPlatformCount, apex () - 5f);
+        addCollectibles ();
         addEnemies(enemyCount);
     }
 
@@ -82,7 +83,8 @@ public class ItemManager : MonoBehaviour {
         // index by index * SideLength / HeightmapResolution.
         heights = terrainCreator.getPathHeights();
         for (int i = 0; i < collectCount; ++i) {
-            Vector2 randomPointOnTerrain = GetRandomPointOnTerrain();
+            Vector2 randomPointOnTerrain;
+            GetRandomPointOnTerrain(out randomPointOnTerrain, "Platform");
 
             float maxHeight = randomPointOnTerrain.y + apex();
             // Let the possibility of genereting a few collectibles slightly out of reach.
@@ -94,18 +96,35 @@ public class ItemManager : MonoBehaviour {
     }
 
     // From Path Height Index to Screen Coordinates
-    private Vector2 GetRandomPointOnTerrain() {
-        int heightmapResolution = terrainCreator.GetHeightmapResolution();
-        float index = Random.Range(0, heightmapResolution);
+    // returns the point by reference. Also has a tag that you can check to make sure you don't
+    // hit and returns if the tag was hit.
+    private bool GetRandomPointOnTerrain(out Vector2 point, string tag = "TerrainCollider") {
+        float xCoor = Random.Range(-sideLength / 2, sideLength / 2);
+        float yCoor = 1000f;
+        // We're casting a ray to see if it hits any object. Once it hits an object,
+        // that will be our new "height" at that point in the terrain. In this way
+        // we can generate items above platforms.
+        RaycastHit2D hit = Physics2D.Raycast (new Vector2 (xCoor, yCoor), -Vector2.up);
+        if (hit.collider != null) {
+            point = hit.point;
+            print("tag hit is " + hit.transform.gameObject.tag + " checking tag: " + tag);
 
-        float yCoor = heights[(int) index].y;
-        float xCoor = (int) index * (float) sideLength / heightmapResolution;
-        return new Vector2 (xCoor - sideLength / 2, yCoor);
+            // If what is hit is another object we're checking, return true.
+            if (hit.transform.gameObject.CompareTag(tag)) {
+                print ("hit :" + tag);
+                return true;
+            }
+        } else {
+            point = new Vector2 (xCoor, 10f);
+        }
+        print ("returning false");
+        return false;
     }
 
-    private Vector3 GetRandomPointAboveTerrain(float height) {
-        Vector2 pos = GetRandomPointOnTerrain ();
-        return new Vector3 (pos.x, Random.Range (pos.y, pos.y + height), 0f);
+    private bool GetRandomPointAboveTerrain(float height, out Vector2 pos, string tag = "TerrainCollider") {
+        bool hitNonTerrain = GetRandomPointOnTerrain (out pos, tag);
+        pos = new Vector2 (pos.x, Random.Range (pos.y, pos.y + height));
+        return hitNonTerrain;
     }
 
     // The maximum reachable height that the player can jump to.
@@ -122,7 +141,16 @@ public class ItemManager : MonoBehaviour {
     private void addObjects(Transform obj, int count, float height = 2f)
     {
         for (int i = 0; i < count; ++i) {
-            Vector3 position = GetRandomPointAboveTerrain(height);
+            Vector2 position;
+            GetRandomPointAboveTerrain(height, out position);
+            Instantiate(obj, position, Quaternion.identity);
+        }
+    }
+
+    private void addPlatforms(Transform obj, int count, float height) {
+        for (int i = 0; i < count; ++i) {
+            Vector2 position;
+            while (GetRandomPointAboveTerrain(height, out position, "Platform"));
             Instantiate(obj, position, Quaternion.identity);
         }
     }
@@ -137,8 +165,9 @@ public class ItemManager : MonoBehaviour {
             float prior = 0;
             foreach (Transform enemy in enemyList) {
                 if (pValue < pTable[enemy] + prior) {
-                    Vector3 position = GetRandomPointAboveTerrain(unreachableFactor);
-                    position = position + new Vector3(0, 5f, 0);
+                    Vector2 position;
+                    GetRandomPointAboveTerrain(unreachableFactor, out position);
+                    position = position + new Vector2(0, 5f);
                     Instantiate(enemy, position, Quaternion.identity);
                     prior += pTable[enemy];
                     break;
