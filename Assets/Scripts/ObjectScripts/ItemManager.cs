@@ -34,6 +34,8 @@ public class ItemManager : MonoBehaviour {
     private float gravityEffect;
     private Dictionary<Transform, float> pTable; //enemy type probability table
 
+    private const float PLATFORM_HEIGHT_OFFSET = 5f; //half the platform height
+
     // Use this for initialization
     void Start() {
         terrainCreator = GameObject.FindObjectOfType<TerrainCreator> ();
@@ -85,7 +87,7 @@ public class ItemManager : MonoBehaviour {
         addObjects(slowCloud, slowCloudCount, 2);
         addObjects(stickyBox, boxCount, 5);
         addObjects(poisonCloud, poisonCloudCount, 2);
-        addObjects(jumpPlatform, jumpPlatformCount, apex());
+        addObjects(jumpPlatform, jumpPlatformCount, apex() - PLATFORM_HEIGHT_OFFSET);
         addEnemies(enemyCount);
         maybeAddSpecialItems(objective);
     }
