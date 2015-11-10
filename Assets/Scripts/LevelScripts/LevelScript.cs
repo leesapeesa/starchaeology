@@ -9,9 +9,10 @@ public class LevelScript : MonoBehaviour {
     public bool objectiveFailed = false;
     public Objective objective;
 
-    private int numObjectives = 2;
+    private int numObjectives = 3;
     private Text objectivesText;
     private PlayerCharacter2D player;
+    private ItemManager itemManager;
     private RectTransform healthBar;
     private const float HEALTHBAR_WIDTH = 200f;
     private Text scoreText;
@@ -23,16 +24,20 @@ public class LevelScript : MonoBehaviour {
         objectivesText = GameObject.Find("ObjectivesText").GetComponent<Text>();
         healthBar = GameObject.Find("CurrentHealth").GetComponent<RectTransform>();
         scoreText = GameObject.Find ("Score").GetComponent<Text> ();
+        itemManager = GameObject.Find("ObjectManager").GetComponent<ItemManager>();
+        itemManager.InitializeItems(objective);
     }
 
     private void CreateRandomObjective () {
         float random = Random.value;
-        int objectiveToChoose = (int)(Random.value * numObjectives);
+        float objectiveToChoose = Random.value * numObjectives;
 
-        if (objectiveToChoose == 0) {
+        if (objectiveToChoose < 1) {
             objective = new ItemsObjective();
-        } else {
+        } else if (objectiveToChoose < 2) {
             objective = new TimerObjective();
+        } else {
+            objective = new SpecialItemObjective();
         }
     }
 

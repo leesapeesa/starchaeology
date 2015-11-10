@@ -22,6 +22,7 @@ public class ItemManager : MonoBehaviour {
     public Transform jumpPlatform;
     public Transform[] enemyList;
     public Transform[] collectibleList;
+    public Transform specialItem;
 
     private TerrainCreator terrainCreator;
     private Vector2[] heights;
@@ -29,6 +30,7 @@ public class ItemManager : MonoBehaviour {
     private float sideLength = 25f;
     private float closestToEdge = 5f;
     private List<Transform> collectibles;
+    private List<Transform> specialItems;
     private float gravityEffect;
     private Dictionary<Transform, float> pTable; //enemy type probability table
 
@@ -61,20 +63,31 @@ public class ItemManager : MonoBehaviour {
             enemyRigidbody.gravityScale = gravityEffect;
         }
 
-        collectibles = new List<Transform> ();
-        addCollectibles ();
-        addObjects(bouncyBox, boxCount, 2);
-        addObjects(slowCloud, slowCloudCount, 2);
-        addObjects(stickyBox, boxCount, 5);
-        addObjects(poisonCloud, poisonCloudCount, 2);
-        addObjects(jumpPlatform, jumpPlatformCount, apex ());
-        addEnemies(enemyCount);
+        collectibles = new List<Transform>();
+        specialItems = new List<Transform>();
     }
 
     void Update() {
         if (!collectibles.Any ()) {
             allCollected = true;
         }
+    }
+
+    /// <summary>
+    /// Add items to the scene based on the current parameters and given objective.
+    /// In order to ensure that all pertinent level information is loaded prior to item initialization,
+    /// this function MUST be called at the end of LevelScript's Start routine.
+    /// </summary>
+    public void InitializeItems(Objective objective)
+    {
+        addCollectibles();
+        addObjects(bouncyBox, boxCount, 2);
+        addObjects(slowCloud, slowCloudCount, 2);
+        addObjects(stickyBox, boxCount, 5);
+        addObjects(poisonCloud, poisonCloudCount, 2);
+        addObjects(jumpPlatform, jumpPlatformCount, apex());
+        addEnemies(enemyCount);
+        maybeAddSpecialItems(objective);
     }
 
     private void addCollectibles() {
@@ -148,8 +161,36 @@ public class ItemManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Possibly add special items to the scene depending on the given objective
+    /// </summary>
+    private void maybeAddSpecialItems(Objective objective)
+    {
+        for (int i = 0; i < objective.NumSpecialItems; ++i) {
+            Vector2 maxPos = Vector2.zero;
+            for (float x = -sideLength / 2; x < sideLength / 2; ++x) {
+                RaycastHit2D hit = Physics2D.Raycast(new Vector2(0, 1000), Vector2.down);
+                if (hit.collider != null) {
+                    Vector2 hitPos = hit.point;
+                    if (hitPos.y > maxPos.y)
+                        maxPos = hitPos;
+                }
+            }
+            maxPos.y += apex();
+            specialItems.Add(Instantiate(specialItem, maxPos, Quaternion.identity) as Transform);
+        }
+    }
+
     public void RemoveFromScene(NonPlayerObject npo) {
         if (collectibles.Contains (npo.transform))
             collectibles.Remove (npo.transform);
+        if (specialItems.Contains(npo.transform))
+            specialItems.Remove(npo.transform);
+    }
+
+    public int GetSpecialItemsRemaining()
+    {
+        print(specialItems.Count);
+        return specialItems.Count;
     }
 }
