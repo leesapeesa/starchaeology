@@ -25,14 +25,15 @@ public class LevelTransitionScript : MonoBehaviour {
         async = Application.LoadLevelAsync (1);
         async.allowSceneActivation = false;
         while (async.progress < 0.9f) {
-            print(async.progress);
             yield return null;
+            print(async.progress);
+            // The maximum it is going to let us have as progress is 0.9.
             float fracHealth = (float)(async.progress / 0.9);
             float newWidth = fracHealth * PROGRESSBAR_WIDTH;
             progressBar.sizeDelta = new Vector2(newWidth, progressBar.sizeDelta.y);
             progressBar.anchoredPosition = new Vector2(newWidth / 2, 0);
-            // The maximum it is going to let us have as progress is 0.9.
             progressText.text = Mathf.Round ((float) (async.progress / 0.9 * 100)).ToString() + " %";
+
         }
 
         GameObject.Find("Start Level").GetComponent<Button>().interactable = true;
@@ -62,8 +63,8 @@ public class LevelTransitionScript : MonoBehaviour {
 
     public void OnButtonClick() {
         async.allowSceneActivation = true;
-
     }
+
     void OnDestroy() {
         print ("switching levels");
         PersistentTerrainSettings.settings.gravityEffect = Random.Range (0.5f, maxGravity);
