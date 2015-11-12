@@ -29,6 +29,7 @@ public class LevelTransitionScript : MonoBehaviour {
         // Since we don't want the scene to immediately activate, we want the user to
         // choose when to continue, the maximum async.progress gives is 0.9.
         while (async.progress < 0.9f) {
+            // artificial loading.
             yield return null;
             print(async.progress);
             // The maximum it is going to let us have as progress is 0.9.
@@ -37,7 +38,6 @@ public class LevelTransitionScript : MonoBehaviour {
             progressBar.sizeDelta = new Vector2(newWidth, progressBar.sizeDelta.y);
             progressBar.anchoredPosition = new Vector2(newWidth / 2, 0);
             progressText.text = "Progress: " + Mathf.Round ((float) (async.progress / 0.9 * 100)).ToString() + " %";
-
         }
 
         // Once the next level is loaded, let the user press the start button.
