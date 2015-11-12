@@ -84,6 +84,17 @@ public class ItemManager : MonoBehaviour {
         }
     }
 
+    // Since we change the prefabs, we need to make sure to change it back.
+    void OnDestroy() {
+        GameObject newStickyBox = stickyBox.gameObject;
+        Rigidbody2D stickyBoxRigidBody = newStickyBox.GetComponent<Rigidbody2D>();
+        stickyBoxRigidBody.gravityScale = PersistentTerrainSettings.settings.DEFAULT_GRAVITY_EFFECT;
+        
+        GameObject newBouncyBox = bouncyBox.gameObject;
+        Rigidbody2D bouncyBoxRigidBody = newBouncyBox.GetComponent<Rigidbody2D>();
+        bouncyBoxRigidBody.gravityScale = PersistentTerrainSettings.settings.DEFAULT_GRAVITY_EFFECT;
+    }
+
     /// <summary>
     /// Add items to the scene based on the current parameters and given objective.
     /// In order to ensure that all pertinent level information is loaded prior to item initialization,

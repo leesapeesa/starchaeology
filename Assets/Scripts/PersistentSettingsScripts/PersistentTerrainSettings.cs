@@ -30,6 +30,10 @@ public class PersistentTerrainSettings : MonoBehaviour {
 
     public Vector3 terrainPosition = Vector3.zero;
 
+    // Just so that when we quit the game, our prefabs don't change anymore
+    // and cause annoying commit errors.
+    public float DEFAULT_GRAVITY_EFFECT = 1f;
+
     void Awake () {
         if (settings == null) {
             SetDefault ();
@@ -65,6 +69,5 @@ public class PersistentTerrainSettings : MonoBehaviour {
     {
         print ("Destroyed PersistentTerrainSettings");
         SetDefault ();
-
     }
 }
