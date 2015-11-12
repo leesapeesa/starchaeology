@@ -771,22 +771,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: fdbedd497e66a444fb960b9ce646b27f, type: 2}
-      propertyPath: m_WhatIsGround.m_Bits
-      value: 2816
-      objectReference: {fileID: 0}
-    - target: {fileID: 100004, guid: fdbedd497e66a444fb960b9ce646b27f, type: 2}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: fdbedd497e66a444fb960b9ce646b27f, type: 2}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: fdbedd497e66a444fb960b9ce646b27f, type: 2}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fdbedd497e66a444fb960b9ce646b27f, type: 2}
   m_IsPrefabParent: 0

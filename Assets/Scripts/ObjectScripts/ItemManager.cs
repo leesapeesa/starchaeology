@@ -255,7 +255,6 @@ public class ItemManager : MonoBehaviour {
                 movePlayer (spaceshipPosition);
             }
         }
-
     }
 
     // Moves the player's starting position to be right next to the spaceship.
