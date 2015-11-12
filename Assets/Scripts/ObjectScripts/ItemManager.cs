@@ -248,9 +248,17 @@ public class ItemManager : MonoBehaviour {
         RaycastHit hit;
         if (Physics.Raycast(new Vector3(xPos, RAYCAST_ORIGIN, SPACESHIP_DEPTH), Vector3.down, out hit)) {
             if (hit.collider != null) {
-                Instantiate(spaceship, new Vector2(xPos, hit.point.y + SPACESHIP_HEIGHT / 2), Quaternion.identity);
+                Vector2 spaceshipPosition = new Vector2(xPos, hit.point.y + SPACESHIP_HEIGHT / 2);
+                Instantiate(spaceship, spaceshipPosition, Quaternion.identity);
+                movePlayer (spaceshipPosition);
             }
         }
+
+    }
+
+    // Moves the player's starting position to be right next to the spaceship.
+    private void movePlayer(Vector2 position) {
+        GameObject.Find ("Player").transform.position = position;
     }
 
     public void RemoveFromScene(NonPlayerObject npo) {

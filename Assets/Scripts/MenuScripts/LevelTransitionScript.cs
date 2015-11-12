@@ -24,6 +24,10 @@ public class LevelTransitionScript : MonoBehaviour {
         // Drawing the Loading progress:
         async = Application.LoadLevelAsync (1);
         async.allowSceneActivation = false;
+
+        // While there is still part of the level to load, update the progress bar.
+        // Since we don't want the scene to immediately activate, we want the user to
+        // choose when to continue, the maximum async.progress gives is 0.9.
         while (async.progress < 0.9f) {
             yield return null;
             print(async.progress);
@@ -32,35 +36,15 @@ public class LevelTransitionScript : MonoBehaviour {
             float newWidth = fracHealth * PROGRESSBAR_WIDTH;
             progressBar.sizeDelta = new Vector2(newWidth, progressBar.sizeDelta.y);
             progressBar.anchoredPosition = new Vector2(newWidth / 2, 0);
-            progressText.text = Mathf.Round ((float) (async.progress / 0.9 * 100)).ToString() + " %";
+            progressText.text = "Progress: " + Mathf.Round ((float) (async.progress / 0.9 * 100)).ToString() + " %";
 
         }
 
+        // Once the next level is loaded, let the user press the start button.
         GameObject.Find("Start Level").GetComponent<Button>().interactable = true;
     }
-    /*
-    void OnGUI() {
-        int counter = 1000;
-        while (!async.isDone || counter < 0) {
-            int width = Camera.main.pixelWidth;
-            int height = Camera.main.pixelHeight;
-            // Eventually have a loading bar.
-            // GUI.DrawTexture(new Rect(width / 2 - 50, height / 2 - 50, 100, 50), emptyProgressBar);
-            // GUI.DrawTexture(new Rect(width / 2 - 50, height / 2 - 50, 100 * async.progress, 50), fullProgressBar);
-            GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-            GUI.skin.font = font;
-            GUIStyle myStyle = new GUIStyle (GUI.skin.label);
-            myStyle.fontSize = 30;
-            GUI.Label (new Rect (width / 2 - 50, height / 2 - 50, 100, 50), string.Format ("{0:N0}%", async.progress * 100f), myStyle);
-            print (async.progress);
-            yield return null;
-            counter--;
-        }
-        GameObject.Find("Start Level").GetComponent<Button>().interactable = true;
-    }
-*/
 
-
+    // Method for button listener to call in Unit.
     public void OnButtonClick() {
         async.allowSceneActivation = true;
     }
@@ -76,7 +60,5 @@ public class LevelTransitionScript : MonoBehaviour {
             return;
         }
         PersistentPlayerSettings.settings.levelScore = 0;
-
-
     }
 }
