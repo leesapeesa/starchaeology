@@ -11,7 +11,11 @@ public class HelpMenuScript : MonoBehaviour {
         // For some reason, if I start the inner text disabled, I can't get the child again???
         OnClick (helpPages [0].GetComponent<Text>());
     }
-    // Turn off all the other's info if one of them is clicked.
+
+    /// <summary>
+    /// Turn off all the other's info if one of them is clicked.
+    /// </summary>
+    /// <param name="clickedPage">Clicked page.</param>
     public void OnClick(Text clickedPage) {
         foreach (GameObject page in helpPages) {
             Text compareToPage = page.GetComponent<Text>();

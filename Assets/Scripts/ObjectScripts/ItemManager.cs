@@ -148,8 +148,11 @@ public class ItemManager : MonoBehaviour {
         }
     }
 
-    // From Path Height Index to Screen Coordinates
-    // returns the point by reference.
+    /// <summary>
+    /// Gets a point randomly on the map on a platform or the terrain. If there is a platform,
+    /// it will return the value on the platform.
+    /// </summary>
+    /// <param name="point">Point.</param>
     private void GetRandomPointOnWalkable(out Vector2 point) {
         float xCoor = Random.Range(-sideLength / 2, sideLength / 2);
         float yCoor = 1000f;
@@ -167,7 +170,12 @@ public class ItemManager : MonoBehaviour {
         }
     }
 
-    // Helps us not generate platforms in the ground.
+    /// <summary>
+    /// Gets a point in a range above a walkable surface.
+    /// </summary>
+    /// <param name="minHeight">Minimum height.</param>
+    /// <param name="maxHeight">Max height.</param>
+    /// <param name="pos">Position.</param>
     private void GetRandomPointStrictlyAboveWalkable (float minHeight, float maxHeight,
                                                      out Vector2 pos) {
         GetRandomPointOnWalkable (out pos);

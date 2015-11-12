@@ -23,6 +23,8 @@ public class PersistentLevelSettings : MonoBehaviour {
     public int collectCount = 10;
     public Difficulty difficulty;
 
+    public Fortunes fortunes;
+
     void Awake()
     {
         if (settings == null) {
@@ -44,5 +46,6 @@ public class PersistentLevelSettings : MonoBehaviour {
         numPoisonClouds = 4;
         numSlowClouds = 5;
         difficulty = new Difficulty(DifficultySetting.EASY, NUM_PLANETS_EASY);
+        fortunes = new Fortunes ();
     }
 }

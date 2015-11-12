@@ -1,0 +1,10 @@
+testing reading  fortunes out from a file
+are you trash because i'd like to take you out
+i love you guys <3333
+i'm not funny enough to write these.
+the capital letters on this font are throwing me off
+we can add things we want to show in front of a level here
+there's probably more complicated ways of doing this so that it actually shows in order of the level
+New line is weird. NEWLINE someone else figure it out pls.
+but if we want rando things we can add them in here
+right now it just goes through this linearly

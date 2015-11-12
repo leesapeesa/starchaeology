@@ -49,6 +49,7 @@ public class InventoryScript : MonoBehaviour {
     private AudioSource audioSource;
 
     void Awake () {
+        // We also want a persistent inventory.
         if (inventory == null) {
             SetUpInventory();
             DontDestroyOnLoad (gameObject);
@@ -73,6 +74,11 @@ public class InventoryScript : MonoBehaviour {
         audioSource = GetComponent<AudioSource>();
     }
 
+    /// <summary>
+    /// Adds item to the inventory and increments the amount
+    /// contained in the inventory.
+    /// </summary>
+    /// <param name="item">Item.</param>
     public void AddItemToInventory(Collectible item) {
         print ("added Item to inventory!");
         if (!inventorySlots.ContainsKey (item.type))
@@ -81,6 +87,11 @@ public class InventoryScript : MonoBehaviour {
             inventorySlots [item.type]++;
     }
 
+    /// <summary>
+    /// Remove item from inventory by decrementing the amount
+    /// currently stored in the inventory.
+    /// </summary>
+    /// <param name="item">Item.</param>
     public void RemoveItemFromInventory(Collectible item) {
         Assert.IsNotNull (item);
         if (!inventorySlots.ContainsKey (item.type)) {
@@ -91,6 +102,8 @@ public class InventoryScript : MonoBehaviour {
         player = GameObject.Find ("Player").transform.GetComponent<PlayerCharacter2D> ();
         item.OnUse(player);
         --inventorySlots [item.type];
+
+        // If there are no more, then remove the item from the Dictionary.
         if (inventorySlots [item.type].Empty()) {
             inventorySlots.Remove(item.type);
         }
@@ -98,6 +111,9 @@ public class InventoryScript : MonoBehaviour {
         audioSource.Play();
     }
 
+    /// <summary>
+    /// Draws the GUI for the inventory.
+    /// </summary>
     public void DrawInventory() {
         print ("Drawing Inventory");
         RemoveAllOldSlots ();
@@ -133,12 +149,16 @@ public class InventoryScript : MonoBehaviour {
         return typeEntry.item;
     }
 
+    /// <summary>
+    /// Removes the slots that were previously drawn.
+    /// </summary>
     void RemoveAllOldSlots() {
         slotPanel = GameObject.Find ("SlotPanel");
         foreach (Transform child in slotPanel.transform) {
             Destroy(child.gameObject);
         }
     }
+
     public void EmptyInventory() {
         inventorySlots.Clear ();
     }

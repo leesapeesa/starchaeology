@@ -10,14 +10,38 @@ public class LevelTransitionScript : MonoBehaviour {
     public float maxGravity = 2f;
     private RectTransform progressBar;
     private Text progressText;
+    private Text blurbText;
     private const float PROGRESSBAR_WIDTH = 200f;
 
     private AsyncOperation async = null;
+    private Fortunes fortunes;
+
+    private bool anyKeyToContinue;
 
     void Start() {
         progressBar = GameObject.Find("CurrentProgress").GetComponent<RectTransform>();
         progressText = GameObject.Find ("LoadingProgress").GetComponent<Text> ();
+        blurbText = GameObject.Find ("BlurbText").GetComponent<Text> ();
+        anyKeyToContinue = false;
+        // First time from the main menu PLS doesn't exist yet.
+        if (PersistentLevelSettings.settings != null) {
+            fortunes = PersistentLevelSettings.settings.fortunes;
+            GetRandomBlurb ();
+        }
         StartCoroutine (DisplayLoadingScreen ());
+    }
+
+    void Update() {
+        if (Input.anyKey && anyKeyToContinue) {
+            async.allowSceneActivation = true;
+        }
+    }
+
+    private void GetRandomBlurb() {
+        // We can decide whether we want to pull from a file or hard code into our game.
+        // I don't know why I can't just write \n in the file....
+        blurbText.text = fortunes.Next ().Replace ("NEWLINE", "\n");
+        //blurbText.text = blurbText.text.Replace ("\\n", "\n");
     }
 
     IEnumerator DisplayLoadingScreen() {
@@ -42,6 +66,7 @@ public class LevelTransitionScript : MonoBehaviour {
 
         // Once the next level is loaded, let the user press the start button.
         GameObject.Find("Start Level").GetComponent<Button>().interactable = true;
+        anyKeyToContinue = true;
     }
 
     // Method for button listener to call in Unit.
