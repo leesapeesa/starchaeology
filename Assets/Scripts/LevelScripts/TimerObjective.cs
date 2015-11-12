@@ -9,7 +9,8 @@ public class TimerObjective : Objective {
     public float timeLimit = 120; // Countdown time, in seconds
     public float timeRemaining;
 
-    private int winningScore = 10;
+    public static int winningScore = 5;
+
     private bool objectiveComplete = false;
     private Text text;
     private PlayerCharacter2D player;
@@ -20,6 +21,9 @@ public class TimerObjective : Objective {
         text.enabled = true;
         timeRemaining = timeLimit;
 	}
+
+    //make sure there are enough point collectibles spawned to finish this objective
+    public override int NumPointItems { get { return winningScore / PointCollectible.points + 1; } }
 
     public override bool ObjectiveComplete () {
         if (PersistentPlayerSettings.settings.levelScore >= winningScore) {

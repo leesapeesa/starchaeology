@@ -15,14 +15,15 @@ public class ItemManager : MonoBehaviour {
 
     public bool allCollected = false;
 
-    public Transform bouncyBox;
-    public Transform stickyBox;
-    public Transform slowCloud;
-    public Transform poisonCloud;
-    public Transform jumpPlatform;
-    public Transform[] enemyList;
-    public Transform[] collectibleList;
-    public Transform specialItem;
+    [SerializeField] private Transform bouncyBox;
+    [SerializeField] private Transform stickyBox;
+    [SerializeField] private Transform slowCloud;
+    [SerializeField] private Transform poisonCloud;
+    [SerializeField] private Transform jumpPlatform;
+    [SerializeField] private Transform[] enemyList;
+    [SerializeField] private Transform[] collectibleList;
+    [SerializeField] private Transform specialItem;
+    [SerializeField] private Transform spaceship;
 
     private TerrainCreator terrainCreator;
     private Vector2[] heights;
@@ -35,6 +36,11 @@ public class ItemManager : MonoBehaviour {
     private Dictionary<Transform, float> pTable; //enemy type probability table
 
     private const float PLATFORM_HEIGHT_OFFSET = 5f; //half the platform height
+    private const float SPACESHIP_POSITION = 6f;
+    private const float SPACESHIP_HEIGHT = 6.8f;
+    private const float SPACESHIP_DEPTH = 3.25f;
+    private const float RAYCAST_ORIGIN = 1000;
+    private const int POINT_COLLECTIBLE_INDEX = 0; //index of the point collectible in the collectibles list
 
     // Use this for initialization
     void Start() {
@@ -45,6 +51,7 @@ public class ItemManager : MonoBehaviour {
         enemyCount = PersistentLevelSettings.settings.numEnemies;
         slowCloudCount = PersistentLevelSettings.settings.numSlowClouds;
         poisonCloudCount = PersistentLevelSettings.settings.numPoisonClouds;
+        collectCount = PersistentLevelSettings.settings.collectCount;
 
         //initialize the probability table
         pTable = new Dictionary<Transform, float>(enemyList.Length);
@@ -82,29 +89,43 @@ public class ItemManager : MonoBehaviour {
     /// </summary>
     public void InitializeItems(Objective objective)
     {
-        addCollectibles();
+        //First, make sure we will have enough items to complete the objective
+        collectCount = Mathf.Max(collectCount, objective.NumSpecialItems, objective.NumPointItems);
+
+        addCollectibles(objective);
         addObjects(bouncyBox, boxCount, 2);
         addObjects(slowCloud, slowCloudCount, 2);
         addObjects(stickyBox, boxCount, 5);
         addObjects(poisonCloud, poisonCloudCount, 2);
         addObjects(jumpPlatform, jumpPlatformCount, apex() - PLATFORM_HEIGHT_OFFSET);
         addEnemies(enemyCount);
+        addSpaceship();
         maybeAddSpecialItems(objective);
     }
 
-    private void addCollectibles() {
+    private void addCollectibles(Objective objective) {
         // PathHeights is of length HeightmapResolution and corresponds to an actual
         // index by index * SideLength / HeightmapResolution.
         heights = terrainCreator.getPathHeights();
+        int numPointCollectiblesAdded = 0;
         for (int i = 0; i < collectCount; ++i) {
             Vector2 randomPointOnTerrain;
             GetRandomPointOnTerrain(out randomPointOnTerrain, "Platform");
+
+            //ensure that enough point collectibles are spawned before spawning any other types
+            int itemIndex = numPointCollectiblesAdded < objective.NumPointItems ?
+                            POINT_COLLECTIBLE_INDEX :
+                            Random.Range(0, collectibleList.Length);
+
+            //update how many point collectibles have been added
+            if (itemIndex == POINT_COLLECTIBLE_INDEX)
+                ++numPointCollectiblesAdded;
 
             float maxHeight = randomPointOnTerrain.y + apex();
             // Let the possibility of genereting a few collectibles slightly out of reach.
             float height = Random.Range(randomPointOnTerrain.y, maxHeight);
             Vector3 position = new Vector3(randomPointOnTerrain.x, height + unreachableFactor) ;
-            Transform collect = collectibleList[Random.Range(0, collectibleList.Length)].transform;
+            Transform collect = collectibleList[itemIndex].transform;
             collectibles.Add (Instantiate(collect, position, Quaternion.identity) as Transform);
         }
     }
@@ -118,7 +139,10 @@ public class ItemManager : MonoBehaviour {
         // We're casting a ray to see if it hits any object. Once it hits an object,
         // that will be our new "height" at that point in the terrain. In this way
         // we can generate items above platforms.
-        RaycastHit2D hit = Physics2D.Raycast (new Vector2 (xCoor, yCoor), -Vector2.up);
+        RaycastHit2D hit = Physics2D.Raycast (new Vector2 (xCoor, yCoor), 
+                                              -Vector2.up,
+                                              distance: Mathf.Infinity,
+                                              layerMask: LayerMask.GetMask(new string[] { "Ground", "Platform" }));
         if (hit.collider != null) {
             point = hit.point;
             print("tag hit is " + hit.transform.gameObject.tag + " checking tag: " + tag);
@@ -146,7 +170,7 @@ public class ItemManager : MonoBehaviour {
         // Simple mechanics: maxHeight = v_0^2 / (2 * g) + y_0
         // where v_0 = (jumpForce - gravityEffect), g = gravityEffect and y_0 = terrainHeight.
         float approxLengthOfOneFrame = Time.fixedDeltaTime;
-        float gravity = PersistentTerrainSettings.settings.gravityEffect * 6f;
+        float gravity = PersistentTerrainSettings.settings.gravityEffect * 9.8f;
         float initialVelocity = (PersistentPlayerSettings.settings.jumpForce - gravity) * approxLengthOfOneFrame;
 
         return initialVelocity * initialVelocity / (2 * gravity);
@@ -197,9 +221,12 @@ public class ItemManager : MonoBehaviour {
     private void maybeAddSpecialItems(Objective objective)
     {
         for (int i = 0; i < objective.NumSpecialItems; ++i) {
-            Vector2 maxPos = Vector2.zero;
+            Vector2 maxPos = new Vector2(float.NegativeInfinity, float.NegativeInfinity);
             for (float x = -sideLength / 2; x < sideLength / 2; ++x) {
-                RaycastHit2D hit = Physics2D.Raycast(new Vector2(0, 1000), Vector2.down);
+                RaycastHit2D hit = Physics2D.Raycast(new Vector2(x, RAYCAST_ORIGIN), 
+                                                     Vector2.down, 
+                                                     distance: Mathf.Infinity,
+                                                     layerMask: LayerMask.GetMask(new string[] { "Ground", "Platform" }));
                 if (hit.collider != null) {
                     Vector2 hitPos = hit.point;
                     if (hitPos.y > maxPos.y)
@@ -208,6 +235,21 @@ public class ItemManager : MonoBehaviour {
             }
             maxPos.y += apex();
             specialItems.Add(Instantiate(specialItem, maxPos, Quaternion.identity) as Transform);
+        }
+    }
+
+    /// <summary>
+    /// Add the player's spaceship to the scene
+    /// </summary>
+    private void addSpaceship()
+    {
+        float xPos = -sideLength / 2 + SPACESHIP_POSITION;
+        //Get the y coordinate at the "landing site"
+        RaycastHit hit;
+        if (Physics.Raycast(new Vector3(xPos, RAYCAST_ORIGIN, SPACESHIP_DEPTH), Vector3.down, out hit)) {
+            if (hit.collider != null) {
+                Instantiate(spaceship, new Vector2(xPos, hit.point.y + SPACESHIP_HEIGHT / 2), Quaternion.identity);
+            }
         }
     }
 
@@ -220,7 +262,6 @@ public class ItemManager : MonoBehaviour {
 
     public int GetSpecialItemsRemaining()
     {
-        print(specialItems.Count);
         return specialItems.Count;
     }
 }

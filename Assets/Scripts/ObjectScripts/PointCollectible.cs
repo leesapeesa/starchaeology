@@ -4,6 +4,16 @@ using System;
 
 public class PointCollectible : Collectible
 {
+    public static int points = 2;
+
+    public override bool usable { get { return false; } }
+
+    protected override void Start()
+    {
+        base.Start();
+        value = points;
+    }
+
     public override void OnCollect()
     {
         PersistentPlayerSettings.settings.levelScore += value;

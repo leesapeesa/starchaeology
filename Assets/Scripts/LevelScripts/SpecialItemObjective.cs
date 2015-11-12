@@ -28,7 +28,8 @@ public class SpecialItemObjective : Objective {
 
     public override bool ObjectiveComplete()
     {
-        return (itemManager.GetSpecialItemsRemaining() == 0);
+        return (itemManager.GetSpecialItemsRemaining() == 0) && 
+               (!InventoryScript.inventory.HasItemOfType("SpecialItem"));
     }
 
     public override bool ObjectiveFailed()
@@ -45,6 +46,9 @@ public class SpecialItemObjective : Objective {
 
     public override string ToString()
     {
-        return "Find the golden idol!\nTime remaining: " + (int)timeRemaining;
+        string currentGoal = itemManager.GetSpecialItemsRemaining() > 0 ?
+                             "Find the golden idol!" :
+                             "Get back to your ship!";
+        return currentGoal + "\nTime remaining: " + (int)timeRemaining;
     }
 }

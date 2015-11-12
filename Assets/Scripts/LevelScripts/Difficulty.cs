@@ -24,7 +24,10 @@ public class Difficulty {
     private int numLevels;
     private readonly Dictionary<DifficultySetting, int> startValues;
     private readonly Dictionary<DifficultySetting, int> endValues;
+
+    //================================PARAMETER UPDATE CONSTANTS===================================//
     //Constant coefficients relating the internal numeric difficulty encoding to various parameters
+
     private const float HEIGHT_COEFF = 1f / 4f;
     private const float HEIGHT_OFFSET = 5;
     private const float ENEMIES_COEFF = 1f / 12f;
@@ -43,6 +46,12 @@ public class Difficulty {
     private const float SLOW_CLOUDS_OFFSET = 2;
     private const float POISON_CLOUDS_COEFF = 1f / 40f;
     private const float POISON_CLOUDS_OFFSET = 2;
+    private const float COLLECT_COUNT_COEFF = 1f / 10f;
+    private const float COLLECT_COUNT_OFFSET = 8;
+    private const float TARGET_POINTS_COEFF = 1f / 20f;
+    private const float TARGET_POINTS_OFFSET = 4;
+
+    //===================================END UPDATE CONSTANTS======================================//
 
     public Difficulty(DifficultySetting startSetting, int levels)
     {
@@ -105,6 +114,7 @@ public class Difficulty {
         settings.poisonAmount = linearUpdate(POISON_COEFF);
         settings.numSlowClouds = (int)linearUpdate(SLOW_CLOUDS_COEFF, SLOW_CLOUDS_OFFSET);
         settings.numPoisonClouds = (int)linearUpdate(POISON_CLOUDS_COEFF, POISON_CLOUDS_OFFSET);
+        settings.collectCount = (int)linearUpdate(COLLECT_COUNT_COEFF, COLLECT_COUNT_OFFSET);
     }
 
     /// <summary>
@@ -114,6 +124,15 @@ public class Difficulty {
     public void UpdateNPOParameters()
     {
         GroundPathEnemy.contactDamage = linearUpdate(GROUND_PATH_ENEMY_DAMAGE_COEFF);
+    }
+
+    /// <summary>
+    /// Any Objective type that has level-specific static parameters should get those
+    /// parameters updated here.
+    /// </summary>
+    public void UpdateObjectiveParameters()
+    {
+        TimerObjective.winningScore = (int)linearUpdate(TARGET_POINTS_COEFF, TARGET_POINTS_OFFSET);
     }
 
     /// <summary>

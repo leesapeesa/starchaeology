@@ -11,6 +11,7 @@ public class SlotScript : MonoBehaviour {
         // this slot is holding.
         print ("OnClick called");
         Assert.IsNotNull(item);
-        InventoryScript.inventory.RemoveItemFromInventory (item);
+        if (item.usable)
+            InventoryScript.inventory.RemoveItemFromInventory (item);
     }
 }

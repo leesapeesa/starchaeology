@@ -25,6 +25,7 @@ public class LoadGameScript : MonoBehaviour {
         PersistentLevelSettings.settings.difficulty.UpdateTerrainParameters(PersistentTerrainSettings.settings);
         PersistentLevelSettings.settings.difficulty.UpdateLevelParameters(PersistentLevelSettings.settings);
         PersistentLevelSettings.settings.difficulty.UpdateNPOParameters();
+        PersistentLevelSettings.settings.difficulty.UpdateObjectiveParameters();
     }
 
     public void NextLevel()
