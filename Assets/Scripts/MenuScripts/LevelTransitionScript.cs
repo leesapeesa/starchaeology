@@ -32,6 +32,7 @@ public class LevelTransitionScript : MonoBehaviour {
     }
 
     void Update() {
+        // Allows user to hit any key to continue onto level.
         if (Input.anyKey && anyKeyToContinue) {
             async.allowSceneActivation = true;
         }
@@ -41,7 +42,6 @@ public class LevelTransitionScript : MonoBehaviour {
         // We can decide whether we want to pull from a file or hard code into our game.
         // I don't know why I can't just write \n in the file....
         blurbText.text = fortunes.Next ().Replace ("NEWLINE", "\n");
-        //blurbText.text = blurbText.text.Replace ("\\n", "\n");
     }
 
     IEnumerator DisplayLoadingScreen() {

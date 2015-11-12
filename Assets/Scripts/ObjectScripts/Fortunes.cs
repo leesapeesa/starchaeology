@@ -16,6 +16,8 @@ public class Fortunes {
         index = 0;
     }
 
+    // Gets the next fortune in the list.
+    // We can make it so that it is a random fortune.
     public string Next() {
         index %= fortunes.Count;
         return fortunes [index++]; // I'm purposely using the post decremement operator
