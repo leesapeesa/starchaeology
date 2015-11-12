@@ -9,16 +9,14 @@ public class LevelTransitionScript : MonoBehaviour {
     public Font font;
     public float maxGravity = 2f;
     private RectTransform progressBar;
+    private Text progressText;
     private const float PROGRESSBAR_WIDTH = 200f;
 
     private AsyncOperation async = null;
 
-    IEnumerator Load() {
-        progressBar = GameObject.Find("CurrentHealth").GetComponent<RectTransform>();
-        yield return async;
-    }
-
     void Start() {
+        progressBar = GameObject.Find("CurrentProgress").GetComponent<RectTransform>();
+        progressText = GameObject.Find ("LoadingProgress").GetComponent<Text> ();
         StartCoroutine (DisplayLoadingScreen ());
     }
 
@@ -29,10 +27,12 @@ public class LevelTransitionScript : MonoBehaviour {
         while (async.progress < 0.9f) {
             print(async.progress);
             yield return null;
-            float fracHealth = async.progress;
+            float fracHealth = (float)(async.progress / 0.9);
             float newWidth = fracHealth * PROGRESSBAR_WIDTH;
             progressBar.sizeDelta = new Vector2(newWidth, progressBar.sizeDelta.y);
             progressBar.anchoredPosition = new Vector2(newWidth / 2, 0);
+            // The maximum it is going to let us have as progress is 0.9.
+            progressText.text = Mathf.Round ((float) (async.progress / 0.9 * 100)).ToString() + " %";
         }
 
         GameObject.Find("Start Level").GetComponent<Button>().interactable = true;
