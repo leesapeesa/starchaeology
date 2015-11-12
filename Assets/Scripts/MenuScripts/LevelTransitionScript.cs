@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class LevelTransitionScript : MonoBehaviour {
     // Use this for initialization
@@ -7,19 +8,39 @@ public class LevelTransitionScript : MonoBehaviour {
     //public Texture fullProgressBar;
     public Font font;
     public float maxGravity = 2f;
+    private RectTransform progressBar;
+    private const float PROGRESSBAR_WIDTH = 200f;
 
     private AsyncOperation async = null;
-    void Start () {
-        async = Application.LoadLevelAsync (1);
-        Load ();
-    }
 
     IEnumerator Load() {
+        progressBar = GameObject.Find("CurrentHealth").GetComponent<RectTransform>();
         yield return async;
     }
 
+    void Start() {
+        StartCoroutine (DisplayLoadingScreen ());
+    }
+
+    IEnumerator DisplayLoadingScreen() {
+        // Drawing the Loading progress:
+        async = Application.LoadLevelAsync (1);
+        async.allowSceneActivation = false;
+        while (async.progress < 0.9f) {
+            print(async.progress);
+            yield return null;
+            float fracHealth = async.progress;
+            float newWidth = fracHealth * PROGRESSBAR_WIDTH;
+            progressBar.sizeDelta = new Vector2(newWidth, progressBar.sizeDelta.y);
+            progressBar.anchoredPosition = new Vector2(newWidth / 2, 0);
+        }
+
+        GameObject.Find("Start Level").GetComponent<Button>().interactable = true;
+    }
+    /*
     void OnGUI() {
-        if (async != null) {
+        int counter = 1000;
+        while (!async.isDone || counter < 0) {
             int width = Camera.main.pixelWidth;
             int height = Camera.main.pixelHeight;
             // Eventually have a loading bar.
@@ -27,11 +48,21 @@ public class LevelTransitionScript : MonoBehaviour {
             // GUI.DrawTexture(new Rect(width / 2 - 50, height / 2 - 50, 100 * async.progress, 50), fullProgressBar);
             GUI.skin.label.alignment = TextAnchor.MiddleCenter;
             GUI.skin.font = font;
-            GUIStyle myStyle = new GUIStyle(GUI.skin.label);
+            GUIStyle myStyle = new GUIStyle (GUI.skin.label);
             myStyle.fontSize = 30;
-            GUI.Label(new Rect(width / 2 - 50, height / 2 - 50, 100, 50), string.Format("{0:N0}%", async.progress * 100f), myStyle);
-            print(async.progress);
+            GUI.Label (new Rect (width / 2 - 50, height / 2 - 50, 100, 50), string.Format ("{0:N0}%", async.progress * 100f), myStyle);
+            print (async.progress);
+            yield return null;
+            counter--;
         }
+        GameObject.Find("Start Level").GetComponent<Button>().interactable = true;
+    }
+*/
+
+
+    public void OnButtonClick() {
+        async.allowSceneActivation = true;
+
     }
     void OnDestroy() {
         print ("switching levels");
