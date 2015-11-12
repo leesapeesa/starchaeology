@@ -93,6 +93,11 @@ public class ItemManager : MonoBehaviour {
         GameObject newBouncyBox = bouncyBox.gameObject;
         Rigidbody2D bouncyBoxRigidBody = newBouncyBox.GetComponent<Rigidbody2D>();
         bouncyBoxRigidBody.gravityScale = PersistentTerrainSettings.settings.DEFAULT_GRAVITY_EFFECT;
+        foreach (Transform enemy in enemyList) {
+            GameObject newEnemy = enemy.gameObject;
+            Rigidbody2D enemyRigidbody = newEnemy.GetComponent<Rigidbody2D>();
+            enemyRigidbody.gravityScale = PersistentTerrainSettings.settings.DEFAULT_GRAVITY_EFFECT;
+        }
     }
 
     /// <summary>
