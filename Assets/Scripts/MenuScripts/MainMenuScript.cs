@@ -24,7 +24,7 @@ public class MainMenuScript : MonoBehaviour {
     }
 
     public void NewGame () {
-        Application.LoadLevel(2);
+        Application.LoadLevel(5);
     }
 
     public void QuitGame () {
@@ -39,7 +39,7 @@ public class MainMenuScript : MonoBehaviour {
         helpMenu.enabled = true;
     }
 
-    public void LoadGame() {
+    public void LoadGame () {
         loadGameMenu.enabled = true;
     }
 }

@@ -530,7 +530,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 184548, guid: 3c78968180789c7499c0c900a906acf3, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3c78968180789c7499c0c900a906acf3, type: 2}
@@ -923,6 +923,10 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 139798, guid: b3dac16a38a31284eb25ae46efeeeb68, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b3dac16a38a31284eb25ae46efeeeb68, type: 2}
   m_IsPrefabParent: 0
@@ -1013,6 +1017,234 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 412564956}
+    - target: {fileID: 22492650, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -246
+      objectReference: {fileID: 0}
+    - target: {fileID: 22489662, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -246
+      objectReference: {fileID: 0}
+    - target: {fileID: 22485910, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -246
+      objectReference: {fileID: 0}
+    - target: {fileID: 22434544, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -246
+      objectReference: {fileID: 0}
+    - target: {fileID: 22485906, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 382
+      objectReference: {fileID: 0}
+    - target: {fileID: 22485906, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 22485906, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 48
+      objectReference: {fileID: 0}
+    - target: {fileID: 22485906, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 341
+      objectReference: {fileID: 0}
+    - target: {fileID: 22489244, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -35
+      objectReference: {fileID: 0}
+    - target: {fileID: 22489244, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 22422098, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 384
+      objectReference: {fileID: 0}
+    - target: {fileID: 22422098, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 22412958, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 385
+      objectReference: {fileID: 0}
+    - target: {fileID: 22412958, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 22491638, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 389
+      objectReference: {fileID: 0}
+    - target: {fileID: 22491638, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 22492650, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -71
+      objectReference: {fileID: 0}
+    - target: {fileID: 22489662, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -7
+      objectReference: {fileID: 0}
+    - target: {fileID: 22485910, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 56
+      objectReference: {fileID: 0}
+    - target: {fileID: 22434544, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 22494678, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22494678, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22494678, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400630, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_Text
+      value: Use the left and right arrows to move the player and spacebar to jump
+      objectReference: {fileID: 0}
+    - target: {fileID: 11472458, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_Text
+      value: Complete the objective displayed on the right hand side of the screen
+        to beat a level. Complete all the levels to win
+      objectReference: {fileID: 0}
+    - target: {fileID: 11408796, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_Text
+      value: Enemies are rolling skulls. Red skulls kill you instantly and white skulls
+        damage you
+      objectReference: {fileID: 0}
+    - target: {fileID: 188252, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 191150, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 197470, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 133320, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11478816, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_Text
+      value: items
+      objectReference: {fileID: 0}
+    - target: {fileID: 11402250, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_Text
+      value: Collected items appear in your inventory. Hearts restore health and stopwatches
+        add time to the level timer, if one exists. Collect other items to complete
+        objectives and gain points
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400630, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 11400630, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 11472458, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 11472458, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 11408796, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 11408796, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 11402250, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 11402250, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 11402250, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_FontData.m_FontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11408796, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_FontData.m_FontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11472458, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_FontData.m_FontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400630, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_FontData.m_FontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400630, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_Color.r
+      value: .91911763
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400630, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_Color.g
+      value: .835036099
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400630, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_Color.b
+      value: .364943773
+      objectReference: {fileID: 0}
+    - target: {fileID: 11472458, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_Color.r
+      value: .91911763
+      objectReference: {fileID: 0}
+    - target: {fileID: 11472458, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_Color.g
+      value: .835036099
+      objectReference: {fileID: 0}
+    - target: {fileID: 11472458, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_Color.b
+      value: .364943773
+      objectReference: {fileID: 0}
+    - target: {fileID: 11408796, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_Color.r
+      value: .91911763
+      objectReference: {fileID: 0}
+    - target: {fileID: 11408796, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_Color.g
+      value: .835036099
+      objectReference: {fileID: 0}
+    - target: {fileID: 11408796, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_Color.b
+      value: .364943773
+      objectReference: {fileID: 0}
+    - target: {fileID: 11402250, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_Color.r
+      value: .91911763
+      objectReference: {fileID: 0}
+    - target: {fileID: 11402250, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_Color.g
+      value: .835036099
+      objectReference: {fileID: 0}
+    - target: {fileID: 11402250, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
+      propertyPath: m_Color.b
+      value: .364943773
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 02bd55ec79c64c6488faa014ff80ac97, type: 2}
   m_IsPrefabParent: 0
@@ -1240,6 +1472,10 @@ Prefab:
     - target: {fileID: 11416582, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 183516, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}

@@ -27,6 +27,7 @@ public class InGameMenuScript : MonoBehaviour {
     void Start () {
         // Hide menus that shouldn't be in view
         pauseMenu.enabled = false;
+        //inventory.enabled = true;
         DisableMenus();
     }
 
@@ -35,15 +36,15 @@ public class InGameMenuScript : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Escape) && !isPaused) {
             print("Not paused, escape press");
             PausePress();
-        } else if (Input.GetKeyDown(KeyCode.Tab)) {
+        }/* else if (Input.GetKeyDown(KeyCode.Tab)) {
             print("TAB");
-            InventoryPress();
-        } else if (Input.GetKeyDown(KeyCode.Escape) && isPaused) {
+            InventoryPress(); 
+        } */else if (Input.GetKeyDown(KeyCode.Escape) && isPaused) {
             print("Paused, escape press");
             Resume();
         }
     }
-        
+/*        
     public void InventoryPress () {
         if (isPaused == false) {
             isPaused = true;
@@ -59,17 +60,18 @@ public class InGameMenuScript : MonoBehaviour {
         }
 
     }
+*/
 
     public void PausePress () {
         if (isPaused == false) {
             isPaused = true;
             pauseMenu.enabled = true;
-            inventoryButton.interactable = false;
+           // inventoryButton.interactable = false;
             Time.timeScale = 0;
         } else {
             isPaused = false;
             pauseMenu.enabled = false;
-            inventoryButton.interactable = true;
+           // inventoryButton.interactable = true;
             Time.timeScale = 1;
         }
     }
@@ -98,7 +100,7 @@ public class InGameMenuScript : MonoBehaviour {
         helpMenu.enabled = false;
         lossScreen.enabled = false;
         winScreen.enabled = false;
-        inventory.enabled = false;
+        //inventory.enabled = false;
     }
     
 
