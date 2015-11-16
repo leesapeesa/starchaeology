@@ -17,6 +17,8 @@ TagManager:
   - TerrainCollider
   - Platform
   - Spaceship
+  - Terrain
+  - ObjectManager
   layers:
   - Default
   - TransparentFX

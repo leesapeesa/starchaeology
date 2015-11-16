@@ -226,6 +226,14 @@ public class TerrainCreator : MonoBehaviour
         return terrain.terrainData.heightmapResolution;
     }
 
+    /// <summary>
+    /// Save any relevant terrain data that cannot be reconstructed from the saved difficulty
+    /// </summary>
+    public void SaveTerrain(int slotId)
+    {
+        PlayerPrefs.SetString("terrainSeed" + slotId, seed);
+    }
+
     private void Generate()
     {
         //update parameters for dynamic updating in debug mode

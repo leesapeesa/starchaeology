@@ -48,4 +48,12 @@ public class PersistentLevelSettings : MonoBehaviour {
         difficulty = new Difficulty(DifficultySetting.EASY, NUM_PLANETS_EASY);
         fortunes = new Fortunes ();
     }
+
+    /// <summary>
+    /// Save any relevant level settings that cannot be reconstructed from the saved difficulty
+    /// </summary>
+    public void SaveLevelSettings(int slotId)
+    {
+        PlayerPrefs.SetInt("levelProgress" + slotId, numPlanetsCleared);
+    }
 }

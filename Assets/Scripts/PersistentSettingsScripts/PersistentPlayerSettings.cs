@@ -34,6 +34,15 @@ public class PersistentPlayerSettings : MonoBehaviour {
             inventory.EmptyInventory ();
     }
 
+    /// <summary>
+    /// Save any relevant player settings that cannot be reconstructed from the saved difficulty
+    /// </summary>
+    public void SavePlayerSettings(int slotId)
+    {
+        PlayerPrefs.SetInt("levelScore" + slotId, levelScore);
+        PlayerPrefs.SetFloat("health" + slotId, health);
+    }
+
     void OnDestroy() {
         print ("Persistent Player Settings Destroyed");
         SetDefault ();

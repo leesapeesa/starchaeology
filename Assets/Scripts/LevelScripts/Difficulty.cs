@@ -136,6 +136,14 @@ public class Difficulty {
     }
 
     /// <summary>
+    /// Save the current difficulty value to permanent storage 
+    /// </summary>
+    public void SaveDifficulty(int slotId)
+    {
+        PlayerPrefs.SetFloat("difficulty" + slotId, difficulty);
+    }
+
+    /// <summary>
     /// Computes a parameter update of the form newValue = offset + coefficient * difficulty
     /// </summary>
     private float linearUpdate(float coefficient, float offset = 0)
