@@ -39,7 +39,7 @@ public class InventoryScript : MonoBehaviour {
     public static InventoryScript inventory;
 
     public float inX, inY = 0f;
-    public int totalSlots = 20;
+    public int totalSlots = 10;
     public GameObject slot;
 
     private Dictionary<string, Entry> inventorySlots;
@@ -85,6 +85,8 @@ public class InventoryScript : MonoBehaviour {
             inventorySlots.Add(item.type, new Entry(item, 1));
         else
             inventorySlots [item.type]++;
+
+        DrawInventory();
     }
 
     /// <summary>
