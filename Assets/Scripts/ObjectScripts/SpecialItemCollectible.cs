@@ -3,7 +3,11 @@ using System.Collections;
 
 public class SpecialItemCollectible : Collectible {
 
+    public const string typeString = "SpecialItem";
+
     public override bool usable { get { return false; } }
+
+    public override string type { get { return typeString; } }
 
     public override void OnCollect()
     {

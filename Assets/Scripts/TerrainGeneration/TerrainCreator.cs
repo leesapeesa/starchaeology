@@ -88,7 +88,12 @@ public class TerrainCreator : MonoBehaviour
 
     private void RandomOrigin() {
         if (useRandomSeed) {
-            seed = Time.time.ToString ();
+            //If we are loading from a saved game, use the saved seed rather than a new one, so that we
+            //generate the same terrain.
+            if (PersistentLevelSettings.settings.loadFromSave)
+                seed = PlayerPrefs.GetString("terrainSeed" + PersistentLevelSettings.settings.loadSlot);
+            else
+                seed = Time.time.ToString ();
         }
         pseudoRandom = new System.Random(seed.GetHashCode());
         gradientOrigin = new Vector3 (pseudoRandom.Next(0,100), pseudoRandom.Next(0,100), pseudoRandom.Next(0,100));

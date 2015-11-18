@@ -65,6 +65,19 @@ public class PersistentTerrainSettings : MonoBehaviour {
         seed = "0";
     }
 
+    /// <summary>
+    /// Save any relevant terrain settings that cannot be reconstructed from the saved difficulty
+    /// </summary>
+    public void SaveTerrainSettings(int slotId)
+    {
+        PlayerPrefs.SetFloat("gravity" + slotId, gravityEffect);
+    }
+
+    public void LoadTerrainSettings(int slotId)
+    {
+        gravityEffect = PlayerPrefs.GetFloat("gravity" + slotId);
+    }
+
     public void OnDestroy()
     {
         print ("Destroyed PersistentTerrainSettings");

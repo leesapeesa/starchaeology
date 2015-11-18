@@ -54,8 +54,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62054b38ec471cf4ba68990360d8e76f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: SpecialItem
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: e31720d24a8d57c4f83918ec8525af56, type: 3}
   value: 10
   pickupSound: {fileID: 8300000, guid: ad03aba1a1583422b87a3966c8f741d3, type: 3}
 --- !u!212 &21233812
@@ -128,6 +127,11 @@ Prefab:
       propertyPath: pickupSound
       value: 
       objectReference: {fileID: 8300000, guid: ad03aba1a1583422b87a3966c8f741d3, type: 3}
+    - target: {fileID: 0}
+      propertyPath: itemIcon
+      value: 
+      objectReference: {fileID: 21300000, guid: e31720d24a8d57c4f83918ec8525af56,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100748}

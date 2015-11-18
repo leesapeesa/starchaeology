@@ -19,13 +19,19 @@ public class LevelScript : MonoBehaviour {
 
     private void Start() {
         Time.timeScale = 1;
-        CreateRandomObjective();
+        //If we are loading a saved game, we should get the saved objective. Otherwise, randomly generate one.
+        if (PersistentLevelSettings.settings.loadFromSave)
+            RestoreObjective(PersistentLevelSettings.settings.loadSlot);
+        else
+            CreateRandomObjective();
         player = GameObject.FindWithTag("Player").GetComponent<PlayerCharacter2D>();
         objectivesText = GameObject.Find("ObjectivesText").GetComponent<Text>();
         healthBar = GameObject.Find("CurrentHealth").GetComponent<RectTransform>();
         scoreText = GameObject.Find ("Score").GetComponent<Text> ();
         itemManager = GameObject.Find("ObjectManager").GetComponent<ItemManager>();
         itemManager.InitializeItems(objective);
+        //Now that the inventory is always shown, we need to draw it on level load
+        InventoryScript.inventory.DrawInventory();
     }
 
     private void CreateRandomObjective () {
@@ -70,6 +76,34 @@ public class LevelScript : MonoBehaviour {
             lossScreen.enabled = true;
             print("You died. Better luck next time");
             Time.timeScale = 0;
+        }
+    }
+
+    /// <summary>
+    /// Save level information to the specified slot
+    /// </summary>
+    public void SaveLevel(int slotId)
+    {
+        PlayerPrefs.SetString("objective" + slotId, objective.Type);
+    }
+
+    /// <summary>
+    /// Restore a saved objective from the specified save slot
+    /// </summary>
+    public void RestoreObjective(int slotId)
+    {
+        string objectiveType = PlayerPrefs.GetString("objective" + slotId);
+        //instantiate the correct type of objective based on the saved data.
+        switch(objectiveType) {
+            case ItemsObjective.type:
+                objective = new ItemsObjective();
+                break;
+            case TimerObjective.type:
+                objective = new TimerObjective();
+                break;
+            case SpecialItemObjective.type:
+                objective = new SpecialItemObjective();
+                break;
         }
     }
 }

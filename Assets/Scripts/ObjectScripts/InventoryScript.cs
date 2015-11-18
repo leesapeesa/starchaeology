@@ -41,6 +41,9 @@ public class InventoryScript : MonoBehaviour {
     public float inX, inY = 0f;
     public int totalSlots = 10;
     public GameObject slot;
+    public GameObject healthCollectible;
+    public GameObject timerCollectible;
+    public GameObject specialItemCollectible;
 
     private Dictionary<string, Entry> inventorySlots;
     private GameObject inventoryGUI;
@@ -123,6 +126,7 @@ public class InventoryScript : MonoBehaviour {
             print ("pair" + pair.Key.ToString());
             Entry entry = pair.Value;
             Collectible collectible = entry.item;
+            print(collectible.itemIcon);
             // We need to make the slot.
             GameObject go = Instantiate (slot, new Vector3 (0, 0, 0), Quaternion.identity) as GameObject;
             go.transform.GetComponent<SlotScript>().item = collectible;
@@ -163,6 +167,65 @@ public class InventoryScript : MonoBehaviour {
 
     public void EmptyInventory() {
         inventorySlots.Clear ();
+    }
+
+    /// <summary>
+    /// Save the inventory to permanent storage at the specified slot
+    /// </summary>
+    public void SaveInventory(int slotId)
+    {
+        //First, keep track of how many types of items we have in the inventory
+        PlayerPrefs.SetInt("numSlots" + slotId, inventorySlots.Count);
+        //Then, loop through and save all items to persistent storage
+        int itemIndex = 0;
+        foreach (KeyValuePair<string, Entry> p in inventorySlots) {
+            int count = p.Value.amount;
+            PlayerPrefs.SetString("inventorySlot" + itemIndex + "type" + slotId, p.Key);
+            PlayerPrefs.SetInt("inventorySlot" + itemIndex + "count" + slotId, count);
+            ++itemIndex;
+        }
+    }
+
+    /// <summary>
+    /// Restore an inventory from a saved game
+    /// </summary>
+    public void LoadInventory(int slotId)
+    {
+        //First, clear out anything currently in the inventory.
+        EmptyInventory();
+
+        //Retrieve every saved inventory slot
+        int numSlots = PlayerPrefs.GetInt("numSlots" + slotId);
+        for (int i = 0; i < numSlots; ++i) {
+            string itemType = PlayerPrefs.GetString("inventorySlot" + i + "type" + slotId);
+            int itemCount = PlayerPrefs.GetInt("inventorySlot" + i + "count" + slotId);
+            //Build a new inventory item based on the save type
+            Collectible item = null;
+            switch (itemType) {
+                //This is rather ugly, but unfortunately Collectible is a MonoBehaviour, and Unity does not allow us
+                //to create new MonoBehaviours with the "new" keyword - you are only allowed to create a GameObject
+                //with the desired MonoBehaviour attached. To get around this, we assign the Collectible prefabs
+                //to this script in the inspector, and retrieve the desired Collectible from the prefabs.
+                //TODO: refactor Inventory and Collectible to make this unnecessary? JPC 11/18/15
+                case HealthCollectible.typeString:
+                    item = healthCollectible.GetComponent<HealthCollectible>();
+                    break;
+                case TimeCollectible.typeString:
+                    item = timerCollectible.GetComponent<TimeCollectible>();
+                    break;
+                case SpecialItemCollectible.typeString:
+                    item = specialItemCollectible.GetComponent<SpecialItemCollectible>();
+                    break;
+                default:
+                    print("unknown item");
+                    break;
+            }
+
+            //Build a corresponding entry for the reconstructed inventory item
+            Entry entry = new Entry(item, itemCount);
+            //Finally, add the entry to the inventory
+            inventorySlots.Add(itemType, entry);
+        }
     }
 }
                                                                                                            

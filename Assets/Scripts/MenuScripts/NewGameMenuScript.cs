@@ -18,7 +18,7 @@ public class NewGameMenuScript : MonoBehaviour {
 
     // Should be changed to reflect how we end up loading the game
     public void NewGame() {
-        LoadGameScript.LoadLevelSettings();
+        NewGameScript.LoadLevelSettings();
         Application.LoadLevel(3);
     }
 

@@ -142,6 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed80a02a0ab65184ebc2a1e55728b06a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: GroundPathEnemy
   velocity: 1
 --- !u!212 &21237478
 SpriteRenderer:
@@ -191,6 +192,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Layer
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: type
+      value: GroundPathEnemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

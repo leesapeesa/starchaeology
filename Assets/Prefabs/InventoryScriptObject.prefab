@@ -114,13 +114,29 @@ MonoBehaviour:
   inY: 0
   totalSlots: 20
   slot: {fileID: 112380, guid: 8d92ee34dd0f94cbda21fc0c0bc9ea8f, type: 2}
+  healthCollectible: {fileID: 155344, guid: 82cb542c20eda4628b34abfa413c178b, type: 2}
+  timerCollectible: {fileID: 193680, guid: ea1ce19fcb1c6454582c74f8a3141ba4, type: 2}
+  specialItemCollectible: {fileID: 100748, guid: bcf3c44d60899a540a6ad9277fed2146,
+    type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: healthCollectible
+      value: 
+      objectReference: {fileID: 155344, guid: 82cb542c20eda4628b34abfa413c178b, type: 2}
+    - target: {fileID: 0}
+      propertyPath: timerCollectible
+      value: 
+      objectReference: {fileID: 193680, guid: ea1ce19fcb1c6454582c74f8a3141ba4, type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialItemCollectible
+      value: 
+      objectReference: {fileID: 100748, guid: bcf3c44d60899a540a6ad9277fed2146, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 147892}

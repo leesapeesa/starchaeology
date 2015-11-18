@@ -4,9 +4,13 @@ using System;
 
 public class PointCollectible : Collectible
 {
+    public const string typeString = "Point";
+
     public static int points = 2;
 
     public override bool usable { get { return false; } }
+
+    public override string type { get { return typeString; } }
 
     protected override void Start()
     {

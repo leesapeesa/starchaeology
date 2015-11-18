@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 public class ItemsObjective : Objective {
     /* Win condition: Collect all collectibles
      * Loss condition: None */
+
+    public const string type = "Items";
 
     private ItemManager itemManager;
 
@@ -13,6 +14,8 @@ public class ItemsObjective : Objective {
         Text text = GameObject.Find("Timer").GetComponent<Text>();
         text.enabled = false;
     }
+
+    public override string Type { get { return type; } }
 
     public override bool ObjectiveComplete() {
         if (itemManager.allCollected == true) {

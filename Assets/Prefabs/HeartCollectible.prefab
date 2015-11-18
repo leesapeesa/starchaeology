@@ -54,8 +54,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4620b36a3d330984b9639754998ae9f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: Health
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: c8b88309c89ae8e478981f5b4313ba79, type: 3}
   value: 50
   pickupSound: {fileID: 8300000, guid: 8904096a3646d43fd88ea2a4d254fa10, type: 3}
 --- !u!212 &21229384
@@ -123,6 +122,11 @@ Prefab:
       propertyPath: m_Color.b
       value: .308316261
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: itemIcon
+      value: 
+      objectReference: {fileID: 21300000, guid: c8b88309c89ae8e478981f5b4313ba79,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 155344}

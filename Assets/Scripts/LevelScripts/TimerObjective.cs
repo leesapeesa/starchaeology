@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
 public class TimerObjective : Objective { 
     /* Win condition: Reach a score of 10
@@ -10,6 +11,7 @@ public class TimerObjective : Objective {
     public float timeRemaining;
 
     public static int winningScore = 5;
+    public const string type = "Timer";
 
     private bool objectiveComplete = false;
     private Text text;
@@ -25,6 +27,8 @@ public class TimerObjective : Objective {
     //make sure there are enough point collectibles spawned to finish this objective
     public override int NumPointItems { get { return winningScore / PointCollectible.points + 1; } }
 
+    public override string Type { get { return type; } }
+
     public override bool ObjectiveComplete () {
         if (PersistentPlayerSettings.settings.levelScore >= winningScore) {
             Debug.Log ("Objective Complete: " + PersistentPlayerSettings.settings.levelScore);
@@ -34,7 +38,7 @@ public class TimerObjective : Objective {
     }
 
     public override bool ObjectiveFailed () {
-        timeRemaining = timeLimit - Time.timeSinceLevelLoad + player.extraTime;
+        timeRemaining = timeLimit - Time.timeSinceLevelLoad - PersistentLevelSettings.settings.savedTime + player.extraTime;
         int timeAsInt = (int)timeRemaining;
         text.text = timeAsInt.ToString();
 

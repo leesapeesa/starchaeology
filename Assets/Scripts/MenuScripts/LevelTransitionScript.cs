@@ -76,14 +76,17 @@ public class LevelTransitionScript : MonoBehaviour {
 
     void OnDestroy() {
         print ("switching levels");
-        PersistentTerrainSettings.settings.gravityEffect = Random.Range (0.5f, maxGravity);
-        print (PersistentTerrainSettings.settings.gravityEffect);
-        if (PersistentPlayerSettings.settings == null) {
-            // It will be null if we're loading the level from the New Game screen for the
-            // first time.
-            print ("PersistentPlayerSettings doesn't exist");
-            return;
+        //Only reset parameters if we are doing a normal level load, not restoring a savegame
+        if (!PersistentLevelSettings.settings.loadFromSave) {
+            PersistentTerrainSettings.settings.gravityEffect = Random.Range(0.5f, maxGravity);
+            print(PersistentTerrainSettings.settings.gravityEffect);
+            if (PersistentPlayerSettings.settings == null) {
+                // It will be null if we're loading the level from the New Game screen for the
+                // first time.
+                print("PersistentPlayerSettings doesn't exist");
+                return;
+            }
+            PersistentPlayerSettings.settings.levelScore = 0;
         }
-        PersistentPlayerSettings.settings.levelScore = 0;
     }
 }

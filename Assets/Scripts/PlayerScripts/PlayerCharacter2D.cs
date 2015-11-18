@@ -65,6 +65,10 @@ public class PlayerCharacter2D : MonoBehaviour
         m_health = PersistentPlayerSettings.settings.health;
 
         m_PlayingDeath = false;
+
+        //Reload saved value of extra time if we are loading from a saved game
+        if (PersistentLevelSettings.settings.loadFromSave)
+            m_extraTime = PersistentPlayerSettings.settings.extraTime;
     }
     
 
@@ -100,6 +104,9 @@ public class PlayerCharacter2D : MonoBehaviour
 
     void Update()
     {
+        // Update saved extra time
+        PersistentPlayerSettings.settings.extraTime = m_extraTime;
+
         // Upon death, play death sound
         if (health <= 0 && !m_PlayingDeath) {
             m_AudioSource.Stop();
@@ -172,6 +179,8 @@ public class PlayerCharacter2D : MonoBehaviour
             m_AudioSource.volume = 1;
             m_AudioSource.PlayOneShot(m_AudioJump);
         }
+        // update player position tracking
+        PersistentPlayerSettings.settings.playerPos = m_Rigidbody2D.transform.position;
     }
 
     private void OnTriggerEnter2D(Collider2D other) {

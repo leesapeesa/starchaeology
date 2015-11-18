@@ -4,6 +4,10 @@ using System;
 
 public class TimeCollectible : Collectible
 {
+    public const string typeString = "Time";
+
+    public override string type { get { return typeString; } }
+
     public override void OnCollect()
     {
         InventoryScript.inventory.AddItemToInventory(this);

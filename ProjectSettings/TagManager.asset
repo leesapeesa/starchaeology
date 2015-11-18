@@ -19,6 +19,9 @@ TagManager:
   - Spaceship
   - Terrain
   - ObjectManager
+  - Rock
+  - BouncyBox
+  - LevelObject
   layers:
   - Default
   - TransparentFX

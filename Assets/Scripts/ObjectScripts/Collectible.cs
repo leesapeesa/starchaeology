@@ -3,7 +3,6 @@ using System.Collections;
 
 
 public abstract class Collectible : NonPlayerObject {
-    public string type;
     public Sprite itemIcon;
     public int value;
     public AudioClip pickupSound;
@@ -14,6 +13,8 @@ public abstract class Collectible : NonPlayerObject {
     }
 
     public virtual bool usable { get { return true; } }
+
+    public abstract string type { get; }
 
     public abstract void OnUse(PlayerCharacter2D player);
     public abstract void OnCollect();

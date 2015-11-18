@@ -140,7 +140,17 @@ public class Difficulty {
     /// </summary>
     public void SaveDifficulty(int slotId)
     {
-        PlayerPrefs.SetFloat("difficulty" + slotId, difficulty);
+        PlayerPrefs.SetInt("difficulty" + slotId, difficulty);
+        PlayerPrefs.SetInt("difficultySetting" + slotId, (int)setting);
+    }
+
+    /// <summary>
+    /// Load a saved difficulty value from permanent storage
+    /// </summary>
+    public void LoadDifficulty(int slotId)
+    {
+        difficulty = PlayerPrefs.GetInt("difficulty" + slotId);
+        setting = (DifficultySetting)PlayerPrefs.GetInt("difficultySetting" + slotId);
     }
 
     /// <summary>

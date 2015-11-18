@@ -21,6 +21,9 @@ public class PersistentLevelSettings : MonoBehaviour {
     public int numPoisonClouds = 4;
     public int numSlowClouds = 5;
     public int collectCount = 10;
+    public bool loadFromSave = false; //says whether the currently loading level is being loaded from a savegame
+    public int loadSlot = -1; //if the above is true, what slot are we loading from?
+    public float savedTime = 0; //how much time had elapsed in the saved level before we saved it?
     public Difficulty difficulty;
 
     public Fortunes fortunes;
@@ -45,6 +48,9 @@ public class PersistentLevelSettings : MonoBehaviour {
         numEnemies = 3;
         numPoisonClouds = 4;
         numSlowClouds = 5;
+        loadFromSave = false;
+        loadSlot = -1;
+        savedTime = 0;
         difficulty = new Difficulty(DifficultySetting.EASY, NUM_PLANETS_EASY);
         fortunes = new Fortunes ();
     }
@@ -55,5 +61,19 @@ public class PersistentLevelSettings : MonoBehaviour {
     public void SaveLevelSettings(int slotId)
     {
         PlayerPrefs.SetInt("levelProgress" + slotId, numPlanetsCleared);
+        PlayerPrefs.SetInt("totalPlanets" + slotId, numPlanetsTotal);
+        PlayerPrefs.SetFloat("savedTime" + slotId, Time.timeSinceLevelLoad);
+    }
+
+    /// <summary>
+    /// Load saved level settings from the specified slot
+    /// </summary>
+    public void LoadLevelSettings(int slotId)
+    {
+        loadFromSave = true; //make the level load saved settings rather than randomly generating them
+        loadSlot = slotId;
+        numPlanetsCleared = PlayerPrefs.GetInt("levelProgress" + slotId);
+        numPlanetsTotal = PlayerPrefs.GetInt("totalPlanets" + slotId);
+        savedTime = PlayerPrefs.GetFloat("savedTime" + slotId);
     }
 }

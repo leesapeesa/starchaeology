@@ -32,17 +32,22 @@ public class ItemManager : MonoBehaviour {
     private float closestToEdge = 5f;
     private List<Transform> collectibles;
     private List<Transform> specialItems;
+    private List<Transform> clouds;
+    private List<Transform> platforms;
+    private List<Transform> enemies;
+    private List<Transform> obstacles;
     private float gravityEffect;
     private Dictionary<Transform, float> pTable; //enemy type probability table
 
-    private const float PLATFORM_HEIGHT = 0.6f; //The platform height
-    private const float PLATFORM_LENGTH = 2.5f;
+    private const float PLATFORM_HEIGHT = 1.28f; //The platform height
+    private const float PLATFORM_LENGTH = 5.12f;
     private const float MIN_PLATFORM_HEIGHT = 1.25f; // Minimum crouching height
     private const float SPACESHIP_POSITION = 6f;
     private const float SPACESHIP_HEIGHT = 6.8f;
     private const float SPACESHIP_DEPTH = 3.25f;
     private const float RAYCAST_ORIGIN = 1000;
     private const int POINT_COLLECTIBLE_INDEX = 0; //index of the point collectible in the collectibles list
+    private const float LOAD_GAME_HEIGHT_OFFSET = 0.5f; //start things slightly above ground on load, so they don't get stuck in ground
 
     // Use this for initialization
     void Start() {
@@ -76,6 +81,10 @@ public class ItemManager : MonoBehaviour {
 
         collectibles = new List<Transform>();
         specialItems = new List<Transform>();
+        clouds = new List<Transform>();
+        platforms = new List<Transform>();
+        enemies = new List<Transform>();
+        obstacles = new List<Transform>();
     }
 
     void Update() {
@@ -110,15 +119,30 @@ public class ItemManager : MonoBehaviour {
         //First, make sure we will have enough items to complete the objective
         collectCount = Mathf.Max(collectCount, objective.NumSpecialItems, objective.NumPointItems);
 
-        addCollectibles(objective);
-        addObjects(bouncyBox, boxCount, 2);
-        addObjects(slowCloud, slowCloudCount, 2);
-        addObjects(stickyBox, boxCount, 5);
-        addObjects(poisonCloud, poisonCloudCount, 2);
-        addPlatforms(jumpPlatform, jumpPlatformCount, apex() - PLATFORM_HEIGHT);
-        addEnemies(enemyCount);
+        //If we are starting a level normally, randomly initialize all items. Otherwise, restore the items
+        //from saved parameters.
+        if (!PersistentLevelSettings.settings.loadFromSave) {
+            addCollectibles(objective);
+            addObjects(bouncyBox, boxCount, obstacles, 2);
+            addObjects(slowCloud, slowCloudCount, clouds, 2);
+            addObjects(stickyBox, boxCount, obstacles, 5);
+            addObjects(poisonCloud, poisonCloudCount, clouds, 2);
+            addPlatforms(jumpPlatform, jumpPlatformCount, apex() - PLATFORM_HEIGHT);
+            addEnemies(enemyCount);
+            maybeAddSpecialItems(objective);
+        } else {
+            int slotId = PersistentLevelSettings.settings.loadSlot;
+            RestoreCollectibles(slotId);
+            RestoreSpecialItems(slotId);
+            RestoreObstacles(slotId);
+            RestoreClouds(slotId);
+            RestorePlatforms(slotId);
+            RestoreEnemies(slotId);
+            float playerX = PlayerPrefs.GetFloat("playerx" + slotId);
+            float playerY = PlayerPrefs.GetFloat("playery" + slotId);
+            movePlayer(new Vector2(playerX, playerY + LOAD_GAME_HEIGHT_OFFSET));
+        }
         addSpaceship();
-        maybeAddSpecialItems(objective);
     }
 
     private void addCollectibles(Objective objective) {
@@ -197,12 +221,12 @@ public class ItemManager : MonoBehaviour {
         return initialVelocity * initialVelocity / (2 * gravity);
     }
 
-    private void addObjects(Transform obj, int count, float height = 2f)
+    private void addObjects(Transform obj, int count, List<Transform> objectList, float height = 2f)
     {
         for (int i = 0; i < count; ++i) {
             Vector2 position;
             GetRandomPointAboveWalkable(height, out position);
-            Instantiate(obj, position, Quaternion.identity);
+            objectList.Add(Instantiate(obj, position, Quaternion.identity) as Transform);
         }
     }
 
@@ -215,7 +239,7 @@ public class ItemManager : MonoBehaviour {
             position.x = position.x + PLATFORM_LENGTH / 2;
             position.y = position.y + PLATFORM_HEIGHT / 2;
 
-            Instantiate(obj, position, Quaternion.identity);
+            platforms.Add(Instantiate(obj, position, Quaternion.identity) as Transform);
         }
     }
 
@@ -232,7 +256,7 @@ public class ItemManager : MonoBehaviour {
                     Vector2 position;
                     GetRandomPointAboveWalkable(unreachableFactor, out position);
                     position = position + new Vector2(0, 5f);
-                    Instantiate(enemy, position, Quaternion.identity);
+                    enemies.Add(Instantiate(enemy, position, Quaternion.identity) as Transform);
                     prior += pTable[enemy];
                     break;
                 }
@@ -276,7 +300,8 @@ public class ItemManager : MonoBehaviour {
             if (hit.collider != null) {
                 Vector2 spaceshipPosition = new Vector2(xPos, hit.point.y + SPACESHIP_HEIGHT / 2);
                 Instantiate(spaceship, spaceshipPosition, Quaternion.identity);
-                movePlayer (spaceshipPosition);
+                if (!PersistentLevelSettings.settings.loadFromSave)
+                    movePlayer (spaceshipPosition);
             }
         }
     }
@@ -284,6 +309,114 @@ public class ItemManager : MonoBehaviour {
     // Moves the player's starting position to be right next to the spaceship.
     private void movePlayer(Vector2 position) {
         GameObject.Find ("Player").transform.position = position;
+    }
+
+    /// <summary>
+    /// Re-instantiate collectibles in the positions saved in the specified slots
+    /// </summary>
+    private void RestoreCollectibles(int slotId)
+    {
+        int numSavedCollectibles = PlayerPrefs.GetInt("numCollectibles" + slotId);
+        for (int i = 0; i < numSavedCollectibles; ++i) {
+            float xPos = PlayerPrefs.GetFloat("collectible" + i + "x" + slotId);
+            float yPos = PlayerPrefs.GetFloat("collectible" + i + "y" + slotId);
+            Vector2 pos = new Vector2(xPos, yPos);
+            string collectibleType = PlayerPrefs.GetString("collectible" + i + "type" + slotId);
+            //instantiate the correct collectible type
+            for (int type = 0; type < collectibleList.Length; ++type) {
+                if (collectibleType == collectibleList[type].gameObject.GetComponent<Collectible>().type)
+                    collectibles.Add(Instantiate(collectibleList[type].transform, pos, Quaternion.identity) as Transform);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Re-instantiate special items in the positions saved in the specified slots
+    /// </summary>
+    private void RestoreSpecialItems(int slotId)
+    {
+        int numSavedSpecialItems = PlayerPrefs.GetInt("numSpecialItems" + slotId);
+        for (int i = 0; i < numSavedSpecialItems; ++i) {
+            float xPos = PlayerPrefs.GetFloat("specialItem" + i + "x" + slotId);
+            float yPos = PlayerPrefs.GetFloat("specialItem" + i + "y" + slotId);
+            Vector2 pos = new Vector2(xPos, yPos);
+            specialItems.Add(Instantiate(specialItem, pos, Quaternion.identity) as Transform);
+        }
+    }
+
+    /// <summary>
+    /// Re-instantiate clouds in the positions saved in the specified slots
+    /// </summary>
+    private void RestoreClouds(int slotId)
+    {
+        int numSavedClouds = PlayerPrefs.GetInt("numClouds" + slotId);
+        for (int i = 0; i < numSavedClouds; ++i) {
+            float xPos = PlayerPrefs.GetFloat("cloud" + i + "x" + slotId);
+            float yPos = PlayerPrefs.GetFloat("cloud" + i + "y" + slotId);
+            Vector2 pos = new Vector2(xPos, yPos);
+            string cloudType = PlayerPrefs.GetString("cloud" + i + "type" + slotId);
+            //Instantiate the correct type of cloud
+            Transform result = null;
+            if (cloudType == poisonCloud.gameObject.tag)
+                result = poisonCloud;
+            else if (cloudType == slowCloud.gameObject.tag)
+                result = slowCloud;
+            clouds.Add(Instantiate(result, pos, Quaternion.identity) as Transform);
+        }
+    }
+
+    /// <summary>
+    /// Re-instantiate platforms in the positions saved in the specified slots
+    /// </summary>
+    private void RestorePlatforms(int slotId)
+    {
+        int numSavedPlatforms = PlayerPrefs.GetInt("numPlatforms" + slotId);
+        for (int i = 0; i < numSavedPlatforms; ++i) {
+            float xPos = PlayerPrefs.GetFloat("platform" + i + "x" + slotId);
+            float yPos = PlayerPrefs.GetFloat("platform" + i + "y" + slotId);
+            Vector2 pos = new Vector2(xPos, yPos);
+            platforms.Add(Instantiate(jumpPlatform, pos, Quaternion.identity) as Transform);
+        }
+    }
+
+    /// <summary>
+    /// Re-instantiate enemies in the positions saved in the specified slots
+    /// </summary>
+    private void RestoreEnemies(int slotId)
+    {
+        int numSavedEnemies = PlayerPrefs.GetInt("numEnemies" + slotId);
+        for (int i = 0; i < numSavedEnemies; ++i) {
+            float xPos = PlayerPrefs.GetFloat("enemy" + i + "x" + slotId);
+            float yPos = PlayerPrefs.GetFloat("enemy" + i + "y" + slotId);
+            Vector2 pos = new Vector2(xPos, yPos + LOAD_GAME_HEIGHT_OFFSET);
+            string enemyType = PlayerPrefs.GetString("enemy" + i + "type" + slotId);
+            //Instantiate the correct type of enemy
+            for (int type = 0; type < enemyList.Length; ++type) {
+                if (enemyType == enemyList[type].gameObject.GetComponent<Enemy>().type)
+                    enemies.Add(Instantiate(enemyList[type].transform, pos, Quaternion.identity) as Transform);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Re-instantiate obstacles in the positions saved in the specified slots
+    /// </summary>
+    private void RestoreObstacles(int slotId)
+    {
+        int numSavedObstacles = PlayerPrefs.GetInt("numObstacles" + slotId);
+        for (int i = 0; i < numSavedObstacles; ++i) {
+            float xPos = PlayerPrefs.GetFloat("obstacle" + i + "x" + slotId);
+            float yPos = PlayerPrefs.GetFloat("obstacle" + i + "y" + slotId);
+            Vector2 pos = new Vector2(xPos, yPos + LOAD_GAME_HEIGHT_OFFSET);
+            string obstacleType = PlayerPrefs.GetString("obstacle" + i + "type" + slotId);
+            //Instantiate the correct type of cloud
+            Transform result = null;
+            if (obstacleType == bouncyBox.gameObject.tag)
+                result = bouncyBox;
+            else if (obstacleType == stickyBox.gameObject.tag)
+                result = stickyBox;
+            obstacles.Add(Instantiate(result, pos, Quaternion.identity) as Transform);
+        }
     }
 
     public void RemoveFromScene(NonPlayerObject npo) {
@@ -296,5 +429,52 @@ public class ItemManager : MonoBehaviour {
     public int GetSpecialItemsRemaining()
     {
         return specialItems.Count;
+    }
+
+    /// <summary>
+    /// Save the position and type of all items currently on the map
+    /// </summary>
+    public void SaveItems(int slotId)
+    {
+        //Save collectibles
+        PlayerPrefs.SetInt("numCollectibles" + slotId, collectibles.Count);
+        for (int i = 0; i < collectibles.Count; ++i) {
+            PlayerPrefs.SetFloat("collectible" + i + "x" + slotId, collectibles[i].position.x);
+            PlayerPrefs.SetFloat("collectible" + i + "y" + slotId, collectibles[i].position.y);
+            PlayerPrefs.SetString("collectible" + i + "type" + slotId, collectibles[i].gameObject.GetComponent<Collectible>().type);
+        }
+        //Save special items
+        PlayerPrefs.SetInt("numSpecialItems" + slotId, specialItems.Count);
+        for (int i = 0; i < specialItems.Count; ++i) {
+            PlayerPrefs.SetFloat("specialItem" + i + "x" + slotId, specialItems[i].position.x);
+            PlayerPrefs.SetFloat("specialItem" + i + "y" + slotId, specialItems[i].position.y);
+        }
+        //Save clouds (insert obligatory FFVII joke here)
+        PlayerPrefs.SetInt("numClouds" + slotId, clouds.Count);
+        for (int i = 0; i < clouds.Count; ++i) {
+            PlayerPrefs.SetFloat("cloud" + i + "x" + slotId, clouds[i].position.x);
+            PlayerPrefs.SetFloat("cloud" + i + "y" + slotId, clouds[i].position.y);
+            PlayerPrefs.SetString("cloud" + i + "type" + slotId, clouds[i].gameObject.tag);
+        }
+        //Save platforms
+        PlayerPrefs.SetInt("numPlatforms" + slotId, platforms.Count);
+        for (int i = 0; i < platforms.Count; ++i) {
+            PlayerPrefs.SetFloat("platform" + i + "x" + slotId, platforms[i].position.x);
+            PlayerPrefs.SetFloat("platform" + i + "y" + slotId, platforms[i].position.y);
+        }
+        //Save enemies
+        PlayerPrefs.SetInt("numEnemies" + slotId, enemies.Count);
+        for (int i = 0; i < enemies.Count; ++i) {
+            PlayerPrefs.SetFloat("enemy" + i + "x" + slotId, enemies[i].position.x);
+            PlayerPrefs.SetFloat("enemy" + i + "y" + slotId, enemies[i].position.y);
+            PlayerPrefs.SetString("enemy" + i + "type" + slotId, enemies[i].gameObject.GetComponent<Enemy>().type);
+        }
+        //Save obstacles
+        PlayerPrefs.SetInt("numObstacles" + slotId, obstacles.Count);
+        for (int i = 0; i < obstacles.Count; ++i) {
+            PlayerPrefs.SetFloat("obstacle" + i + "x" + slotId, obstacles[i].position.x);
+            PlayerPrefs.SetFloat("obstacle" + i + "y" + slotId, obstacles[i].position.y);
+            PlayerPrefs.SetString("obstacle" + i + "type" + slotId, obstacles[i].gameObject.tag);
+        }
     }
 }

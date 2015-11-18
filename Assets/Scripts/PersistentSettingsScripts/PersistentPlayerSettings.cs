@@ -11,6 +11,8 @@ public class PersistentPlayerSettings : MonoBehaviour {
     public int levelScore = 0; // Score for the level.
     public float health = 100f;
     public float jumpForce = 400f;
+    public Vector2 playerPos;
+    public float extraTime;
 
     void Awake () {
         if (settings == null) {
@@ -30,6 +32,7 @@ public class PersistentPlayerSettings : MonoBehaviour {
         overallScore = 0;
         health = PlayerCharacter2D.MAX_HEALTH;
         jumpForce = 400f;
+        playerPos = Vector2.zero;
         if (inventory)
             inventory.EmptyInventory ();
     }
@@ -41,6 +44,21 @@ public class PersistentPlayerSettings : MonoBehaviour {
     {
         PlayerPrefs.SetInt("levelScore" + slotId, levelScore);
         PlayerPrefs.SetFloat("health" + slotId, health);
+        PlayerPrefs.SetFloat("playerx" + slotId, playerPos.x);
+        PlayerPrefs.SetFloat("playery" + slotId, playerPos.y);
+        PlayerPrefs.SetFloat("extraTime" + slotId, extraTime);
+    }
+
+    /// <summary>
+    /// Load all saved player settings from the specified save slot
+    /// </summary>
+    public void LoadPlayerSettings(int slotId)
+    {
+        levelScore = PlayerPrefs.GetInt("levelScore" + slotId);
+        health = PlayerPrefs.GetFloat("health" + slotId);
+        playerPos.x = PlayerPrefs.GetFloat("playerx" + slotId);
+        playerPos.y = PlayerPrefs.GetFloat("playery" + slotId);
+        extraTime = PlayerPrefs.GetFloat("extraTime" + slotId);
     }
 
     void OnDestroy() {

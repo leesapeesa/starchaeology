@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class LoadGameScript : MonoBehaviour {
+public class NewGameScript : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
@@ -31,6 +31,8 @@ public class LoadGameScript : MonoBehaviour {
     public void NextLevel()
     {
         PersistentLevelSettings.settings.numPlanetsCleared++;
+        PersistentLevelSettings.settings.loadFromSave = false;
+        PersistentLevelSettings.settings.savedTime = 0;
         if (PersistentLevelSettings.settings.numPlanetsCleared >= PersistentLevelSettings.settings.numPlanetsTotal)
             Application.LoadLevel(4);
         else {
