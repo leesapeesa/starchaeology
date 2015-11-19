@@ -17,7 +17,7 @@ public class SpecialItemCollectible : Collectible {
 
     public override void OnUse(PlayerCharacter2D player)
     {
-        InventoryScript.inventory.RemoveItemFromPossibleInventory(this);
+        return; //the special item should not do anything.
     }
 
     public override void AddToPossibleInventory() {
