@@ -27,6 +27,7 @@ public class PersistentLevelSettings : MonoBehaviour {
     public Difficulty difficulty;
 
     public Fortunes fortunes;
+    public TextAsset fortuneText; //Assign in inspector
 
     void Awake()
     {
@@ -52,7 +53,7 @@ public class PersistentLevelSettings : MonoBehaviour {
         loadSlot = -1;
         savedTime = 0;
         difficulty = new Difficulty(DifficultySetting.EASY, NUM_PLANETS_EASY);
-        fortunes = new Fortunes ();
+        fortunes = new Fortunes (fortuneText);
     }
 
     /// <summary>

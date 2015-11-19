@@ -40,14 +40,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numPlanetsCleared: 0
-  numPlanetsRemaining: 10
+  numPlanetsTotal: 10
+  numEnemies: 3
+  poisonAmount: .100000001
+  numPoisonClouds: 4
+  numSlowClouds: 5
+  collectCount: 10
+  loadFromSave: 0
+  loadSlot: -1
+  savedTime: 0
+  fortuneText: {fileID: 4900000, guid: 610e23b3d7b834e4e8dff8736f6b17a2, type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: fortuneText
+      value: 
+      objectReference: {fileID: 4900000, guid: 610e23b3d7b834e4e8dff8736f6b17a2, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 184620}
