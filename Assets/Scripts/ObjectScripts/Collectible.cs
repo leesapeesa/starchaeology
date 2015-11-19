@@ -10,6 +10,7 @@ public abstract class Collectible : NonPlayerObject {
     protected virtual void Start() {
         // Icon Image for inventory.
         itemIcon = gameObject.GetComponent<SpriteRenderer> ().sprite;
+        AddToPossibleInventory();
     }
 
     public virtual bool usable { get { return true; } }
