@@ -17,4 +17,8 @@ public class HealthCollectible : Collectible {
     {
         player.health += value;
     }
+
+    public override void AddToPossibleInventory() {
+        InventoryScript.inventory.AddItemToPossibleInventory(this);
+    }
 }

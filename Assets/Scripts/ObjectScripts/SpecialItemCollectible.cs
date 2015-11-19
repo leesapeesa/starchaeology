@@ -19,4 +19,7 @@ public class SpecialItemCollectible : Collectible {
     {
         Debug.Log("Player clicked on golden idol! What permanent thing should we do here?");
     }
+
+    public override void AddToPossibleInventory() {
+    }
 }

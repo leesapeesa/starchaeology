@@ -17,4 +17,9 @@ public class TimeCollectible : Collectible
     {
         player.AddTime (value);
     }
+
+    public override void AddToPossibleInventory() {
+        InventoryScript.inventory.AddItemToPossibleInventory(this);
+    }
+
 }

@@ -29,4 +29,8 @@ public class PointCollectible : Collectible
     {
         throw new NotImplementedException();
     }
+
+    public override void AddToPossibleInventory() {
+        throw new NotImplementedException();
+    }
 }

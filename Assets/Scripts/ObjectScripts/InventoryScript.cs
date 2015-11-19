@@ -83,14 +83,23 @@ public class InventoryScript : MonoBehaviour {
     /// </summary>
     /// <param name="item">Item.</param>
     public void AddItemToInventory(Collectible item) {
-        print ("added Item to inventory!");
-        if (!inventorySlots.ContainsKey (item.type))
+        print("added Item to inventory!");
+        if (!inventorySlots.ContainsKey(item.type))
             inventorySlots.Add(item.type, new Entry(item, 1));
         else
-            inventorySlots [item.type]++;
+            inventorySlots[item.type]++;
 
         DrawInventory();
     }
+
+    public void AddItemToPossibleInventory(Collectible item) {
+        print("Item added to possible inventory!");
+        if (!inventorySlots.ContainsKey(item.type))
+            inventorySlots.Add(item.type, new Entry(item, 0));
+
+        DrawInventory();
+    }
+
 
     /// <summary>
     /// Remove item from inventory by decrementing the amount
@@ -103,15 +112,17 @@ public class InventoryScript : MonoBehaviour {
             print ("Item missing");
             return;
         }
+
+        int numItem = inventorySlots[item.type].amount;
+        if (numItem == 0) {
+            return;
+        }
+
         // Update GameObject Counter;
         player = GameObject.Find ("Player").transform.GetComponent<PlayerCharacter2D> ();
         item.OnUse(player);
         --inventorySlots [item.type];
 
-        // If there are no more, then remove the item from the Dictionary.
-        if (inventorySlots [item.type].Empty()) {
-            inventorySlots.Remove(item.type);
-        }
         DrawInventory();
         audioSource.Play();
     }
@@ -120,20 +131,32 @@ public class InventoryScript : MonoBehaviour {
     /// Draws the GUI for the inventory.
     /// </summary>
     public void DrawInventory() {
-        print ("Drawing Inventory");
-        RemoveAllOldSlots ();
+        print("Drawing Inventory");
+        RemoveAllOldSlots();
         foreach (KeyValuePair<string, Entry> pair in inventorySlots) {
-            print ("pair" + pair.Key.ToString());
+            print("pair" + pair.Key.ToString());
             Entry entry = pair.Value;
+
             Collectible collectible = entry.item;
-            print(collectible.itemIcon);
+
             // We need to make the slot.
-            GameObject go = Instantiate (slot, new Vector3 (0, 0, 0), Quaternion.identity) as GameObject;
+            GameObject go = Instantiate(slot, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+
+            // If we don't have any of the item, grey it out
+            if (entry.amount == 0) {
+                go.transform.GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+                go.transform.FindChild("Item").gameObject.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
+                print("entry amount is 0");
+            } else {
+                go.transform.GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+                go.transform.FindChild("Item").gameObject.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+            }
+
             go.transform.GetComponent<SlotScript>().item = collectible;
-            go.transform.FindChild ("Item").gameObject.GetComponent<Image> ().sprite = collectible.itemIcon;
+            go.transform.FindChild("Item").gameObject.GetComponent<Image>().sprite = collectible.itemIcon;
             go.transform.FindChild("Counter").gameObject.GetComponent<Text>().text = entry.amount.ToString();
-            go.transform.SetParent (slotPanel.transform);
-            go.transform.localScale = new Vector3 (1, 1, 1);
+            go.transform.SetParent(slotPanel.transform);
+            go.transform.localScale = new Vector3(1, 1, 1);
         }
     }
 

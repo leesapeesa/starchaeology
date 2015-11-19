@@ -18,4 +18,5 @@ public abstract class Collectible : NonPlayerObject {
 
     public abstract void OnUse(PlayerCharacter2D player);
     public abstract void OnCollect();
+    public abstract void AddToPossibleInventory();
 }
