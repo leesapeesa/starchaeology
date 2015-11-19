@@ -251,7 +251,7 @@ public class PlayerCharacter2D : MonoBehaviour
         //Deposit the special item in the spaceship if the player has it.
         if (InventoryScript.inventory.HasItemOfType("SpecialItem")) {
             Collectible specialItem = InventoryScript.inventory.GetItemOfType("SpecialItem");
-            InventoryScript.inventory.RemoveItemFromInventory(specialItem);
+            InventoryScript.inventory.RemoveItemFromPossibleInventory(specialItem);
         }
     }
 }

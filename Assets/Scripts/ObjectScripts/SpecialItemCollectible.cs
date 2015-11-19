@@ -17,7 +17,7 @@ public class SpecialItemCollectible : Collectible {
 
     public override void OnUse(PlayerCharacter2D player)
     {
-        Debug.Log("Player clicked on golden idol! What permanent thing should we do here?");
+        InventoryScript.inventory.RemoveItemFromPossibleInventory(this);
     }
 
     public override void AddToPossibleInventory() {

@@ -113,6 +113,7 @@ public class InventoryScript : MonoBehaviour {
             return;
         }
 
+        // Only remove items from the inventory if the count is 0
         int numItem = inventorySlots[item.type].amount;
         if (numItem == 0) {
             return;
@@ -122,6 +123,26 @@ public class InventoryScript : MonoBehaviour {
         player = GameObject.Find ("Player").transform.GetComponent<PlayerCharacter2D> ();
         item.OnUse(player);
         --inventorySlots [item.type];
+
+        DrawInventory();
+        audioSource.Play();
+    }
+
+    public void RemoveItemFromPossibleInventory(Collectible item) {
+        print("Removing item from possible inventory");
+
+        Assert.IsNotNull(item);
+        if (!inventorySlots.ContainsKey(item.type)) {
+            print("Item missing");
+            return;
+        }
+
+        // Update GameObject Counter;
+        player = GameObject.Find("Player").transform.GetComponent<PlayerCharacter2D>();
+        item.OnUse(player);
+        --inventorySlots[item.type];
+
+        inventorySlots.Remove(item.type);
 
         DrawInventory();
         audioSource.Play();
