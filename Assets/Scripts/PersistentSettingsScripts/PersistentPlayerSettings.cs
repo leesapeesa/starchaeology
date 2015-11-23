@@ -49,6 +49,7 @@ public class PersistentPlayerSettings : MonoBehaviour {
         PlayerPrefs.SetFloat("playery" + slotId, playerPos.y);
         PlayerPrefs.SetFloat("extraTime" + slotId, extraTime);
         PlayerPrefs.SetString("playerName" + slotId, playerName);
+        PlayerPrefs.SetInt("overallScore" + slotId, overallScore);
     }
 
     /// <summary>
@@ -62,6 +63,7 @@ public class PersistentPlayerSettings : MonoBehaviour {
         playerPos.y = PlayerPrefs.GetFloat("playery" + slotId);
         extraTime = PlayerPrefs.GetFloat("extraTime" + slotId);
         playerName = PlayerPrefs.GetString("playerName" + slotId);
+        overallScore = PlayerPrefs.GetInt("overallScore" + slotId);
     }
 
     void OnDestroy() {

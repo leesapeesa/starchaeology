@@ -21,7 +21,7 @@ public class PointCollectible : Collectible
     public override void OnCollect()
     {
         PersistentPlayerSettings.settings.levelScore += value;
-        //PersistentPlayerSettings.settings.scoreText.text = "Score: " + PersistentPlayerSettings.settings.score.ToString();
+        PersistentPlayerSettings.settings.overallScore += value;
         print("Score: " + PersistentPlayerSettings.settings.levelScore);
     }
 

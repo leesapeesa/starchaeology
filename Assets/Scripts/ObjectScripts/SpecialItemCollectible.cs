@@ -12,6 +12,7 @@ public class SpecialItemCollectible : Collectible {
     public override void OnCollect()
     {
         PersistentPlayerSettings.settings.levelScore += value;
+        PersistentPlayerSettings.settings.overallScore += value;
         InventoryScript.inventory.AddItemToInventory(this);
     }
 

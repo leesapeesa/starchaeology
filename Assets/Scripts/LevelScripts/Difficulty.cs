@@ -145,6 +145,7 @@ public class Difficulty {
     {
         PlayerPrefs.SetInt("difficulty" + slotId, difficulty);
         PlayerPrefs.SetInt("difficultySetting" + slotId, (int)setting);
+        PlayerPrefs.SetInt("difficultyNumLevels" + slotId, numLevels);
     }
 
     /// <summary>
@@ -154,6 +155,7 @@ public class Difficulty {
     {
         difficulty = PlayerPrefs.GetInt("difficulty" + slotId);
         setting = (DifficultySetting)PlayerPrefs.GetInt("difficultySetting" + slotId);
+        numLevels = PlayerPrefs.GetInt("difficultyNumLevels" + slotId);
     }
 
     /// <summary>
