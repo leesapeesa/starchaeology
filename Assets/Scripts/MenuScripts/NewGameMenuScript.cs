@@ -6,6 +6,7 @@ using System.Collections;
 public class NewGameMenuScript : MonoBehaviour {
 
     public Button startButton;
+    public InputField playerNameInput;
 
     // Use this for initialization
     void Start () {
@@ -19,6 +20,7 @@ public class NewGameMenuScript : MonoBehaviour {
     // Should be changed to reflect how we end up loading the game
     public void NewGame() {
         NewGameScript.LoadLevelSettings();
+        PersistentPlayerSettings.settings.playerName = playerNameInput.text;
         Application.LoadLevel(3);
     }
 

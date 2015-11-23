@@ -13,6 +13,7 @@ public class PersistentPlayerSettings : MonoBehaviour {
     public float jumpForce = 400f;
     public Vector2 playerPos;
     public float extraTime;
+    public string playerName;
 
     void Awake () {
         if (settings == null) {
@@ -47,6 +48,7 @@ public class PersistentPlayerSettings : MonoBehaviour {
         PlayerPrefs.SetFloat("playerx" + slotId, playerPos.x);
         PlayerPrefs.SetFloat("playery" + slotId, playerPos.y);
         PlayerPrefs.SetFloat("extraTime" + slotId, extraTime);
+        PlayerPrefs.SetString("playerName" + slotId, playerName);
     }
 
     /// <summary>
@@ -59,6 +61,7 @@ public class PersistentPlayerSettings : MonoBehaviour {
         playerPos.x = PlayerPrefs.GetFloat("playerx" + slotId);
         playerPos.y = PlayerPrefs.GetFloat("playery" + slotId);
         extraTime = PlayerPrefs.GetFloat("extraTime" + slotId);
+        playerName = PlayerPrefs.GetString("playerName" + slotId);
     }
 
     void OnDestroy() {

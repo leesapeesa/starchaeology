@@ -397,6 +397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startButton: {fileID: 2120576100}
+  playerNameInput: {fileID: 949277541}
 --- !u!114 &194060805
 MonoBehaviour:
   m_ObjectHideFlags: 0

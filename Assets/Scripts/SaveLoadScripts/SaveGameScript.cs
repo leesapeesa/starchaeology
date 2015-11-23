@@ -44,7 +44,9 @@ public class SaveGameScript : MonoBehaviour {
     {
         //TODO: we should warn the player if they are overwriting another saved game. JPC 11/13/15
         try {
-            PlayerPrefs.SetString("gameName" + slotId, System.DateTime.Now.ToString());
+            PlayerPrefs.SetString("gameName" + slotId, 
+                                  PersistentPlayerSettings.settings.playerName + " " + 
+                                  System.DateTime.Now.ToString());
             PersistentLevelSettings.settings.difficulty.SaveDifficulty(slotId);
             PersistentLevelSettings.settings.SaveLevelSettings(slotId);
             PersistentPlayerSettings.settings.SavePlayerSettings(slotId);
