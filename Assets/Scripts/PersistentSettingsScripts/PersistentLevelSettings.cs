@@ -21,6 +21,7 @@ public class PersistentLevelSettings : MonoBehaviour {
     public int numPoisonClouds = 4;
     public int numSlowClouds = 5;
     public int collectCount = 10;
+    public int numPlatforms = 5;
     public bool loadFromSave = false; //says whether the currently loading level is being loaded from a savegame
     public int loadSlot = -1; //if the above is true, what slot are we loading from?
     public float savedTime = 0; //how much time had elapsed in the saved level before we saved it?
@@ -49,6 +50,7 @@ public class PersistentLevelSettings : MonoBehaviour {
         numEnemies = 3;
         numPoisonClouds = 4;
         numSlowClouds = 5;
+        numPlatforms = 5;
         loadFromSave = false;
         loadSlot = -1;
         savedTime = 0;

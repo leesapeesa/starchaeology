@@ -59,6 +59,7 @@ public class ItemManager : MonoBehaviour {
         slowCloudCount = PersistentLevelSettings.settings.numSlowClouds;
         poisonCloudCount = PersistentLevelSettings.settings.numPoisonClouds;
         collectCount = PersistentLevelSettings.settings.collectCount;
+        jumpPlatformCount = PersistentLevelSettings.settings.numPlatforms;
 
         //initialize the probability table
         pTable = new Dictionary<Transform, float>(enemyList.Length);
@@ -122,12 +123,12 @@ public class ItemManager : MonoBehaviour {
         //If we are starting a level normally, randomly initialize all items. Otherwise, restore the items
         //from saved parameters.
         if (!PersistentLevelSettings.settings.loadFromSave) {
+            addPlatforms(jumpPlatform, jumpPlatformCount, apex() - PLATFORM_HEIGHT);
             addCollectibles(objective);
             addObjects(bouncyBox, boxCount, obstacles, 2);
             addObjects(slowCloud, slowCloudCount, clouds, 2);
             addObjects(stickyBox, boxCount, obstacles, 5);
             addObjects(poisonCloud, poisonCloudCount, clouds, 2);
-            addPlatforms(jumpPlatform, jumpPlatformCount, apex() - PLATFORM_HEIGHT);
             addEnemies(enemyCount);
             maybeAddSpecialItems(objective);
         } else {

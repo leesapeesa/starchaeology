@@ -54,9 +54,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c52e90042357974cbb0259969f6d7bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: Point
   itemIcon: {fileID: 0}
-  value: 10
+  value: 2
   pickupSound: {fileID: 8300000, guid: ad03aba1a1583422b87a3966c8f741d3, type: 3}
 --- !u!212 &21295934
 SpriteRenderer:
@@ -106,7 +105,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: value
-      value: 10
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: pickupSound
