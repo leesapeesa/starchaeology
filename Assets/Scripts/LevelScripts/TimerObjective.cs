@@ -3,25 +3,19 @@ using UnityEngine.UI;
 using System.Collections;
 using System;
 
-public class TimerObjective : Objective { 
+public class TimerObjective : TimedObjective { 
     /* Win condition: Reach a score of 10
      * Loss condition: Run out of time */
-
-    public float timeLimit = 120; // Countdown time, in seconds
-    public float timeRemaining;
 
     public static int winningScore = 5;
     public const string type = "Timer";
 
     private bool objectiveComplete = false;
-    private Text text;
-    private PlayerCharacter2D player;
 
-    public TimerObjective() { 
-        text = GameObject.Find("Timer").GetComponent<Text>();
-        player = GameObject.Find ("Player").GetComponent<PlayerCharacter2D> ();
-        text.enabled = true;
-        timeRemaining = timeLimit;
+    private const float TIMERBAR_WIDTH = 200;
+
+    public TimerObjective() : base() {
+        // Nothing (else) to do
 	}
 
     //make sure there are enough point collectibles spawned to finish this objective
@@ -38,9 +32,7 @@ public class TimerObjective : Objective {
     }
 
     public override bool ObjectiveFailed () {
-        timeRemaining = timeLimit - Time.timeSinceLevelLoad - PersistentLevelSettings.settings.savedTime + player.extraTime;
-        int timeAsInt = (int)timeRemaining;
-        text.text = timeAsInt.ToString();
+        UpdateTimer();
 
         if (timeRemaining <= 0.0f) {
             return true;

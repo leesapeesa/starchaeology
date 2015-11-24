@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public abstract class Objective {
@@ -18,5 +19,13 @@ public abstract class Objective {
 
     public abstract bool ObjectiveComplete();
     public abstract bool ObjectiveFailed();
+
+    public Objective()
+    {
+        //by default, disable the timer UI
+        //objectives that need this will have to enable it themselves.
+        GameObject.Find("TimerBar").GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
+
+    }
 
 }

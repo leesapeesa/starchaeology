@@ -9,10 +9,10 @@ public class ItemsObjective : Objective {
 
     private ItemManager itemManager;
 
-	public ItemsObjective () {
+	public ItemsObjective () : base() {
         itemManager = GameObject.Find("ObjectManager").GetComponent<ItemManager>();
-        Text text = GameObject.Find("Timer").GetComponent<Text>();
-        text.enabled = false;
+        //Text text = GameObject.Find("Timer").GetComponent<Text>();
+        //text.enabled = false;
     }
 
     public override string Type { get { return type; } }

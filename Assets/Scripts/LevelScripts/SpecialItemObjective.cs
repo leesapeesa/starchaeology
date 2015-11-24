@@ -7,23 +7,17 @@ using System;
 /// Win condition: Deliver the special item to your ship before time runs out
 /// Loss condition: run out of time
 /// </summary>
-public class SpecialItemObjective : Objective {
+public class SpecialItemObjective : TimedObjective {
 
     public const string type = "SpecialItem";
 
-    public float timeLimit = 120; // Countdown time, in seconds
-    public float timeRemaining;
-    private Text text;
-    private PlayerCharacter2D player;
     private ItemManager itemManager;
 
-    public SpecialItemObjective()
+    private const float TIMERBAR_WIDTH = 200;
+
+    public SpecialItemObjective() : base()
     {
-        text = GameObject.Find("Timer").GetComponent<Text>();
-        player = GameObject.Find("Player").GetComponent<PlayerCharacter2D>();
         itemManager = GameObject.Find("ObjectManager").GetComponent<ItemManager>();
-        text.enabled = true;
-        timeRemaining = timeLimit;
     }
 
     public override int NumSpecialItems { get { return 1; } }
@@ -38,9 +32,7 @@ public class SpecialItemObjective : Objective {
 
     public override bool ObjectiveFailed()
     {
-        timeRemaining = timeLimit - Time.timeSinceLevelLoad - PersistentLevelSettings.settings.savedTime + player.extraTime;
-        int timeAsInt = (int)timeRemaining;
-        text.text = timeAsInt.ToString();
+        UpdateTimer();
 
         if (timeRemaining <= 0.0f) {
             return true;
