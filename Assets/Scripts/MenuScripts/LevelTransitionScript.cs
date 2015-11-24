@@ -39,9 +39,7 @@ public class LevelTransitionScript : MonoBehaviour {
     }
 
     private void GetRandomBlurb() {
-        // We can decide whether we want to pull from a file or hard code into our game.
-        // I don't know why I can't just write \n in the file....
-        blurbText.text = fortunes.Next ().Replace ("NEWLINE", "\n");
+        blurbText.text = fortunes.GetRandom();
     }
 
     IEnumerator DisplayLoadingScreen() {

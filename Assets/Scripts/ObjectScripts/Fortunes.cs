@@ -4,21 +4,20 @@ using UnityEngine;
 public class Fortunes {
 
     List<string> fortunes;
-    int index;
 
     public Fortunes(TextAsset text) {
         fortunes = new List<string> ();
         if (!LoadFortunesFromText(text)) {
             fortunes.Add ("File reading fucked up.");
         }
-        index = 0;
     }
 
-    // Gets the next fortune in the list.
-    // We can make it so that it is a random fortune.
-    public string Next() {
-        index %= fortunes.Count;
-        return fortunes [index++]; // I'm purposely using the post decremement operator
+    /// <summary>
+    /// Pick a random fortune from the list
+    /// </summary>
+    public string GetRandom() {
+        int index = Random.Range(0, fortunes.Count);
+        return fortunes [index]; 
     }
 
     /// <summary>
