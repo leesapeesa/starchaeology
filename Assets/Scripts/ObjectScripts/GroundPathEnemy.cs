@@ -13,6 +13,7 @@ public class GroundPathEnemy : Enemy {
     [SerializeField] private float velocity = 1;
     protected AudioSource audioSource;
     protected const float THRESHOLD = 0.5f;
+    private const float CHASE_SPEED = 5;
 
     public static float contactDamage = 20;
 
@@ -30,7 +31,18 @@ public class GroundPathEnemy : Enemy {
 	
 	void FixedUpdate () {
         float curX = rigidbody2d.position.x;
-        float distanceToWaypoint = curX - waypoints[waypointIndex];
+
+        //under normal circumstances, go to the next waypoint
+        //if enemies should be chasing the player, go to the player's position
+        float waypoint = PersistentLevelSettings.settings.enemiesShouldFollowPlayer ?
+                         PersistentPlayerSettings.settings.playerPos.x :
+                         waypoints[waypointIndex];
+
+        float distanceToWaypoint = curX - waypoint;
+
+        //go faster if chasing the player
+        if (PersistentLevelSettings.settings.enemiesShouldFollowPlayer)
+            velocity = CHASE_SPEED;
 
         //update the enemy's movement
         rigidbody2d.velocity = new Vector2(Mathf.Sign(distanceToWaypoint) * -velocity, rigidbody2d.velocity.y);

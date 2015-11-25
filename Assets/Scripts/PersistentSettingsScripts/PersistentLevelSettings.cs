@@ -25,6 +25,7 @@ public class PersistentLevelSettings : MonoBehaviour {
     public bool loadFromSave = false; //says whether the currently loading level is being loaded from a savegame
     public int loadSlot = -1; //if the above is true, what slot are we loading from?
     public float savedTime = 0; //how much time had elapsed in the saved level before we saved it?
+    public bool enemiesShouldFollowPlayer = false; //should enemies be chasing the player?
     public Difficulty difficulty;
 
     public Fortunes fortunes;
@@ -66,6 +67,7 @@ public class PersistentLevelSettings : MonoBehaviour {
         PlayerPrefs.SetInt("levelProgress" + slotId, numPlanetsCleared);
         PlayerPrefs.SetInt("totalPlanets" + slotId, numPlanetsTotal);
         PlayerPrefs.SetFloat("savedTime" + slotId, Time.timeSinceLevelLoad);
+        PlayerPrefs.SetInt("enemiesFollowPlayer" + slotId, enemiesShouldFollowPlayer ? 1 : 0);
     }
 
     /// <summary>
@@ -78,5 +80,6 @@ public class PersistentLevelSettings : MonoBehaviour {
         numPlanetsCleared = PlayerPrefs.GetInt("levelProgress" + slotId);
         numPlanetsTotal = PlayerPrefs.GetInt("totalPlanets" + slotId);
         savedTime = PlayerPrefs.GetFloat("savedTime" + slotId);
+        enemiesShouldFollowPlayer = PlayerPrefs.GetInt("enemiesFollowPlayer" + slotId) == 1;
     }
 }
