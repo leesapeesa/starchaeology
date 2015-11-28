@@ -200,6 +200,26 @@ public class ItemManager : MonoBehaviour {
     }
 
     /// <summary>
+    ///  Takes in a point and finds a second point that is a distance xDistance away on the walkable surface from it
+    /// </summary>
+    /// <param name="firstPoint"></param>
+    /// <param name="xDistance"></param>
+    /// <param name="secondPoint"></param>
+    private void GetPointAtDistanceOnWalkable(Vector2 firstPoint, float xDistance, out Vector2 secondPoint) {
+        float xCoor = firstPoint.x + xDistance;
+        float yCoor = 1000f;
+        RaycastHit2D hit = Physics2D.Raycast(new Vector2(xCoor, yCoor),
+                                             -Vector2.up,
+                                             distance: Mathf.Infinity,
+                                             layerMask: LayerMask.GetMask(new string[] { "Ground", "Platform" }));
+        if (hit.collider != null) {
+            secondPoint = hit.point;
+        } else {
+            secondPoint = new Vector2(xCoor, 10f);
+        }                                     
+    }
+
+    /// <summary>
     /// Gets a point in a range above a walkable surface.
     /// </summary>
     /// <param name="minHeight">Minimum height.</param>
@@ -209,6 +229,29 @@ public class ItemManager : MonoBehaviour {
                                                      out Vector2 pos) {
         GetRandomPointOnWalkable (out pos);
         pos = new Vector2 (pos.x, Random.Range(pos.y + minHeight, pos.y + maxHeight));
+    }
+    /// <summary>
+    /// Gets two points at the same height at distance apart from each other
+    /// </summary>
+    /// <param name="minHeight"></param>
+    /// <param name="maxHeight"></param>
+    /// <param name="leftPoint"></param>
+    /// <param name="rightPoint"></param>
+    private void GetTwoPointsStrictlyAboveWalkable (float minHeight, float maxHeight, float distance,
+                                                    out Vector2 leftPoint, out Vector2 rightPoint) {
+        GetRandomPointOnWalkable(out leftPoint);
+        GetPointAtDistanceOnWalkable(leftPoint, distance, out rightPoint);
+        
+        // The left point is located at a position on the terrain higher than the right point, so we base our height
+        // calculations on the right point
+        if (leftPoint.y > rightPoint.y) {
+            // May need a special case for when the height is less
+            leftPoint = new Vector2(leftPoint.x, Random.Range(rightPoint.y + minHeight, rightPoint.y + maxHeight));
+        } else {
+            leftPoint = new Vector2(leftPoint.x, Random.Range(leftPoint.y + minHeight, leftPoint.y + maxHeight));
+        }
+
+        rightPoint = new Vector2(rightPoint.x, leftPoint.y);
     }
 
     private void GetRandomPointAboveWalkable(float height, out Vector2 pos) {
@@ -237,14 +280,21 @@ public class ItemManager : MonoBehaviour {
 
     private void addPlatforms(Transform obj, int count, float height) {
         for (int i = 0; i < count; ++i) {
-            Vector2 position;
-            GetRandomPointStrictlyAboveWalkable(MIN_PLATFORM_HEIGHT, height, out position);
+            //Vector2 position;
+            //GetRandomPointStrictlyAboveWalkable(MIN_PLATFORM_HEIGHT, height, out position);
+            Vector2 leftPoint, rightPoint;
+            GetTwoPointsStrictlyAboveWalkable(MIN_PLATFORM_HEIGHT, height, PLATFORM_LENGTH, out leftPoint, out rightPoint);
+
             // Whatever point we just found, with our raycast will be the very left bottom corner
             // of the platform.
-            position.x = position.x + PLATFORM_LENGTH / 2;
-            position.y = position.y + PLATFORM_HEIGHT / 2;
+            // position.x = position.x + PLATFORM_LENGTH / 2;
+            // position.y = position.y + PLATFORM_HEIGHT / 2;
 
-            platforms.Add(Instantiate(obj, position, Quaternion.identity) as Transform);
+            // Take the leftmost point calculated (both should be at the same height)
+            leftPoint.x = leftPoint.x + PLATFORM_LENGTH / 2;
+            leftPoint.y = leftPoint.y + PLATFORM_HEIGHT / 2;
+
+            platforms.Add(Instantiate(obj, leftPoint, Quaternion.identity) as Transform);
         }
     }
 
