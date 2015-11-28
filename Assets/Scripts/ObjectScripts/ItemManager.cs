@@ -41,6 +41,7 @@ public class ItemManager : MonoBehaviour {
     private List<Transform> goalCollectibles;
     private float gravityEffect;
     private Dictionary<Transform, float> pTable; //enemy type probability table
+    private int? goalItemType = null;
 
     private const float PLATFORM_HEIGHT = 1.28f; //The platform height
     private const float PLATFORM_LENGTH = 5.12f;
@@ -51,6 +52,7 @@ public class ItemManager : MonoBehaviour {
     private const float RAYCAST_ORIGIN = 1000;
     private const int POINT_COLLECTIBLE_INDEX = 0; //index of the point collectible in the collectibles list
     private const float LOAD_GAME_HEIGHT_OFFSET = 0.5f; //start things slightly above ground on load, so they don't get stuck in ground
+    private const float MIN_ITEM_HEIGHT = 2;
 
     // Use this for initialization
     void Start() {
@@ -129,12 +131,13 @@ public class ItemManager : MonoBehaviour {
         if (!PersistentLevelSettings.settings.loadFromSave) {
             addPlatforms(jumpPlatform, jumpPlatformCount, apex() - PLATFORM_HEIGHT);
             addCollectibles(objective);
-            addObjects(bouncyBox, boxCount, obstacles, 2);
-            addObjects(slowCloud, slowCloudCount, clouds, 2);
-            addObjects(stickyBox, boxCount, obstacles, 5);
-            addObjects(poisonCloud, poisonCloudCount, clouds, 2);
+            addObjects(bouncyBox, boxCount, obstacles, MIN_ITEM_HEIGHT);
+            addObjects(slowCloud, slowCloudCount, clouds, MIN_ITEM_HEIGHT);
+            addObjects(stickyBox, boxCount, obstacles, MIN_ITEM_HEIGHT);
+            addObjects(poisonCloud, poisonCloudCount, clouds, MIN_ITEM_HEIGHT);
             addEnemies(enemyCount);
             maybeAddSpecialItems(objective);
+            maybeAddGoalItems(objective, goalCollectCount);
         } else {
             int slotId = PersistentLevelSettings.settings.loadSlot;
             RestoreCollectibles(slotId);
@@ -143,6 +146,7 @@ public class ItemManager : MonoBehaviour {
             RestoreClouds(slotId);
             RestorePlatforms(slotId);
             RestoreEnemies(slotId);
+            RestoreGoalItems(slotId);
             float playerX = PlayerPrefs.GetFloat("playerx" + slotId);
             float playerY = PlayerPrefs.GetFloat("playery" + slotId);
             movePlayer(new Vector2(playerX, playerY + LOAD_GAME_HEIGHT_OFFSET));
@@ -344,6 +348,23 @@ public class ItemManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Possibly add goal items to the map depending on the given objective
+    /// </summary>
+    private void maybeAddGoalItems(Objective objective, int count)
+    {
+        //Only continue if the current objective specifies a goal collectible type
+        if (objective.GoalCollectibleType.HasValue) {
+            goalItemType = objective.GoalCollectibleType.Value;
+            Transform goalItem = goalCollectibleList[goalItemType.Value];
+            for (int i = 0; i < count; ++i) {
+                Vector2 position;
+                GetRandomPointAboveWalkable(MIN_ITEM_HEIGHT, out position);
+                goalCollectibles.Add(Instantiate(goalItem, position, Quaternion.identity) as Transform);
+            }
+        }
+    }
+
+    /// <summary>
     /// Add the player's spaceship to the scene
     /// </summary>
     private void addSpaceship()
@@ -474,16 +495,45 @@ public class ItemManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Re-instantiate goal items in the positions saved in the specified slots
+    /// </summary>
+    private void RestoreGoalItems(int slotId)
+    {
+        int numSavedGoalItems = PlayerPrefs.GetInt("numGoalItems" + slotId);
+        int savedGoalItemType = PlayerPrefs.GetInt("goalItemType" + slotId);
+        //check whether the saved goal item type is valid.
+        //if it isn't, then the saved game wasn't using goal items
+        if (savedGoalItemType == -1) {
+            goalItemType = null;
+        } else {
+            goalItemType = savedGoalItemType;
+            for (int i = 0; i < numSavedGoalItems; ++i) {
+                float xPos = PlayerPrefs.GetFloat("goalItem" + i + "x" + slotId);
+                float yPos = PlayerPrefs.GetFloat("goalItem" + i + "y" + slotId);
+                Vector2 pos = new Vector2(xPos, yPos);
+                goalCollectibles.Add(Instantiate(goalCollectibleList[goalItemType.Value], pos, Quaternion.identity) as Transform);
+            }
+        }
+    }
+
     public void RemoveFromScene(NonPlayerObject npo) {
         if (collectibles.Contains (npo.transform))
             collectibles.Remove (npo.transform);
         if (specialItems.Contains(npo.transform))
             specialItems.Remove(npo.transform);
+        if (goalCollectibles.Contains(npo.transform))
+            goalCollectibles.Remove(npo.transform);
     }
 
     public int GetSpecialItemsRemaining()
     {
         return specialItems.Count;
+    }
+
+    public int GetGoalItemsRemaining()
+    {
+        return goalCollectibles.Count;
     }
 
     /// <summary>
@@ -530,6 +580,13 @@ public class ItemManager : MonoBehaviour {
             PlayerPrefs.SetFloat("obstacle" + i + "x" + slotId, obstacles[i].position.x);
             PlayerPrefs.SetFloat("obstacle" + i + "y" + slotId, obstacles[i].position.y);
             PlayerPrefs.SetString("obstacle" + i + "type" + slotId, obstacles[i].gameObject.tag);
+        }
+        //Save goal collectibles
+        PlayerPrefs.SetInt("numGoalItems" + slotId, goalCollectibles.Count);
+        PlayerPrefs.SetInt("goalItemType" + slotId, goalItemType.HasValue ? goalItemType.Value : -1);
+        for (int i = 0; i < goalCollectibles.Count; ++i) {
+            PlayerPrefs.SetFloat("goalItem" + i + "x" + slotId, goalCollectibles[i].position.x);
+            PlayerPrefs.SetFloat("goalItem" + i + "y" + slotId, goalCollectibles[i].position.y);
         }
     }
 }

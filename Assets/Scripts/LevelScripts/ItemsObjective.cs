@@ -21,7 +21,16 @@ public class ItemsObjective : Objective {
 
     public ItemsObjective() : base() {
         itemManager = GameObject.Find("ObjectManager").GetComponent<ItemManager>();
-        goal = (GoalType)Random.Range(0, 2);
+        //If we are loading a saved game, restore the saved goal.
+        //Otherwise we can pick one randomly
+        if (PersistentLevelSettings.settings.loadFromSave) { 
+            int savedType = PlayerPrefs.GetInt("goalItemType" + PersistentLevelSettings.settings.loadSlot);
+            if (savedType == -1)
+                goal = (GoalType)Random.Range(0, 2);
+            else
+                goal = (GoalType)savedType;
+        } else
+            goal = (GoalType)Random.Range(0, 2);
     }
 
     public override string Type { get { return type; } }
@@ -30,10 +39,7 @@ public class ItemsObjective : Objective {
 
     public override bool ObjectiveComplete()
     {
-        if (itemManager.allCollected == true) {
-            return true;
-        }
-        return false;
+        return (itemManager.GetGoalItemsRemaining() == 0);
     }
 
     public override bool ObjectiveFailed()
@@ -44,6 +50,6 @@ public class ItemsObjective : Objective {
 
     public override string ToString()
     {
-        return "Collect all the " + goalNames[(int)goal] + "!";
+        return "collect all the " + goalNames[(int)goal] + "! (" + itemManager.GetGoalItemsRemaining() + " remaining)";
     }
 }
