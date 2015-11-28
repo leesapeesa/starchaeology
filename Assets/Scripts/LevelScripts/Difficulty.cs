@@ -52,6 +52,8 @@ public class Difficulty {
     private const float TARGET_POINTS_OFFSET = 4;
     private const float PLATFORMS_COEFF = 1f / 5f;
     private const float PLATFORMS_OFFSET = 1;
+    private const float GOAL_ITEMS_COEFF = 1f / 20f;
+    private const float GOAL_ITEMS_OFFSET = 4;
 
     //===================================END UPDATE CONSTANTS======================================//
 
@@ -118,6 +120,7 @@ public class Difficulty {
         settings.numPoisonClouds = (int)linearUpdate(POISON_CLOUDS_COEFF, POISON_CLOUDS_OFFSET);
         settings.collectCount = (int)linearUpdate(COLLECT_COUNT_COEFF, COLLECT_COUNT_OFFSET);
         settings.numPlatforms = (int)linearUpdate(PLATFORMS_COEFF, PLATFORMS_OFFSET);
+        settings.goalCollectCount = (int)linearUpdate(GOAL_ITEMS_COEFF, GOAL_ITEMS_OFFSET);
     }
 
     /// <summary>

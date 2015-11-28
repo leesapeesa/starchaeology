@@ -42,6 +42,6 @@ public class TimerObjective : TimedObjective {
 
     public override string ToString()
     {
-        return "Score " + winningScore + " points. \n Time remaining: " + (int)timeRemaining;
+        return "Collect " + winningScore + " gold. \n Time remaining: " + (int)timeRemaining;
     }
 }
