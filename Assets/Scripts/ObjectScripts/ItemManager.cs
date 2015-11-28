@@ -7,6 +7,7 @@ public class ItemManager : MonoBehaviour {
     //TODO make all these be modified by Difficulty - JPC 11/5/15
     public int boxCount = 5;
     public int collectCount = 10;
+    public int goalCollectCount = 5;
     public int slowCloudCount = 5;
     public int poisonCloudCount = 4;
     public int enemyCount = 3;
@@ -22,6 +23,7 @@ public class ItemManager : MonoBehaviour {
     [SerializeField] private Transform jumpPlatform;
     [SerializeField] private Transform[] enemyList;
     [SerializeField] private Transform[] collectibleList;
+    [SerializeField] private Transform[] goalCollectibleList;
     [SerializeField] private Transform specialItem;
     [SerializeField] private Transform spaceship;
 
@@ -36,6 +38,7 @@ public class ItemManager : MonoBehaviour {
     private List<Transform> platforms;
     private List<Transform> enemies;
     private List<Transform> obstacles;
+    private List<Transform> goalCollectibles;
     private float gravityEffect;
     private Dictionary<Transform, float> pTable; //enemy type probability table
 
@@ -86,6 +89,7 @@ public class ItemManager : MonoBehaviour {
         platforms = new List<Transform>();
         enemies = new List<Transform>();
         obstacles = new List<Transform>();
+        goalCollectibles = new List<Transform>();
     }
 
     void Update() {

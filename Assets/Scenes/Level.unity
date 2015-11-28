@@ -3802,6 +3802,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boxCount: 5
   collectCount: 10
+  goalCollectCount: 5
   slowCloudCount: 3
   poisonCloudCount: 4
   enemyCount: 3
@@ -3820,6 +3821,10 @@ MonoBehaviour:
   - {fileID: 437304, guid: 66642fa2712154062a000e5e86ba4aa1, type: 2}
   - {fileID: 436294, guid: 82cb542c20eda4628b34abfa413c178b, type: 2}
   - {fileID: 403188, guid: ea1ce19fcb1c6454582c74f8a3141ba4, type: 2}
+  goalCollectibleList:
+  - {fileID: 448324, guid: d2102cf44818dcb48a61bc553d2781f5, type: 2}
+  - {fileID: 452170, guid: 8aec7292ba11c674c927204f82b0743f, type: 2}
+  - {fileID: 490366, guid: 3049be36a9fafa34486202a489a3bbaa, type: 2}
   specialItem: {fileID: 474754, guid: bcf3c44d60899a540a6ad9277fed2146, type: 2}
   spaceship: {fileID: 466974, guid: 4656b7860f1e43a49847008bfd9bd35f, type: 2}
 --- !u!4 &1682520552

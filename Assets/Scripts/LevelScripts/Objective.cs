@@ -13,6 +13,10 @@ public abstract class Objective {
     /// </summary>
     public virtual int NumPointItems { get { return 0; } }
     /// <summary>
+    /// What kind of collectible type, if any, this objective requires
+    /// </summary>
+    public virtual int? GoalCollectibleType { get { return null; } }
+    /// <summary>
     /// Textual representation of the specific objective type, used to identify objectives when saving games.
     /// </summary>
     public abstract string Type { get; }
