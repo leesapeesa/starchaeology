@@ -44,7 +44,7 @@ public class ItemManager : MonoBehaviour {
     private Dictionary<Transform, float> pTable; //enemy type probability table
     private int? goalItemType = null;
 
-    private const float PLATFORM_HEIGHT = 1.28f; //The platform height
+    private const float PLATFORM_HEIGHT = 1.0f; //The platform height
     private const float PLATFORM_LENGTH = 5.12f;
     private const float MIN_PLATFORM_HEIGHT = 3.0f; //1.25f; // Minimum crouching height
     private float MAX_PLATFORM_HEIGHT = 10.0f; 
@@ -132,9 +132,11 @@ public class ItemManager : MonoBehaviour {
         //If we are starting a level normally, randomly initialize all items. Otherwise, restore the items
         //from saved parameters.
         if (!PersistentLevelSettings.settings.loadFromSave) {
-            print("APEX");
-            print(apex());
             MAX_PLATFORM_HEIGHT = apex() - PLATFORM_HEIGHT - 0.3f;
+            if (MAX_PLATFORM_HEIGHT < MIN_PLATFORM_HEIGHT) {
+                MAX_PLATFORM_HEIGHT = MIN_PLATFORM_HEIGHT;
+            }
+            MAX_PLATFORM_HEIGHT = MIN_PLATFORM_HEIGHT;
             addPlatforms(jumpPlatform, jumpPlatformCount); // Make the platforms slightly lower than the maximum jumping distance
             addCollectibles(objective);
             addObjects(bouncyBox, boxCount, obstacles, MIN_ITEM_HEIGHT);
@@ -247,27 +249,53 @@ public class ItemManager : MonoBehaviour {
     /// <param name="maxHeight"></param>
     /// <param name="leftPoint"></param>
     /// <param name="rightPoint"></param>
-    private void GetTwoPointsStrictlyAboveWalkable (float minHeight, float distance,
-                                                    out Vector2 leftPoint, out Vector2 rightPoint) {
-        GetRandomPointOnWalkable(out leftPoint);
+    private void GetTwoPointsStrictlyAboveWalkable (float distance, bool isRandom, float xCoord, out Vector2 leftPoint, out Vector2 rightPoint) {
+        
+        // Choose the point deterministically or randomly depending on input
+        if (isRandom) {
+            GetRandomPointOnWalkable(out leftPoint);
+        } else {
+            GetPointOnWalkable(xCoord, out leftPoint);
+            print("POINT");
+            print(leftPoint);
+        }
+
         GetPointAtDistanceOnWalkable(leftPoint, distance, out rightPoint);
-        // minHeight should be determined by the corner of the platform closer to the ground
-        // maxHeight should be determined by the corner of the platform farther from the ground
+
         float leftWalkableHeight = leftPoint.y;
         float rightWalkableHeight = rightPoint.y;
+        print("leftWalkableHeight");
+        print(leftWalkableHeight);
+
+        if (Mathf.Abs(leftWalkableHeight - rightWalkableHeight) > MIN_PLATFORM_HEIGHT/3f) {
+            print("The slope is too great, generating a different platform location");
+            GetTwoPointsStrictlyAboveWalkable(distance, false, leftPoint.x + 5.0f, out leftPoint, out rightPoint);
+            return;
+        }
 
         // the right corner is closer to the ground, the left corner is farther from the ground
         if (leftPoint.y > rightPoint.y) {
-
-            leftPoint = new Vector2(leftPoint.x, Random.Range(rightPoint.y + minHeight, rightPoint.y + MAX_PLATFORM_HEIGHT));
+            leftPoint = new Vector2(leftPoint.x, Random.Range(rightPoint.y + MIN_PLATFORM_HEIGHT, rightPoint.y + MAX_PLATFORM_HEIGHT));
         } else { // the left corner is closer to the ground, the right corner is farther from the ground
-            leftPoint = new Vector2(leftPoint.x, Random.Range(leftPoint.y + minHeight, leftPoint.y + MAX_PLATFORM_HEIGHT));
+            leftPoint = new Vector2(leftPoint.x, Random.Range(leftPoint.y + MIN_PLATFORM_HEIGHT, leftPoint.y + MAX_PLATFORM_HEIGHT));
         }
-        print("getTwoPointsStrictlyAboveWalkable");
 
         rightPoint = new Vector2(rightPoint.x, leftPoint.y);
         print(rightPoint.y - rightWalkableHeight);
         print(leftPoint.y - leftWalkableHeight);
+    }
+
+    private void GetPointOnWalkable(float xCoord, out Vector2 leftPoint) {
+        float yCoor = 1000f;
+        RaycastHit2D hit = Physics2D.Raycast(new Vector2(xCoord, yCoor),
+                                             -Vector2.up,
+                                             distance: Mathf.Infinity,
+                                             layerMask: LayerMask.GetMask(new string[] { "Ground", "Platform" }));
+        if (hit.collider != null) {
+            leftPoint = hit.point;
+        } else {
+            leftPoint = new Vector2(xCoord, 10f);
+        }
     }
 
     private void GetRandomPointAboveWalkable(float height, out Vector2 pos) {
@@ -281,8 +309,6 @@ public class ItemManager : MonoBehaviour {
         float approxLengthOfOneFrame = Time.fixedDeltaTime;
         float gravity = PersistentTerrainSettings.settings.gravityEffect * 9.8f;
         float initialVelocity = (PersistentPlayerSettings.settings.jumpForce - gravity) * approxLengthOfOneFrame;
-        print("apex is");
-        print(initialVelocity * initialVelocity / (2 * gravity));
         return initialVelocity * initialVelocity / (2 * gravity);
     }
 
@@ -298,9 +324,9 @@ public class ItemManager : MonoBehaviour {
     private void addPlatforms(Transform obj, int count) {
         for (int i = 0; i < count; ++i) {
             Vector2 leftPoint, rightPoint;
-            GetTwoPointsStrictlyAboveWalkable(MIN_PLATFORM_HEIGHT, PLATFORM_LENGTH, out leftPoint, out rightPoint);
+            GetTwoPointsStrictlyAboveWalkable(PLATFORM_LENGTH, true, 0.0f, out leftPoint, out rightPoint);
 
-            bool validLocation = checkIfValidPlatformLocation(leftPoint);
+            bool validLocation = checkIfPlatformTooClose(leftPoint, 3.0f);
             if (!validLocation) { // We don't want to spawn platforms inside of other platforms
                 continue;
             }
@@ -309,10 +335,10 @@ public class ItemManager : MonoBehaviour {
             leftPoint.x = leftPoint.x + PLATFORM_LENGTH / 2;
             leftPoint.y = leftPoint.y + PLATFORM_HEIGHT / 2;
 
-            // add stacks to half of the platforms
-            if (i % 2 == 1) {
-                print("Adding stack!");
-                addPlatformStack(obj, 3, leftPoint.y, leftPoint.x);
+            float rand = Random.Range(0f, 10f);
+            // add stacks randomly
+            if (rand < 5) {
+                addPlatformStack(obj, (int)rand, leftPoint.y, leftPoint.x);
             }
 
             platforms.Add(Instantiate(obj, leftPoint, Quaternion.identity) as Transform);
@@ -321,8 +347,8 @@ public class ItemManager : MonoBehaviour {
     private void addPlatformStack(Transform obj, int count, float height, float xLoc) {
         float whichLoc = Random.Range(0f, 1f);
 
-        float onePosXLoc = Random.Range(xLoc - 8f, xLoc - 1f);
-        float otherPosXLoc = Random.Range(xLoc + 1f, xLoc + 8f);
+        float onePosXLoc = Random.Range(xLoc - 7f, xLoc - 3f);
+        float otherPosXLoc = Random.Range(xLoc + 3f, xLoc + 7f);
 
         float newXLoc;
 
@@ -332,17 +358,12 @@ public class ItemManager : MonoBehaviour {
             newXLoc = otherPosXLoc;
         }
 
-        print("HEIGHT");
-        print(height);
-        print(MAX_PLATFORM_HEIGHT);
         float newYLoc = height + MIN_PLATFORM_HEIGHT;//Random.Range(height + MIN_PLATFORM_HEIGHT, height + MAX_PLATFORM_HEIGHT);
-       
 
         Vector2 newPlatformLoc = new Vector2(newXLoc, newYLoc);
-       // if (!checkIfValidPlatformLocation(newPlatformLoc)) {
+        if (checkIfValidPlatformLocation(newPlatformLoc) ){
             platforms.Add(Instantiate(obj, newPlatformLoc, Quaternion.identity) as Transform);
-       // }
-        print("Here");
+        }
         if (count > 0) {
             addPlatformStack(obj, count - 1, newYLoc, newXLoc);
         }
@@ -364,6 +385,29 @@ public class ItemManager : MonoBehaviour {
             float curYVal = curPlatform.y;
 
             if (Mathf.Abs(curXVal - xVal) < PLATFORM_LENGTH && Mathf.Abs(curYVal - yVal) < PLATFORM_HEIGHT) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    /// <summary>
+    /// Checks if there is a platform that exists within minDistanceAway of the given point
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="minDistanceAway"></param>
+    /// <returns></returns>
+    private bool checkIfPlatformTooClose(Vector2 position, float minDistanceAway) {
+        int numPlatforms = platforms.Count();
+        float yVal = position.y;
+        float xVal = position.x;
+        Vector2 curPlatform;
+        for (int i = 0; i < numPlatforms; ++i) {
+            curPlatform = platforms[i].position;
+            float curXVal = curPlatform.x;
+            float curYVal = curPlatform.y;
+
+            if (Mathf.Abs(curXVal - xVal) < minDistanceAway  && Mathf.Abs(curYVal - yVal) < minDistanceAway) {
                 return false;
             }
         }

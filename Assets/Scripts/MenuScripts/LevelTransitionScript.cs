@@ -29,6 +29,7 @@ public class LevelTransitionScript : MonoBehaviour {
             GetRandomBlurb ();
         }
         StartCoroutine (DisplayLoadingScreen ());
+        SetMaximumGravity();
     }
 
     void Update() {
@@ -39,12 +40,20 @@ public class LevelTransitionScript : MonoBehaviour {
     }
 
     void SetMaximumGravity() {
-        float approxLengthOfOneFrame = Time.fixedDeltaTime;
-        float gravity = PersistentTerrainSettings.settings.gravityEffect * 9.8f;
-        float initialVelocity = (PersistentPlayerSettings.settings.jumpForce - gravity) * approxLengthOfOneFrame;
-        float playerHeight = 3.2f;
+        float playerHeight = 3.7f;
+        maxGravity = 5.0f;
+        while (apex() < playerHeight ) {
+            maxGravity -= 0.05f;
+        }
+    }
 
-        maxGravity = initialVelocity * initialVelocity / 2 * playerHeight;
+    private float apex() {
+        // Simple mechanics: maxHeight = v_0^2 / (2 * g) + y_0
+        // where v_0 = (jumpForce - gravityEffect), g = gravityEffect and y_0 = terrainHeight.
+        float approxLengthOfOneFrame = Time.fixedDeltaTime;
+        float gravity = maxGravity * 9.8f;
+        float initialVelocity = (PersistentPlayerSettings.settings.jumpForce - gravity) * approxLengthOfOneFrame;
+        return initialVelocity * initialVelocity / (2 * gravity);
     }
 
     private void GetRandomBlurb() {
@@ -85,8 +94,7 @@ public class LevelTransitionScript : MonoBehaviour {
         print ("switching levels");
         //Only reset parameters if we are doing a normal level load, not restoring a savegame
         if (!PersistentLevelSettings.settings.loadFromSave) {
-            PersistentTerrainSettings.settings.gravityEffect = Random.Range(0.5f, maxGravity);
-            print(PersistentTerrainSettings.settings.gravityEffect);
+            PersistentTerrainSettings.settings.gravityEffect = Random.Range(0.7f, maxGravity);
             if (PersistentPlayerSettings.settings == null) {
                 // It will be null if we're loading the level from the New Game screen for the
                 // first time.

@@ -10,7 +10,7 @@ public class PersistentPlayerSettings : MonoBehaviour {
     public int overallScore = 0; // Score for the overall game.
     public int levelScore = 0; // Score for the level.
     public float health = 100f;
-    public float jumpForce = 400f;
+    public float jumpForce = 600f;
     public Vector2 playerPos;
     public float extraTime;
     public string playerName;
@@ -32,14 +32,14 @@ public class PersistentPlayerSettings : MonoBehaviour {
         levelScore = 0;
         overallScore = 0;
         health = PlayerCharacter2D.MAX_HEALTH;
-        jumpForce = 400f;
+        jumpForce = 600f;
         playerPos = Vector2.zero;
         if (inventory)
             inventory.EmptyInventory ();
     }
 
     /// <summary>
-    /// Save any relevant player settings that cannot be reconstructed from the saved difficulty
+    /// Save any relevant player settings that cannot be reconstructed from the saved d aifficulty
     /// </summary>
     public void SavePlayerSettings(int slotId)
     {
