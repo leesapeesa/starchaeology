@@ -34,8 +34,9 @@ public class PlayerCharacter2D : MonoBehaviour
     private GrabbableObject m_GrabbedObject = null;
 
     public const float MAX_HEALTH = 100f;
-    private const float GRABBED_OBJ_OFFSET_R = 0.01f;
-    private const float GRABBED_OBJ_OFFSET_L = 0.5f;
+    private const float GRABBED_OBJ_OFFSET_R = -0.3f;
+    private const float GRABBED_OBJ_OFFSET_L = 0.4f;
+    private const float GRABBED_OBJ_Y_POS = -0.5f;
 
     public float health
     {
@@ -233,10 +234,11 @@ public class PlayerCharacter2D : MonoBehaviour
                 print("Is facing right? " + m_FacingRight);
                 m_GrabbedObject = other.GetComponent<GrabbableObject>();
                 float xOffset = m_FacingRight ? GRABBED_OBJ_OFFSET_R : GRABBED_OBJ_OFFSET_L;
-                m_GrabbedObject.OnGrab(gameObject, xOffset);
+                m_GrabbedObject.OnGrab(gameObject, xOffset, GRABBED_OBJ_Y_POS);
             }
             else if (Input.GetButtonUp("Grab") && m_GrabbedObject != null) { //otherwise, reset the Grabbable Object to its normal state
-                m_GrabbedObject.EndGrab();
+                float xOffset = m_FacingRight ? GRABBED_OBJ_OFFSET_R : GRABBED_OBJ_OFFSET_L;
+                m_GrabbedObject.EndGrab(gameObject, xOffset, GRABBED_OBJ_Y_POS);
                 m_GrabbedObject = null;
             }
         }
