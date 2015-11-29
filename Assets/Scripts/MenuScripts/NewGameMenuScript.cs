@@ -10,6 +10,7 @@ public class NewGameMenuScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        Time.timeScale = 1;
         //Set all parameters to their default values for the start of the game.
         PersistentTerrainSettings.settings.SetDefault();
         if (PersistentPlayerSettings.settings != null)
