@@ -31,8 +31,11 @@ public class PlayerCharacter2D : MonoBehaviour
     private AudioSource m_AudioSource;
     private bool m_PlayingFootsteps;
     private bool m_PlayingDeath;
+    private GrabbableObject m_GrabbedObject = null;
 
     public const float MAX_HEALTH = 100f;
+    private const float GRABBED_OBJ_OFFSET_R = 0.01f;
+    private const float GRABBED_OBJ_OFFSET_L = 0.5f;
 
     public float health
     {
@@ -221,6 +224,27 @@ public class PlayerCharacter2D : MonoBehaviour
         if (other.CompareTag("Poison")) {
             health -= PersistentLevelSettings.settings.poisonAmount;
         }
+
+        //GameObject other = coll.gameObject;
+        //if the other object is a grabbable object, handle grab logic here.
+        if (other.GetComponent<GrabbableObject>() != null) {
+            //check to see if player wants to grab this object (we can only grab one at a time)
+            if (Input.GetButton("Grab") && (m_GrabbedObject == null/* || m_GrabbedObject == other.GetComponent<GrabbableObject>()*/)) {
+                print("Is facing right? " + m_FacingRight);
+                m_GrabbedObject = other.GetComponent<GrabbableObject>();
+                float xOffset = m_FacingRight ? GRABBED_OBJ_OFFSET_R : GRABBED_OBJ_OFFSET_L;
+                m_GrabbedObject.OnGrab(gameObject, xOffset);
+            }
+            else if (Input.GetButtonUp("Grab") && m_GrabbedObject != null) { //otherwise, reset the Grabbable Object to its normal state
+                m_GrabbedObject.EndGrab();
+                m_GrabbedObject = null;
+            }
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D coll)
+    {
+        
     }
 
     public void UseItem(string type) {

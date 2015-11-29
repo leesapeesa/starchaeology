@@ -12,6 +12,7 @@ GameObject:
   - 61: {fileID: 6100000}
   - 50: {fileID: 5000000}
   - 114: {fileID: 11430154}
+  - 114: {fileID: 11497036}
   m_Layer: 9
   m_Name: BouncyBox
   m_TagString: BouncyBox
@@ -71,6 +72,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2110970f6aee4b739a1e707f4c3dd18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11497036
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77aeaff07e11f664184d1bcc3e90e454, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  width: 1.23269701
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -129,6 +142,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_TagString
       value: BouncyBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: width
+      value: 1.23269701
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
