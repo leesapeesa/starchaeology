@@ -46,7 +46,7 @@ public class ItemManager : MonoBehaviour {
 
     private const float PLATFORM_HEIGHT = 1.28f; //The platform height
     private const float PLATFORM_LENGTH = 5.12f;
-    private const float MIN_PLATFORM_HEIGHT = 2.0f; //1.25f; // Minimum crouching height
+    private const float MIN_PLATFORM_HEIGHT = 3.0f; //1.25f; // Minimum crouching height
     private float MAX_PLATFORM_HEIGHT = 10.0f; 
     private const float SPACESHIP_POSITION = 6f;
     private const float SPACESHIP_HEIGHT = 6.8f;
@@ -132,8 +132,10 @@ public class ItemManager : MonoBehaviour {
         //If we are starting a level normally, randomly initialize all items. Otherwise, restore the items
         //from saved parameters.
         if (!PersistentLevelSettings.settings.loadFromSave) {
-            MAX_PLATFORM_HEIGHT = apex() - PLATFORM_HEIGHT - 1f;
-            addPlatforms(jumpPlatform, jumpPlatformCount, MAX_PLATFORM_HEIGHT); // Make the platforms slightly lower than the maximum jumping distance
+            print("APEX");
+            print(apex());
+            MAX_PLATFORM_HEIGHT = apex() - PLATFORM_HEIGHT - 0.3f;
+            addPlatforms(jumpPlatform, jumpPlatformCount); // Make the platforms slightly lower than the maximum jumping distance
             addCollectibles(objective);
             addObjects(bouncyBox, boxCount, obstacles, MIN_ITEM_HEIGHT);
             addObjects(slowCloud, slowCloudCount, clouds, MIN_ITEM_HEIGHT);
@@ -245,7 +247,7 @@ public class ItemManager : MonoBehaviour {
     /// <param name="maxHeight"></param>
     /// <param name="leftPoint"></param>
     /// <param name="rightPoint"></param>
-    private void GetTwoPointsStrictlyAboveWalkable (float minHeight, float maxHeight, float distance,
+    private void GetTwoPointsStrictlyAboveWalkable (float minHeight, float distance,
                                                     out Vector2 leftPoint, out Vector2 rightPoint) {
         GetRandomPointOnWalkable(out leftPoint);
         GetPointAtDistanceOnWalkable(leftPoint, distance, out rightPoint);
@@ -257,9 +259,9 @@ public class ItemManager : MonoBehaviour {
         // the right corner is closer to the ground, the left corner is farther from the ground
         if (leftPoint.y > rightPoint.y) {
 
-            leftPoint = new Vector2(leftPoint.x, Random.Range(rightPoint.y + minHeight, rightPoint.y + maxHeight));
+            leftPoint = new Vector2(leftPoint.x, Random.Range(rightPoint.y + minHeight, rightPoint.y + MAX_PLATFORM_HEIGHT));
         } else { // the left corner is closer to the ground, the right corner is farther from the ground
-            leftPoint = new Vector2(leftPoint.x, Random.Range(leftPoint.y + minHeight, leftPoint.y + maxHeight));
+            leftPoint = new Vector2(leftPoint.x, Random.Range(leftPoint.y + minHeight, leftPoint.y + MAX_PLATFORM_HEIGHT));
         }
         print("getTwoPointsStrictlyAboveWalkable");
 
@@ -293,38 +295,58 @@ public class ItemManager : MonoBehaviour {
         }
     }
 
-    private void addPlatforms(Transform obj, int count, float height) {
+    private void addPlatforms(Transform obj, int count) {
         for (int i = 0; i < count; ++i) {
             Vector2 leftPoint, rightPoint;
-            GetTwoPointsStrictlyAboveWalkable(MIN_PLATFORM_HEIGHT, height, PLATFORM_LENGTH, out leftPoint, out rightPoint);
+            GetTwoPointsStrictlyAboveWalkable(MIN_PLATFORM_HEIGHT, PLATFORM_LENGTH, out leftPoint, out rightPoint);
 
-            //bool validLocation = checkIfValidPlatformLocation(leftPoint);
-            //if (!validLocation) { // We don't want to spawn platforms inside of other platforms
-                //addPlatformStack(obj, count, height, leftPoint.x);
-            //    continue;
-            //}
-        
-            // add stacks to half of the platforms
-            if (i % 2 == 1) {
-                //addPlatformStack(obj, count, height, leftPoint.x);
+            bool validLocation = checkIfValidPlatformLocation(leftPoint);
+            if (!validLocation) { // We don't want to spawn platforms inside of other platforms
+                continue;
             }
+
             // Take the leftmost point calculated (both should be at the same height)
             leftPoint.x = leftPoint.x + PLATFORM_LENGTH / 2;
             leftPoint.y = leftPoint.y + PLATFORM_HEIGHT / 2;
 
+            // add stacks to half of the platforms
+            if (i % 2 == 1) {
+                print("Adding stack!");
+                addPlatformStack(obj, 3, leftPoint.y, leftPoint.x);
+            }
+
             platforms.Add(Instantiate(obj, leftPoint, Quaternion.identity) as Transform);
         }
     }
-    //private void addPlatformStack(Transform obj, int count, float height, float xLoc) {
+    private void addPlatformStack(Transform obj, int count, float height, float xLoc) {
+        float whichLoc = Random.Range(0f, 1f);
 
-    //    float newXLoc = Random.Range(xLoc - 3f, xLoc + 3f);
-    //    float newYLoc = Random.Range(height + MIN_PLATFORM_HEIGHT, height + MAX_PLATFORM_HEIGHT);
+        float onePosXLoc = Random.Range(xLoc - 8f, xLoc - 1f);
+        float otherPosXLoc = Random.Range(xLoc + 1f, xLoc + 8f);
 
-    //    Vector2 newPlatformLoc = new Vector2(newXLoc, newYLoc);
-    //    platforms.Add(Instantiate(obj, newPlatformLoc, Quaternion.identity) as Transform);
+        float newXLoc;
 
-    //    addPlatformStack(obj, count - 1, newYLoc, newXLoc);
-    //}
+        if (whichLoc < 0.5) {
+            newXLoc = onePosXLoc;
+        } else {
+            newXLoc = otherPosXLoc;
+        }
+
+        print("HEIGHT");
+        print(height);
+        print(MAX_PLATFORM_HEIGHT);
+        float newYLoc = height + MIN_PLATFORM_HEIGHT;//Random.Range(height + MIN_PLATFORM_HEIGHT, height + MAX_PLATFORM_HEIGHT);
+       
+
+        Vector2 newPlatformLoc = new Vector2(newXLoc, newYLoc);
+       // if (!checkIfValidPlatformLocation(newPlatformLoc)) {
+            platforms.Add(Instantiate(obj, newPlatformLoc, Quaternion.identity) as Transform);
+       // }
+        print("Here");
+        if (count > 0) {
+            addPlatformStack(obj, count - 1, newYLoc, newXLoc);
+        }
+    }
 
     /// <summary>
     /// Takes in the leftmost point of a potential platform position and 
