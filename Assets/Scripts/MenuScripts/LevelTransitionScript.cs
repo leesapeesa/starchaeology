@@ -38,6 +38,15 @@ public class LevelTransitionScript : MonoBehaviour {
         }
     }
 
+    void SetMaximumGravity() {
+        float approxLengthOfOneFrame = Time.fixedDeltaTime;
+        float gravity = PersistentTerrainSettings.settings.gravityEffect * 9.8f;
+        float initialVelocity = (PersistentPlayerSettings.settings.jumpForce - gravity) * approxLengthOfOneFrame;
+        float playerHeight = 3.2f;
+
+        maxGravity = initialVelocity * initialVelocity / 2 * playerHeight;
+    }
+
     private void GetRandomBlurb() {
         blurbText.text = fortunes.GetRandom();
     }
