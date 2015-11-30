@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace UnityStandardAssets._2D
@@ -10,7 +11,9 @@ namespace UnityStandardAssets._2D
         public float lookAheadFactor = 3;
         public float lookAheadReturnSpeed = 0.5f;
         public float lookAheadMoveThreshold = 0.1f;
-        
+        public List<Material> skyboxes;
+        public Skybox skybox;
+
         private float m_OffsetZ;
         private Vector3 m_LastTargetPosition;
         private Vector3 m_CurrentVelocity;
@@ -35,6 +38,8 @@ namespace UnityStandardAssets._2D
             
             minX = -(minX - cameraWidth) + 1.0f;
             maxX = maxX - cameraWidth - 1.0f;
+
+            setRandomSky();
         }
 
 
@@ -67,6 +72,11 @@ namespace UnityStandardAssets._2D
 
             currentPosition.x = Mathf.Clamp(transform.position.x, minX, maxX);
             transform.position = currentPosition;
+        }
+        private void setRandomSky() {
+            float rand = UnityEngine.Random.Range(0f, (float)skyboxes.Count);
+            skybox.material = skyboxes[(int)rand];
+
         }
     }
 }

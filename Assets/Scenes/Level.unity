@@ -1493,6 +1493,7 @@ GameObject:
   - 124: {fileID: 672828994}
   - 81: {fileID: 672828993}
   - 114: {fileID: 672828998}
+  - 45: {fileID: 672828999}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1583,6 +1584,21 @@ MonoBehaviour:
   lookAheadFactor: 0
   lookAheadReturnSpeed: 0
   lookAheadMoveThreshold: 0
+  skyboxes:
+  - {fileID: 2100000, guid: e980bc7fbb00dc34b86b95ac842d1920, type: 2}
+  - {fileID: 2100000, guid: b8f20d5ca50d16143afc11f5e4af6fc1, type: 2}
+  - {fileID: 2100000, guid: a07fadb24ea940240afba3afc1a692cc, type: 2}
+  - {fileID: 2100000, guid: 5b21c6a8ce40f9641bd1204324b90b2c, type: 2}
+  - {fileID: 2100000, guid: 966766f4829d6ad419eaaf7cf0712f85, type: 2}
+  skybox: {fileID: 672828999}
+--- !u!45 &672828999
+Skybox:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 672828992}
+  m_Enabled: 1
+  m_CustomSkybox: {fileID: 0}
 --- !u!1 &734312039
 GameObject:
   m_ObjectHideFlags: 0
