@@ -81,8 +81,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -740651167
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: cc7dc814361091f4297a5ab73e1dba14, type: 3}
-  m_Color: {r: .602941155, g: .455263376, b: .137435108, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 2236ef46d79e28f468bf9f1713fccc58, type: 3}
+  m_Color: {r: .992156923, g: .992156923, b: .992156923, a: 1}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -93,19 +93,19 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: cc7dc814361091f4297a5ab73e1dba14,
+      objectReference: {fileID: 21300000, guid: 2236ef46d79e28f468bf9f1713fccc58,
         type: 3}
     - target: {fileID: 0}
       propertyPath: m_Color.r
-      value: .602941155
+      value: .992156923
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Color.g
-      value: .455263376
+      value: .992156923
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Color.b
-      value: .137435108
+      value: .992156923
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.x
