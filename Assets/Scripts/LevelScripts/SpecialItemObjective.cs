@@ -26,8 +26,7 @@ public class SpecialItemObjective : TimedObjective {
 
     public override bool ObjectiveComplete()
     {
-        return (itemManager.GetSpecialItemsRemaining() == 0) && 
-               (!InventoryScript.inventory.HasItemOfType("SpecialItem"));
+        return (itemManager.GetSpecialItemsRemaining() == 0);
     }
 
     public override bool ObjectiveFailed()
@@ -44,7 +43,7 @@ public class SpecialItemObjective : TimedObjective {
     {
         string currentGoal = itemManager.GetSpecialItemsRemaining() > 0 ?
                              "Find the golden idol!" :
-                             "Get back to your ship!";
+                             RETURN_TO_SHIP;
         return currentGoal + "\nTime remaining: " + (int)timeRemaining;
     }
 }

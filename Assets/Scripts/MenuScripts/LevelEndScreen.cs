@@ -6,6 +6,6 @@ public class LevelEndScreen : MonoBehaviour {
     public void NewGame()
     {
         Time.timeScale = 1;
-        Application.LoadLevel(2);
+        LevelUtil.EndGame(LevelUtil.GameEndType.NEW_GAME);
     }
 }

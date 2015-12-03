@@ -46,8 +46,4 @@ public class OptionsMenuScript : MonoBehaviour {
         QualitySettings.SetQualityLevel(qualityDropdown.value);
     }
 
-    public void Back () {
-        Application.LoadLevel(0); // Load the main menu
-    }
-
 }

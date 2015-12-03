@@ -112,7 +112,7 @@ public class InGameMenuScript : MonoBehaviour {
 
     public void MainMenu () {
         Time.timeScale = 1;
-        Application.LoadLevel(0);
+        LevelUtil.EndGame(LevelUtil.GameEndType.MAIN_MENU);
     }
 
     public void Options() {

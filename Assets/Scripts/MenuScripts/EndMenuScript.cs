@@ -5,6 +5,6 @@ public class EndMenuScript : MonoBehaviour {
 
 	public void MainMenu()
     {
-        Application.LoadLevel(0);
+        LevelUtil.EndGame(LevelUtil.GameEndType.MAIN_MENU);
     }
 }

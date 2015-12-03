@@ -4,6 +4,6 @@ using System.Collections;
 public class IntroScreenScript : MonoBehaviour {
 
     public void Play () {
-        Application.LoadLevel(2);
+        LevelUtil.EndGame(LevelUtil.GameEndType.NEW_GAME);
     }
 }
