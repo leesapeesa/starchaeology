@@ -13,6 +13,7 @@ public class ItemManager : MonoBehaviour {
     public int enemyCount = 3;
     public float unreachableFactor = 3f;
     public int jumpPlatformCount = 5;
+    public int stackHeight = 10; // Max number of platforms in a stack
 
     public bool allCollected = false;
 
@@ -256,19 +257,14 @@ public class ItemManager : MonoBehaviour {
             GetRandomPointOnWalkable(out leftPoint);
         } else {
             GetPointOnWalkable(xCoord, out leftPoint);
-            print("POINT");
-            print(leftPoint);
         }
 
         GetPointAtDistanceOnWalkable(leftPoint, distance, out rightPoint);
 
         float leftWalkableHeight = leftPoint.y;
         float rightWalkableHeight = rightPoint.y;
-        print("leftWalkableHeight");
-        print(leftWalkableHeight);
 
         if (Mathf.Abs(leftWalkableHeight - rightWalkableHeight) > MIN_PLATFORM_HEIGHT/3f) {
-            print("The slope is too great, generating a different platform location");
             GetTwoPointsStrictlyAboveWalkable(distance, false, leftPoint.x + 5.0f, out leftPoint, out rightPoint);
             return;
         }
@@ -335,15 +331,14 @@ public class ItemManager : MonoBehaviour {
             leftPoint.x = leftPoint.x + PLATFORM_LENGTH / 2;
             leftPoint.y = leftPoint.y + PLATFORM_HEIGHT / 2;
 
-            float rand = Random.Range(0f, 10f);
+            float rand = Random.Range(0, stackHeight);
             // add stacks randomly
-            if (rand < 5) {
-                addPlatformStack(obj, (int)rand, leftPoint.y, leftPoint.x);
-            }
+            addPlatformStack(obj, (int)rand, leftPoint.y, leftPoint.x);
 
             platforms.Add(Instantiate(obj, leftPoint, Quaternion.identity) as Transform);
         }
     }
+
     private void addPlatformStack(Transform obj, int count, float height, float xLoc) {
         float whichLoc = Random.Range(0f, 1f);
 
