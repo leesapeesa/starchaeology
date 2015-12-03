@@ -40,7 +40,6 @@ public class ItemManager : MonoBehaviour {
     private List<Transform> enemies;
     private List<Transform> obstacles;
     private List<Transform> goalCollectibles;
-    private List<Vector2> platformLocations; // List of the leftmost corners of all existing platforms
     private float gravityEffect;
     private Dictionary<Transform, float> pTable; //enemy type probability table
     private int? goalItemType = null;
@@ -269,6 +268,12 @@ public class ItemManager : MonoBehaviour {
             return;
         }
 
+        // We don't want platforms to spawn close to the edges of the terrain
+        if (xCoord > (sideLength/2 - 5f) || xCoord < (-sideLength/2 + 5f)) {
+            GetTwoPointsStrictlyAboveWalkable(distance, false, leftPoint.x / 2.0f, out leftPoint, out rightPoint);
+            return;
+        }
+
         // the right corner is closer to the ground, the left corner is farther from the ground
         if (leftPoint.y > rightPoint.y) {
             leftPoint = new Vector2(leftPoint.x, Random.Range(rightPoint.y + MIN_PLATFORM_HEIGHT, rightPoint.y + MAX_PLATFORM_HEIGHT));
@@ -331,6 +336,10 @@ public class ItemManager : MonoBehaviour {
             leftPoint.x = leftPoint.x + PLATFORM_LENGTH / 2;
             leftPoint.y = leftPoint.y + PLATFORM_HEIGHT / 2;
 
+            if (leftPoint.x >= 50) {
+                print("BAD PLATFORM!!!");
+            }
+
             float rand = Random.Range(0, stackHeight);
             // add stacks randomly
             addPlatformStack(obj, (int)rand, leftPoint.y, leftPoint.x);
@@ -356,6 +365,13 @@ public class ItemManager : MonoBehaviour {
         float newYLoc = height + MIN_PLATFORM_HEIGHT;//Random.Range(height + MIN_PLATFORM_HEIGHT, height + MAX_PLATFORM_HEIGHT);
 
         Vector2 newPlatformLoc = new Vector2(newXLoc, newYLoc);
+
+        // We don't want platforms to spawn close to the edges of the terrain
+        if (newXLoc> (sideLength / 2 - 5f - PLATFORM_LENGTH) || newYLoc < (-sideLength / 2 + 5f)) { 
+            return;
+        }
+
+
         if (checkIfValidPlatformLocation(newPlatformLoc) ){
             platforms.Add(Instantiate(obj, newPlatformLoc, Quaternion.identity) as Transform);
         }
