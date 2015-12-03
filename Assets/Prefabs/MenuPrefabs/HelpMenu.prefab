@@ -242,7 +242,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Use the left and right arrows to move the player and spacebar to jump
+  m_Text: Use the left and right arrows to move the player and spacebar to jump. You
+    can grab cubes by holding left shift.
 --- !u!114 &11402250
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -274,9 +275,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Collected items appear in your inventory. Hearts restore health and stopwatches
-    add time to the level timer, if one exists. Collect other items to complete objectives
-    and gain points
+  m_Text: Use items you have collected by clicking on them in the inventory bar. Hearts
+    restore health and timers restore time, if a level timer exists. Other items relate
+    to the level objective.
 --- !u!114 &11404072
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -341,7 +342,8 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Enemies are rolling skulls. Red skulls kill you instantly and white skulls
-    damage you
+    damage you. Green clouds are poison and will also damage you. Grey clouds slow
+    down your avatar's movement.
 --- !u!114 &11414282
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -748,8 +750,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Complete the objective displayed on the right hand side of the screen to
-    beat a level. Complete all the levels to win
+  m_Text: Complete the objective displayed in the upper right coner of the screen
+    to beat a level. Complete all the levels to win
 --- !u!114 &11477260
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1092,9 +1094,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 22423874}
   m_RootOrder: 6
-  m_AnchorMin: {x: .5, y: 1}
-  m_AnchorMax: {x: .5, y: 1}
-  m_AnchoredPosition: {x: 6, y: -35}
+  m_AnchorMin: {x: .5, y: .5}
+  m_AnchorMax: {x: .5, y: .5}
+  m_AnchoredPosition: {x: 6, y: 200}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22489662
