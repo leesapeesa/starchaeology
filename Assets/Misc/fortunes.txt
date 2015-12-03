@@ -1,10 +1,19 @@
-testing reading  fortunes out from a file
+hold down left shift to pick up cubes
+cubes may come in handy to block the paths of enemies
+your objectives are displayed in the upper right hand corner
+avoid red skulls, they can kill you instantly!
+enemies will chase you back to your ship after you've collected certain items
+sometimes enemies will go back to your ship and stay there in an attempt to prevent you from returning to it
+climbing up platforms will sometimes let you get to the item you are looking for
+pressing the down arrow key will allow your character to crouch
+rocks and cubes can be helpful when trying to avoid enemies
+avoid the green clouds of poisonous gas. the more time you spend in one the lower your health will go
+grey clouds won't do any damage to you but they will slow you down
+complete your objectives to beat the level
+inventory items carry over to the next level, so if you have an item that isn't useful now it might be in the future. 
 are you trash because i'd like to take you out
-i love you guys <3333
-i'm not funny enough to write these.
-the capital letters on this font are throwing me off
-we can add things we want to show in front of a level here
-there's probably more complicated ways of doing this so that it actually shows in order of the level
-New line is weird. NEWLINE someone else figure it out pls.
-but if we want rando things we can add them in here
-right now it just goes through this linearly
+"great, kid. don't get cocky" - Han Solo
+"it's a trap!" - Admiral Ackbar
+"do. or do not. there is no try" - Yoda
+"i've got a bad feeling about this" - Han Solo
+"computer, compute to the last digit the value of pi" - Spock
