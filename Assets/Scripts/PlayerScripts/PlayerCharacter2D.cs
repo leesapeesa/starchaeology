@@ -32,6 +32,7 @@ public class PlayerCharacter2D : MonoBehaviour
     private bool m_PlayingFootsteps;
     private bool m_PlayingDeath;
     private GrabbableObject m_GrabbedObject = null;
+    private bool m_InSpaceship = false;
 
     public const float MAX_HEALTH = 100f;
     private const float GRABBED_OBJ_OFFSET_R = -0.3f;
@@ -47,6 +48,11 @@ public class PlayerCharacter2D : MonoBehaviour
     public float extraTime {
         get { return m_extraTime; }
         set { m_extraTime = value; }
+    }
+
+    public bool inSpaceship
+    {
+        get { return m_InSpaceship; }
     }
 
     private void Start()
@@ -218,6 +224,9 @@ public class PlayerCharacter2D : MonoBehaviour
         if (other.CompareTag("Slow")) {
             m_MaxSpeed = normalSpeed;
         }
+        if (other.CompareTag("Spaceship")) {
+            OnSpaceshipExit();
+        }
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -274,11 +283,21 @@ public class PlayerCharacter2D : MonoBehaviour
     /// </summary>
     private void OnSpaceshipEnter()
     {
+        m_InSpaceship = true;
+
         //Deposit the special item in the spaceship if the player has it.
         if (InventoryScript.inventory.HasItemOfType("SpecialItem")) {
             Collectible specialItem = InventoryScript.inventory.GetItemOfType("SpecialItem");
             InventoryScript.inventory.RemoveItemFromPossibleInventory(specialItem);
         }
+    }
+
+    /// <summary>
+    /// Occurs when the player leaves the spaceship
+    /// </summary>
+    private void OnSpaceshipExit()
+    {
+        m_InSpaceship = false;
     }
 }
 

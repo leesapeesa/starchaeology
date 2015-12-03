@@ -4,6 +4,8 @@ using System.Collections;
 
 public abstract class Objective {
 
+    protected const string RETURN_TO_SHIP = "Get back to your ship!";
+
     /// <summary>
     /// How many Special Items this objective needs to spawn
     /// </summary>

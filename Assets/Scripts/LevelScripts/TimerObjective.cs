@@ -25,7 +25,6 @@ public class TimerObjective : TimedObjective {
 
     public override bool ObjectiveComplete () {
         if (PersistentPlayerSettings.settings.levelScore >= winningScore) {
-            Debug.Log ("Objective Complete: " + PersistentPlayerSettings.settings.levelScore);
             return true;
         }
         return false;
@@ -42,6 +41,9 @@ public class TimerObjective : TimedObjective {
 
     public override string ToString()
     {
-        return "Collect " + winningScore + " gold. \n Time remaining: " + (int)timeRemaining;
+        string currentGoal = PersistentPlayerSettings.settings.levelScore < winningScore ?
+                             "Collect " + winningScore + " gold." :
+                             RETURN_TO_SHIP;
+        return currentGoal + "\n Time remaining: " + (int)timeRemaining;
     }
 }

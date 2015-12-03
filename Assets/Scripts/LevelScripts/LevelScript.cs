@@ -66,7 +66,7 @@ public class LevelScript : MonoBehaviour {
         }
 
 
-        if (objectiveCompleted && !objectiveFailed) {
+        if (player.inSpaceship && objectiveCompleted && !objectiveFailed) {
             Canvas winScreen = GameObject.Find("WinScreen").GetComponent<Canvas>();
             winScreen.enabled = true;
             print("You Win! Yay!");

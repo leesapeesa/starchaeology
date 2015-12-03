@@ -50,6 +50,10 @@ public class ItemsObjective : Objective {
 
     public override string ToString()
     {
-        return "collect all the " + goalNames[(int)goal] + "! (" + itemManager.GetGoalItemsRemaining() + " remaining)";
+        int remaining = itemManager.GetGoalItemsRemaining();
+        string currentGoal = remaining > 0 ? 
+                             "collect all the " + goalNames[(int)goal] + "! (" + remaining + " remaining)" :
+                             RETURN_TO_SHIP;
+        return currentGoal;
     }
 }
