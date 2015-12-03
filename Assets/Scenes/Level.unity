@@ -324,6 +324,10 @@ Prefab:
       propertyPath: slotLabels.Array.data[2]
       value: 
       objectReference: {fileID: 279819919}
+    - target: {fileID: 184548, guid: 3c78968180789c7499c0c900a906acf3, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3c78968180789c7499c0c900a906acf3, type: 2}
   m_IsPrefabParent: 0
@@ -383,9 +387,9 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -79.3999939, y: -104.000015}
+  m_AnchoredPosition: {x: 12.5999298, y: 0}
   m_SizeDelta: {x: 184, y: 208}
-  m_Pivot: {x: .5, y: .5}
+  m_Pivot: {x: 1, y: 1}
 --- !u!114 &317072965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1629,7 +1633,7 @@ RectTransform:
   m_RootOrder: 2
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 115, y: -25}
+  m_AnchoredPosition: {x: 115, y: -20}
   m_SizeDelta: {x: 200, y: 20}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &734312041
@@ -2113,7 +2117,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: .5, y: 1}
   m_AnchorMax: {x: .5, y: 1}
-  m_AnchoredPosition: {x: 32.2999992, y: -34.1000061}
+  m_AnchoredPosition: {x: 32.2999992, y: -37.2000008}
   m_SizeDelta: {x: 400.899994, y: 44.6000061}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &1135847827 stripped
@@ -3051,19 +3055,19 @@ Prefab:
     m_Modifications:
     - target: {fileID: 22409802, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22400966, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22405014, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22437888, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22446194, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_LocalPosition.x
@@ -3195,7 +3199,7 @@ RectTransform:
   m_RootOrder: 4
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 115, y: -60}
+  m_AnchoredPosition: {x: 115, y: -55}
   m_SizeDelta: {x: 200, y: 20}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1529408987
@@ -3553,6 +3557,7 @@ MonoBehaviour:
   enemyCount: 3
   unreachableFactor: 2
   jumpPlatformCount: 10
+  stackHeight: 10
   allCollected: 0
   bouncyBox: {fileID: 400000, guid: fc535e32951a64244b8d874f16383350, type: 2}
   stickyBox: {fileID: 400000, guid: c7dc5a32717854897854db2a45477a5c, type: 2}
