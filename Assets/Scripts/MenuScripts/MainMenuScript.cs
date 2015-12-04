@@ -42,4 +42,8 @@ public class MainMenuScript : MonoBehaviour {
     public void LoadGame () {
         loadGameMenu.enabled = true;
     }
+    
+    public void Credits () {
+        Application.LoadLevel(6);
+    }
 }
