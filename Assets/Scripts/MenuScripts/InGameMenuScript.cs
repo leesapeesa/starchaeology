@@ -22,6 +22,8 @@ public class InGameMenuScript : MonoBehaviour {
 
 
     private bool isPaused;
+    private bool lossScreenActive;
+    private bool winScreenActive;
 
     // Use this for initialization
     void Start () {
@@ -33,11 +35,18 @@ public class InGameMenuScript : MonoBehaviour {
     public void Update() {
 
         if (Input.GetKeyDown(KeyCode.Escape) && !isPaused) {
-            print("Not paused, escape press");
             PausePress();
         } else if (Input.GetKeyDown(KeyCode.Escape) && isPaused) {
-            print("Paused, escape press");
             Resume();
+        }
+
+        // Handling key inputs for the win and loss screens
+        if (Input.anyKey && lossScreen.enabled) {
+            Time.timeScale = 1;
+            LevelUtil.EndGame(LevelUtil.GameEndType.NEW_GAME);
+        } else if (Input.anyKey && winScreen.enabled) {
+            Time.timeScale = 1;
+            GameObject.FindWithTag("LoadGame").GetComponent<NewGameScript>().NextLevel();
         }
     }
 
