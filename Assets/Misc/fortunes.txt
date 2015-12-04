@@ -2,6 +2,8 @@ hold down left shift to pick up cubes
 cubes may come in handy to block the paths of enemies
 your objectives are displayed in the upper right hand corner
 avoid red skulls, they can kill you instantly!
+the different planets that you visit have different gravity, so you might notice a difference in how high player can jump
+the harder the difficulty, the more enemies there are
 enemies will chase you back to your ship after you've collected certain items
 sometimes enemies will go back to your ship and stay there in an attempt to prevent you from returning to it
 climbing up platforms will sometimes let you get to the item you are looking for
