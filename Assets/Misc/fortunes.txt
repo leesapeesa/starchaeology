@@ -1,21 +1,21 @@
-hold down left shift to pick up cubes
-cubes may come in handy to block the paths of enemies
-your objectives are displayed in the upper right hand corner
-avoid red skulls, they can kill you instantly!
-the different planets that you visit have different gravity, so you might notice a difference in how high player can jump
-the harder the difficulty, the more enemies there are
-enemies will chase you back to your ship after you've collected certain items
-sometimes enemies will go back to your ship and stay there in an attempt to prevent you from returning to it
-climbing up platforms will sometimes let you get to the item you are looking for
-pressing the down arrow key will allow your character to crouch
-rocks and cubes can be helpful when trying to avoid enemies
-avoid the green clouds of poisonous gas. the more time you spend in one the lower your health will go
-grey clouds won't do any damage to you but they will slow you down
-complete your objectives to beat the level
-inventory items carry over to the next level, so if you have an item that isn't useful now it might be in the future. 
-are you trash because i'd like to take you out
-"great, kid. don't get cocky" - Han Solo
-"it's a trap!" - Admiral Ackbar
-"do. or do not. there is no try" - Yoda
-"i've got a bad feeling about this" - Han Solo
-"computer, compute to the last digit the value of pi" - Spock
+Hold down left shift to pick up cubes
+Cubes may come in handy to block the paths of enemies
+Your objectives are displayed in the upper right hand corner
+Avoid red skulls, they can kill you instantly!
+The different planets that you visit have different gravity, so you might notice a difference in how high player can jump
+The harder the difficulty, the more enemies there are
+Enemies will chase you back to your ship after you've collected certain items
+Sometimes enemies will go back to your ship and stay there in an attempt to prevent you from returning to it
+Climbing up platforms will sometimes let you get to the item you are looking for
+Pressing the down arrow key will allow your character to crouch
+Rocks and cubes can be helpful when trying to avoid enemies
+Avoid the green clouds of poisonous gas. the more time you spend in one the lower your health will go
+Grey clouds won't do any damage to you but they will slow you down
+Complete your objectives to beat the level
+Inventory items carry over to the next level, so if you have an item that isn't useful now it might be in the future. 
+Are you trash because I'd like to take you out
+"Great, kid. Don't get cocky" - Han Solo
+"It's a trap!" - Admiral Ackbar
+"Do. Or do not. There is no try" - Yoda
+"I've got a bad feeling about this" - Han Solo
+"Computer, compute to the last digit the value of pi" - Spock
