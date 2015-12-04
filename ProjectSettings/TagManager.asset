@@ -22,6 +22,8 @@ TagManager:
   - Rock
   - BouncyBox
   - LevelObject
+  - LossScreen
+  - WinScreen
   layers:
   - Default
   - TransparentFX

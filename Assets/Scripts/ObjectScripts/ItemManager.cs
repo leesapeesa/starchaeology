@@ -13,6 +13,7 @@ public class ItemManager : MonoBehaviour {
     public int enemyCount = 3;
     public float unreachableFactor = 3f;
     public int jumpPlatformCount = 5;
+    public int stackHeight = 10; // Max number of platforms in a stack
 
     public bool allCollected = false;
 
@@ -39,7 +40,6 @@ public class ItemManager : MonoBehaviour {
     private List<Transform> enemies;
     private List<Transform> obstacles;
     private List<Transform> goalCollectibles;
-    private List<Vector2> platformLocations; // List of the leftmost corners of all existing platforms
     private float gravityEffect;
     private Dictionary<Transform, float> pTable; //enemy type probability table
     private int? goalItemType = null;
@@ -136,7 +136,7 @@ public class ItemManager : MonoBehaviour {
             if (MAX_PLATFORM_HEIGHT < MIN_PLATFORM_HEIGHT) {
                 MAX_PLATFORM_HEIGHT = MIN_PLATFORM_HEIGHT;
             }
-            MAX_PLATFORM_HEIGHT = MIN_PLATFORM_HEIGHT;
+
             addPlatforms(jumpPlatform, jumpPlatformCount); // Make the platforms slightly lower than the maximum jumping distance
             addCollectibles(objective);
             addObjects(bouncyBox, boxCount, obstacles, MIN_ITEM_HEIGHT);
@@ -207,7 +207,7 @@ public class ItemManager : MonoBehaviour {
         if (hit.collider != null) {
             point = hit.point;
         } else {
-            point = new Vector2 (xCoor, 10f);
+            point = new Vector2 (sideLength, 10f);
         }
     }
 
@@ -227,7 +227,7 @@ public class ItemManager : MonoBehaviour {
         if (hit.collider != null) {
             secondPoint = hit.point;
         } else {
-            secondPoint = new Vector2(xCoor, 10f);
+            secondPoint = new Vector2(sideLength, 10f);
         }                                     
     }
 
@@ -249,27 +249,23 @@ public class ItemManager : MonoBehaviour {
     /// <param name="maxHeight"></param>
     /// <param name="leftPoint"></param>
     /// <param name="rightPoint"></param>
-    private void GetTwoPointsStrictlyAboveWalkable (float distance, bool isRandom, float xCoord, out Vector2 leftPoint, out Vector2 rightPoint) {
+    private void GetTwoPointsStrictlyAboveWalkable (float distance, float xCoord, out Vector2 leftPoint, out Vector2 rightPoint, out bool succeeded) {
         
         // Choose the point deterministically or randomly depending on input
-        if (isRandom) {
-            GetRandomPointOnWalkable(out leftPoint);
-        } else {
-            GetPointOnWalkable(xCoord, out leftPoint);
-            print("POINT");
-            print(leftPoint);
-        }
-
+        GetRandomPointOnWalkable(out leftPoint);
         GetPointAtDistanceOnWalkable(leftPoint, distance, out rightPoint);
 
         float leftWalkableHeight = leftPoint.y;
         float rightWalkableHeight = rightPoint.y;
-        print("leftWalkableHeight");
-        print(leftWalkableHeight);
 
         if (Mathf.Abs(leftWalkableHeight - rightWalkableHeight) > MIN_PLATFORM_HEIGHT/3f) {
-            print("The slope is too great, generating a different platform location");
-            GetTwoPointsStrictlyAboveWalkable(distance, false, leftPoint.x + 5.0f, out leftPoint, out rightPoint);
+            succeeded = false;
+            return;
+        }
+
+        // We don't want platforms to spawn close to the edges of the terrain
+        if (xCoord > (sideLength/2 - 5f - PLATFORM_LENGTH) || xCoord < (-sideLength/2 + 5f)) {
+            succeeded = false;
             return;
         }
 
@@ -281,8 +277,7 @@ public class ItemManager : MonoBehaviour {
         }
 
         rightPoint = new Vector2(rightPoint.x, leftPoint.y);
-        print(rightPoint.y - rightWalkableHeight);
-        print(leftPoint.y - leftWalkableHeight);
+        succeeded = true;
     }
 
     private void GetPointOnWalkable(float xCoord, out Vector2 leftPoint) {
@@ -324,7 +319,13 @@ public class ItemManager : MonoBehaviour {
     private void addPlatforms(Transform obj, int count) {
         for (int i = 0; i < count; ++i) {
             Vector2 leftPoint, rightPoint;
-            GetTwoPointsStrictlyAboveWalkable(PLATFORM_LENGTH, true, 0.0f, out leftPoint, out rightPoint);
+            bool succeeded = true;
+            GetTwoPointsStrictlyAboveWalkable(PLATFORM_LENGTH, 0.0f, out leftPoint, out rightPoint, out succeeded);
+            
+            // if get two points did not successfully retrieve two points, don't add a platform
+            if (!succeeded) {
+                continue;
+            }
 
             bool validLocation = checkIfPlatformTooClose(leftPoint, 3.0f);
             if (!validLocation) { // We don't want to spawn platforms inside of other platforms
@@ -335,15 +336,14 @@ public class ItemManager : MonoBehaviour {
             leftPoint.x = leftPoint.x + PLATFORM_LENGTH / 2;
             leftPoint.y = leftPoint.y + PLATFORM_HEIGHT / 2;
 
-            float rand = Random.Range(0f, 10f);
+            float rand = Random.Range(0, stackHeight);
             // add stacks randomly
-            if (rand < 5) {
-                addPlatformStack(obj, (int)rand, leftPoint.y, leftPoint.x);
-            }
+            addPlatformStack(obj, (int)rand, leftPoint.y, leftPoint.x);
 
             platforms.Add(Instantiate(obj, leftPoint, Quaternion.identity) as Transform);
         }
     }
+
     private void addPlatformStack(Transform obj, int count, float height, float xLoc) {
         float whichLoc = Random.Range(0f, 1f);
 
@@ -358,9 +358,16 @@ public class ItemManager : MonoBehaviour {
             newXLoc = otherPosXLoc;
         }
 
-        float newYLoc = height + MIN_PLATFORM_HEIGHT;//Random.Range(height + MIN_PLATFORM_HEIGHT, height + MAX_PLATFORM_HEIGHT);
+        float newYLoc = Random.Range(height + MIN_PLATFORM_HEIGHT, height + MAX_PLATFORM_HEIGHT);
 
         Vector2 newPlatformLoc = new Vector2(newXLoc, newYLoc);
+
+        // We don't want platforms to spawn close to the edges of the terrain
+        if (newXLoc> (sideLength / 2 - 5f - PLATFORM_LENGTH) || newYLoc < (-sideLength / 2 + 5f)) { 
+            return;
+        }
+
+
         if (checkIfValidPlatformLocation(newPlatformLoc) ){
             platforms.Add(Instantiate(obj, newPlatformLoc, Quaternion.identity) as Transform);
         }
