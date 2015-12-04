@@ -136,7 +136,7 @@ public class ItemManager : MonoBehaviour {
             if (MAX_PLATFORM_HEIGHT < MIN_PLATFORM_HEIGHT) {
                 MAX_PLATFORM_HEIGHT = MIN_PLATFORM_HEIGHT;
             }
-            MAX_PLATFORM_HEIGHT = MIN_PLATFORM_HEIGHT;
+
             addPlatforms(jumpPlatform, jumpPlatformCount); // Make the platforms slightly lower than the maximum jumping distance
             addCollectibles(objective);
             addObjects(bouncyBox, boxCount, obstacles, MIN_ITEM_HEIGHT);
@@ -249,28 +249,23 @@ public class ItemManager : MonoBehaviour {
     /// <param name="maxHeight"></param>
     /// <param name="leftPoint"></param>
     /// <param name="rightPoint"></param>
-    private void GetTwoPointsStrictlyAboveWalkable (float distance, bool isRandom, float xCoord, out Vector2 leftPoint, out Vector2 rightPoint) {
+    private void GetTwoPointsStrictlyAboveWalkable (float distance, float xCoord, out Vector2 leftPoint, out Vector2 rightPoint, out bool succeeded) {
         
         // Choose the point deterministically or randomly depending on input
-        if (isRandom) {
-            GetRandomPointOnWalkable(out leftPoint);
-        } else {
-            GetPointOnWalkable(xCoord, out leftPoint);
-        }
-
+        GetRandomPointOnWalkable(out leftPoint);
         GetPointAtDistanceOnWalkable(leftPoint, distance, out rightPoint);
 
         float leftWalkableHeight = leftPoint.y;
         float rightWalkableHeight = rightPoint.y;
 
         if (Mathf.Abs(leftWalkableHeight - rightWalkableHeight) > MIN_PLATFORM_HEIGHT/3f) {
-            GetTwoPointsStrictlyAboveWalkable(distance, false, leftPoint.x + 5.0f, out leftPoint, out rightPoint);
+            succeeded = false;
             return;
         }
 
         // We don't want platforms to spawn close to the edges of the terrain
-        if (xCoord > (sideLength/2 - 5f) || xCoord < (-sideLength/2 + 5f)) {
-            GetTwoPointsStrictlyAboveWalkable(distance, false, leftPoint.x / 2.0f, out leftPoint, out rightPoint);
+        if (xCoord > (sideLength/2 - 5f - PLATFORM_LENGTH) || xCoord < (-sideLength/2 + 5f)) {
+            succeeded = false;
             return;
         }
 
@@ -282,8 +277,7 @@ public class ItemManager : MonoBehaviour {
         }
 
         rightPoint = new Vector2(rightPoint.x, leftPoint.y);
-        print(rightPoint.y - rightWalkableHeight);
-        print(leftPoint.y - leftWalkableHeight);
+        succeeded = true;
     }
 
     private void GetPointOnWalkable(float xCoord, out Vector2 leftPoint) {
@@ -325,7 +319,13 @@ public class ItemManager : MonoBehaviour {
     private void addPlatforms(Transform obj, int count) {
         for (int i = 0; i < count; ++i) {
             Vector2 leftPoint, rightPoint;
-            GetTwoPointsStrictlyAboveWalkable(PLATFORM_LENGTH, true, 0.0f, out leftPoint, out rightPoint);
+            bool succeeded = true;
+            GetTwoPointsStrictlyAboveWalkable(PLATFORM_LENGTH, 0.0f, out leftPoint, out rightPoint, out succeeded);
+            
+            // if get two points did not successfully retrieve two points, don't add a platform
+            if (!succeeded) {
+                continue;
+            }
 
             bool validLocation = checkIfPlatformTooClose(leftPoint, 3.0f);
             if (!validLocation) { // We don't want to spawn platforms inside of other platforms
@@ -335,10 +335,6 @@ public class ItemManager : MonoBehaviour {
             // Take the leftmost point calculated (both should be at the same height)
             leftPoint.x = leftPoint.x + PLATFORM_LENGTH / 2;
             leftPoint.y = leftPoint.y + PLATFORM_HEIGHT / 2;
-
-            if (leftPoint.x >= 50) {
-                print("BAD PLATFORM!!!");
-            }
 
             float rand = Random.Range(0, stackHeight);
             // add stacks randomly
@@ -362,7 +358,7 @@ public class ItemManager : MonoBehaviour {
             newXLoc = otherPosXLoc;
         }
 
-        float newYLoc = height + MIN_PLATFORM_HEIGHT;//Random.Range(height + MIN_PLATFORM_HEIGHT, height + MAX_PLATFORM_HEIGHT);
+        float newYLoc = Random.Range(height + MIN_PLATFORM_HEIGHT, height + MAX_PLATFORM_HEIGHT);
 
         Vector2 newPlatformLoc = new Vector2(newXLoc, newYLoc);
 
