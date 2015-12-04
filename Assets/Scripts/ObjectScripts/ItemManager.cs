@@ -207,7 +207,7 @@ public class ItemManager : MonoBehaviour {
         if (hit.collider != null) {
             point = hit.point;
         } else {
-            point = new Vector2 (xCoor, 10f);
+            point = new Vector2 (sideLength, 10f);
         }
     }
 
@@ -227,7 +227,7 @@ public class ItemManager : MonoBehaviour {
         if (hit.collider != null) {
             secondPoint = hit.point;
         } else {
-            secondPoint = new Vector2(xCoor, 10f);
+            secondPoint = new Vector2(sideLength, 10f);
         }                                     
     }
 
