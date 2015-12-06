@@ -65,9 +65,11 @@ public class ItemManager : MonoBehaviour {
         enemyCount = PersistentLevelSettings.settings.numEnemies;
         slowCloudCount = PersistentLevelSettings.settings.numSlowClouds;
         poisonCloudCount = PersistentLevelSettings.settings.numPoisonClouds;
+        boxCount = PersistentLevelSettings.settings.boxCount;
         collectCount = PersistentLevelSettings.settings.collectCount;
         jumpPlatformCount = PersistentLevelSettings.settings.numPlatforms;
         goalCollectCount = PersistentLevelSettings.settings.goalCollectCount;
+        stackHeight = PersistentLevelSettings.settings.stackHeight;
 
         //initialize the probability table
         pTable = new Dictionary<Transform, float>(enemyList.Length);

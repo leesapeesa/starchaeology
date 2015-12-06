@@ -27,6 +27,7 @@ public abstract class TimedObjective : Objective {
     /// </summary>
     protected void UpdateTimer()
     {
+        capPlayerTime();
         timeRemaining = timeLimit - Time.timeSinceLevelLoad - PersistentLevelSettings.settings.savedTime + player.extraTime;
         int timeAsInt = (int)timeRemaining;
         remainingTimeText.text = timeAsInt.ToString();
@@ -35,5 +36,18 @@ public abstract class TimedObjective : Objective {
         float newWidth = fracTime * TIMERBAR_WIDTH;
         timerBar.sizeDelta = new Vector2(newWidth, timerBar.sizeDelta.y);
         timerBar.anchoredPosition = new Vector2(newWidth / 2, 0);
+    }
+
+    /// <summary>
+    /// If the player's current extra time would result in having more time left than the maximum time limit,
+    /// adjust the player's extra time to cap the possible amount of time left.
+    /// </summary>
+    protected void capPlayerTime()
+    {
+        float rawTimeRemaining = timeLimit - Time.timeSinceLevelLoad - PersistentLevelSettings.settings.savedTime + player.extraTime;
+        if (rawTimeRemaining > timeLimit) {
+            //set extra time such that it exactly cancels out already passed time, such that time remaining equals timeLimit
+            player.extraTime = Time.timeSinceLevelLoad + PersistentLevelSettings.settings.savedTime;
+        }
     }
 }
