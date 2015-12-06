@@ -54,7 +54,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80f62283e0ab59b478b62f07a879d468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemIcon: {fileID: 21300000, guid: 08899c7b95056de458c07a171209ec23, type: 3}
+  itemIcon: {fileID: 21300000, guid: 555159fb2ef472942b7b98c0992dce74, type: 3}
   value: 30
   pickupSound: {fileID: 8300000, guid: 8904096a3646d43fd88ea2a4d254fa10, type: 3}
 --- !u!212 &21276832
@@ -75,7 +75,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -109,7 +111,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: itemIcon
       value: 
-      objectReference: {fileID: 21300000, guid: 08899c7b95056de458c07a171209ec23,
+      objectReference: {fileID: 21300000, guid: 555159fb2ef472942b7b98c0992dce74,
         type: 3}
     - target: {fileID: 0}
       propertyPath: m_Sprite
