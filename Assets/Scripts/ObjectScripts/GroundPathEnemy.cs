@@ -6,6 +6,16 @@ using System.Collections;
 /// </summary>
 public class GroundPathEnemy : Enemy {
 
+    /// <summary>
+    /// Defines how GroundPathEnemies in this level behave.
+    /// </summary>
+    public enum Behavior
+    {
+        NORMAL,
+        CHASE,
+        BLOCKADE
+    }
+
     private float[] waypoints; // An ordered list of points that this enemy must visit, measured as x-coordinates
     private int numWaypoints = 2; // Number of waypoints this enemy should use. Keeping it at 2 for now to stay simple.
     private int waypointIndex = 0; // The current waypoint the enemy is moving towards
@@ -14,6 +24,7 @@ public class GroundPathEnemy : Enemy {
     protected AudioSource audioSource;
     protected const float THRESHOLD = 0.5f;
     private const float CHASE_SPEED = 5;
+    private const float BLOCKADE_POS = 10;
 
     public static float contactDamage = 20;
 
@@ -32,16 +43,24 @@ public class GroundPathEnemy : Enemy {
 	void FixedUpdate () {
         float curX = rigidbody2d.position.x;
 
-        //under normal circumstances, go to the next waypoint
-        //if enemies should be chasing the player, go to the player's position
-        float waypoint = PersistentLevelSettings.settings.enemiesShouldFollowPlayer ?
-                         PersistentPlayerSettings.settings.playerPos.x :
-                         waypoints[waypointIndex];
+        float waypoint;
+        //where the enemy wants to go will depend on its current behavior
+        switch (PersistentLevelSettings.settings.enemyBehavior) {
+            case Behavior.CHASE:
+                waypoint = PersistentPlayerSettings.settings.playerPos.x;
+                break;
+            case Behavior.BLOCKADE:
+                waypoint = GameObject.Find("ObjectManager").GetComponent<ItemManager>().GetAbsoluteSpaceshipPosition() + BLOCKADE_POS;
+                break;
+            default:
+                waypoint = waypoints[waypointIndex];
+                break;
+        }
 
         float distanceToWaypoint = curX - waypoint;
 
-        //go faster if chasing the player
-        if (PersistentLevelSettings.settings.enemiesShouldFollowPlayer)
+        //go faster if chasing or blockading the player
+        if (PersistentLevelSettings.settings.enemyBehavior != Behavior.NORMAL)
             velocity = CHASE_SPEED;
 
         //update the enemy's movement

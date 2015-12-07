@@ -491,7 +491,7 @@ public class ItemManager : MonoBehaviour {
     /// </summary>
     private void addSpaceship()
     {
-        float xPos = -sideLength / 2 + SPACESHIP_POSITION;
+        float xPos = GetAbsoluteSpaceshipPosition();
         //Get the y coordinate at the "landing site"
         RaycastHit hit;
         if (Physics.Raycast(new Vector3(xPos, RAYCAST_ORIGIN, SPACESHIP_DEPTH), Vector3.down, out hit)) {
@@ -656,6 +656,11 @@ public class ItemManager : MonoBehaviour {
     public int GetGoalItemsRemaining()
     {
         return goalCollectibles.Count;
+    }
+
+    public float GetAbsoluteSpaceshipPosition()
+    {
+        return -sideLength / 2 + SPACESHIP_POSITION;
     }
 
     /// <summary>

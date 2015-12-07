@@ -13,7 +13,6 @@ public class SpecialItemCollectible : Collectible {
     {
         PersistentPlayerSettings.settings.levelScore += value;
         PersistentPlayerSettings.settings.overallScore += value;
-        PersistentLevelSettings.settings.enemiesShouldFollowPlayer = true;
         InventoryScript.inventory.AddItemToInventory(this);
     }
 

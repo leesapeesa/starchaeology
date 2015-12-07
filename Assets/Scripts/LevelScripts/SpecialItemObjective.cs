@@ -22,6 +22,8 @@ public class SpecialItemObjective : TimedObjective {
 
     public override int NumSpecialItems { get { return 1; } }
 
+    public override GroundPathEnemy.Behavior EnemyBehaviorOnComplete { get { return GroundPathEnemy.Behavior.CHASE; } }
+
     public override string Type { get { return type; } }
 
     public override bool ObjectiveComplete()

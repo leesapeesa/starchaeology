@@ -37,6 +37,8 @@ public class ItemsObjective : Objective {
 
     public override int? GoalCollectibleType { get { return (int)goal; } }
 
+    public override GroundPathEnemy.Behavior EnemyBehaviorOnComplete { get { return GroundPathEnemy.Behavior.BLOCKADE; } }
+
     public override bool ObjectiveComplete()
     {
         return (itemManager.GetGoalItemsRemaining() == 0);

@@ -328,6 +328,14 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11444218, guid: 3c78968180789c7499c0c900a906acf3, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 279819922}
+    - target: {fileID: 11444218, guid: 3c78968180789c7499c0c900a906acf3, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnSaveButtonPress
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3c78968180789c7499c0c900a906acf3, type: 2}
   m_IsPrefabParent: 0
@@ -349,6 +357,12 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 279819918}
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+--- !u!114 &279819922 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11441512, guid: 3c78968180789c7499c0c900a906acf3,
+    type: 2}
+  m_PrefabInternal: {fileID: 279819918}
+  m_Script: {fileID: 11500000, guid: 90b3030f77f3b104392017681cf793f3, type: 3}
 --- !u!223 &292368873 stripped
 Canvas:
   m_PrefabParentObject: {fileID: 22305980, guid: 02bd55ec79c64c6488faa014ff80ac97,
@@ -3199,19 +3213,19 @@ Prefab:
     m_Modifications:
     - target: {fileID: 22409802, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22400966, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22405014, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22437888, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22446194, guid: f6f4a8365b509e54a9e5d8e24819bfbf, type: 2}
       propertyPath: m_LocalPosition.x

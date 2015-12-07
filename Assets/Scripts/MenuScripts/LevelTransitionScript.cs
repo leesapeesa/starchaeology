@@ -102,7 +102,7 @@ public class LevelTransitionScript : MonoBehaviour {
                 return;
             }
             PersistentPlayerSettings.settings.levelScore = 0;
-            PersistentLevelSettings.settings.enemiesShouldFollowPlayer = false;
+            PersistentLevelSettings.settings.enemyBehavior = GroundPathEnemy.Behavior.NORMAL;
         }
     }
 }

@@ -22,14 +22,16 @@ public class InGameMenuScript : MonoBehaviour {
 
 
     private bool isPaused;
-    private bool lossScreenActive;
-    private bool winScreenActive;
+    private bool levelEnded;
+    private const float KEY_PRESS_DELAY = 0.5f; //how long to wait before accepting level end keypresses
 
     // Use this for initialization
     void Start () {
         // Hide menus that shouldn't be in view
         pauseMenu.enabled = false;
         DisableMenus();
+
+        levelEnded = false;
     }
 
     public void Update() {
@@ -40,13 +42,10 @@ public class InGameMenuScript : MonoBehaviour {
             Resume();
         }
 
-        // Handling key inputs for the win and loss screens
-        if (Input.anyKey && lossScreen.enabled) {
-            Time.timeScale = 1;
-            LevelUtil.EndGame(LevelUtil.GameEndType.NEW_GAME);
-        } else if (Input.anyKey && winScreen.enabled) {
-            Time.timeScale = 1;
-            GameObject.FindWithTag("LoadGame").GetComponent<NewGameScript>().NextLevel();
+        //If the player has won or lost, start listening for any key press
+        if ((winScreen.enabled || lossScreen.enabled) && !levelEnded) {
+            levelEnded = true;
+            StartCoroutine(DelayedKeyPressListener(KEY_PRESS_DELAY));
         }
     }
 
@@ -112,5 +111,31 @@ public class InGameMenuScript : MonoBehaviour {
 
     public void SaveGame() {
         saveGameMenu.enabled = true;
+    }
+
+    /// <summary>
+    /// Listen for key press to go to next level. Includes a small delay before accepting key presses,
+    /// so that stray movements are not immediately caught.
+    /// </summary>
+    private IEnumerator DelayedKeyPressListener(float delay)
+    {
+        //can't use WaitForSeconds here because timeScale is 0 at end of level.
+        //Instead we have to manually handle time delay
+        while (delay > 0) {
+            delay -= Time.unscaledDeltaTime;
+            yield return null;
+        }
+        while (true) {
+            // Handling key inputs for the win and loss screens
+            if (Input.anyKey && lossScreen.enabled) {
+                Time.timeScale = 1;
+                LevelUtil.EndGame(LevelUtil.GameEndType.NEW_GAME);
+            }
+            else if (Input.anyKey && winScreen.enabled) {
+                Time.timeScale = 1;
+                GameObject.FindWithTag("LoadGame").GetComponent<NewGameScript>().NextLevel();
+            }
+            yield return null;
+        }
     }
 }

@@ -33,7 +33,7 @@ public class NewGameScript : MonoBehaviour {
         PersistentLevelSettings.settings.numPlanetsCleared++;
         PersistentLevelSettings.settings.loadFromSave = false;
         PersistentLevelSettings.settings.savedTime = 0;
-        PersistentLevelSettings.settings.enemiesShouldFollowPlayer = false;
+        PersistentLevelSettings.settings.enemyBehavior = GroundPathEnemy.Behavior.NORMAL;
         if (PersistentLevelSettings.settings.numPlanetsCleared >= PersistentLevelSettings.settings.numPlanetsTotal)
             Application.LoadLevel(4);
         else {
