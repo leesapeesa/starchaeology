@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ItemsObjective : Objective {
+public class ItemsObjective : TimedObjective {
 
     /* Win condition: Collect all collectibles of the specified type
      * Loss condition: None */
@@ -46,8 +46,8 @@ public class ItemsObjective : Objective {
 
     public override bool ObjectiveFailed()
     {
-        // Currently no way of failing this objective
-        return false;
+        UpdateTimer();
+        return timeRemaining <= 0;
     }
 
     public override string ToString()
@@ -56,6 +56,6 @@ public class ItemsObjective : Objective {
         string currentGoal = remaining > 0 ? 
                              "collect all the " + goalNames[(int)goal] + "! (" + remaining + " remaining)" :
                              RETURN_TO_SHIP;
-        return currentGoal;
+        return currentGoal + "\n Time remaining: " + (int)timeRemaining; ;
     }
 }
