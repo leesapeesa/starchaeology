@@ -56,7 +56,7 @@ public class LevelScript : MonoBehaviour {
         healthBar.anchoredPosition = new Vector2(newWidth / 2, 0);
 
         // Update score display
-        scoreText.text = "Gold: " + PersistentPlayerSettings.settings.levelScore.ToString ();
+        scoreText.text = "Score: " + PersistentPlayerSettings.settings.overallScore.ToString ();
 
         if (objective != null) {
             objectiveCompleted = objective.ObjectiveComplete();
