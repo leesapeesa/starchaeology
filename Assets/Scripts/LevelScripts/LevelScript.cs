@@ -35,7 +35,6 @@ public class LevelScript : MonoBehaviour {
     }
 
     private void CreateRandomObjective () {
-        float random = Random.value;
         float objectiveToChoose = Random.value * numObjectives;
 
         if (objectiveToChoose < 1) {

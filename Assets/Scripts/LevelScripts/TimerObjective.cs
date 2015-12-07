@@ -10,8 +10,6 @@ public class TimerObjective : TimedObjective {
     public static int winningScore = 5;
     public const string type = "Timer";
 
-    private bool objectiveComplete = false;
-
     private const float TIMERBAR_WIDTH = 200;
 
     public TimerObjective() : base() {

@@ -67,7 +67,6 @@ public class PersistentPlayerSettings : MonoBehaviour {
     }
 
     void OnDestroy() {
-        print ("Persistent Player Settings Destroyed");
         SetDefault ();
     }
 }

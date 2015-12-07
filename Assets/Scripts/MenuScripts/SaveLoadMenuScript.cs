@@ -30,13 +30,11 @@ public class SaveLoadMenuScript : MonoBehaviour {
     {
         //can't return any valid value if no toggle is selected
         if (!toggles.AnyTogglesOn()) {
-            print("no save slot selected");
             return null;
         }
 
         //Identify the selected toggle
         foreach (Toggle t in toggles.ActiveToggles()) {
-            print("Active toggle is " + t.name);
             switch (t.gameObject.name) {
                 case "Slot1":
                     return 0;
@@ -45,7 +43,6 @@ public class SaveLoadMenuScript : MonoBehaviour {
                 case "Slot3":
                     return 2;
                 default:
-                    print("why are we here");
                     return null;
             }
         }

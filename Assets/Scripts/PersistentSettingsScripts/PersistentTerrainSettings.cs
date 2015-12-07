@@ -46,7 +46,6 @@ public class PersistentTerrainSettings : MonoBehaviour {
 
     public void SetDefault()
     {
-        print ("Set default terrain");
         sideLength = 100f;
         gravityEffect = 1f;
         frequency = 6.27f;
@@ -82,7 +81,6 @@ public class PersistentTerrainSettings : MonoBehaviour {
 
     public void OnDestroy()
     {
-        print ("Destroyed PersistentTerrainSettings");
         SetDefault ();
     }
 }

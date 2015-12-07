@@ -13,7 +13,6 @@ public class SlotScript : MonoBehaviour {
     public void OnClick() {
         // we need to trust that whoever made the slot is remembering to update the name/type of thing
         // this slot is holding.
-        print ("OnClick called");
         Assert.IsNotNull(item);
         if (item.usable)
             InventoryScript.inventory.RemoveItemFromInventory (item);

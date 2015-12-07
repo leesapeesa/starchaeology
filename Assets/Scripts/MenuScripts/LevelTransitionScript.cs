@@ -71,7 +71,6 @@ public class LevelTransitionScript : MonoBehaviour {
         while (async.progress < 0.9f) {
             // artificial loading.
             yield return null;
-            print(async.progress);
             // The maximum it is going to let us have as progress is 0.9.
             float fracHealth = (float)(async.progress / 0.9);
             float newWidth = fracHealth * PROGRESSBAR_WIDTH;
@@ -91,14 +90,12 @@ public class LevelTransitionScript : MonoBehaviour {
     }
 
     void OnDestroy() {
-        print ("switching levels");
         //Only reset parameters if we are doing a normal level load, not restoring a savegame
         if (!PersistentLevelSettings.settings.loadFromSave) {
             PersistentTerrainSettings.settings.gravityEffect = Random.Range(0.7f, maxGravity);
             if (PersistentPlayerSettings.settings == null) {
                 // It will be null if we're loading the level from the New Game screen for the
                 // first time.
-                print("PersistentPlayerSettings doesn't exist");
                 return;
             }
             PersistentPlayerSettings.settings.levelScore = 0;

@@ -59,10 +59,9 @@ public class SaveGameScript : MonoBehaviour {
             level.SaveLevel(slotId);
             cameraScript.SaveSkybox(slotId);
             PlayerPrefs.Save();
-            print("Finished save");
             saveGameMenu.RefreshText();
         } catch(PlayerPrefsException e) {
-            print("Out of space, got exception " + e);
+            Debug.Log("Out of space, got exception " + e);
         }
     }
 }

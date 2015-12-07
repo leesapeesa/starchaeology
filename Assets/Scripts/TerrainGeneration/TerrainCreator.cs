@@ -20,7 +20,7 @@ public class TerrainCreator : MonoBehaviour
     private float frequency;
     [Range(1, 3)]
     private int dimensions;
-    private NoiseType noiseType;
+    private NoiseType noiseType = NoiseType.Perlin;
     [Range(1, 8)]
     private int octaves;
     [Range(1, 4)]
@@ -43,8 +43,6 @@ public class TerrainCreator : MonoBehaviour
 
     private float[,] heights;
     private Terrain terrain;
-    private float curHeight = 0;
-    private float curLength = 0;
     private GameObject terrain2dCollider;
     private System.Random pseudoRandom;
     private GameObject triggerBounds;
@@ -62,13 +60,8 @@ public class TerrainCreator : MonoBehaviour
         terrain2dCollider = GameObject.Find("Terrain2dCollider");
         Debug.Assert(terrain2dCollider != null);
         terrain2dCollider.AddComponent<EdgeCollider2D>();
-        print ("sidelength");
-        print (sideLength);
         Refresh();
         PersistentTerrainSettings.settings.terrainPosition = transform.position;
-        print ("transform positions");
-        print (transform.position.ToString ());
-        print (transform.localPosition.ToString ());
         // If we need to save any options.
         SaveAllOptions ();
         // Now we need to place the gameObject that will kill off everything if it hits it.
@@ -81,9 +74,6 @@ public class TerrainCreator : MonoBehaviour
         // For now, set the height to be the same height as the terrain.
         triggerBounds.transform.localScale = new Vector3 (sideLength + triggerOffset, height, 0);
         triggerBounds.transform.position = transform.position + new Vector3 (sideLength / 2, -fallHeight, 0);
-        print ("Trigger bound positions");
-        print (triggerBounds.transform.position.ToString ());
-        print (triggerBounds.transform.localPosition.ToString ());
     }
 
     private void RandomOrigin() {
@@ -104,7 +94,6 @@ public class TerrainCreator : MonoBehaviour
         // just want to rebuild everything with the default values so that we don't change the
         // terrain data every time we open it. 
         SetEverythingToZero ();
-        print ("Destroyed TerrainCreator");
 
     }
 
@@ -241,10 +230,6 @@ public class TerrainCreator : MonoBehaviour
 
     private void Generate()
     {
-        //update parameters for dynamic updating in debug mode
-        curLength = sideLength;
-        curHeight = height;
-
         terrain.terrainData.size = new Vector3(sideLength, REAL_HEIGHT, sideLength);
         heights = new float[terrain.terrainData.heightmapResolution, terrain.terrainData.heightmapResolution];
 
