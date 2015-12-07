@@ -71,11 +71,13 @@ public class PersistentTerrainSettings : MonoBehaviour {
     public void SaveTerrainSettings(int slotId)
     {
         PlayerPrefs.SetFloat("gravity" + slotId, gravityEffect);
+        PlayerPrefs.SetInt("textureType" + slotId, (int)textureType);
     }
 
     public void LoadTerrainSettings(int slotId)
     {
         gravityEffect = PlayerPrefs.GetFloat("gravity" + slotId);
+        textureType = (TerrainTextureType)PlayerPrefs.GetInt("textureType" + slotId);
     }
 
     public void OnDestroy()

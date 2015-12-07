@@ -105,13 +105,8 @@ public class Difficulty {
         settings.lacunarity = linearUpdate(LACUNARITY_COEFF, LACUNARITY_OFFSET);
         settings.gain = linearUpdate(GAIN_COEFF);
 
-        if (difficulty > 30 && difficulty < 70) {
-            settings.textureType = TerrainTextureType.Grassy;
-        } else if (difficulty >= 0 && difficulty < 30) {
-            settings.textureType = TerrainTextureType.Desert;
-        } else {
-            settings.textureType = TerrainTextureType.Rocky;
-        }
+        int randomTexture = Random.Range(0, 2);
+        settings.textureType = (TerrainTextureType)randomTexture;
     }
 
     /// <summary>

@@ -498,8 +498,15 @@ public class ItemManager : MonoBehaviour {
             if (hit.collider != null) {
                 Vector2 spaceshipPosition = new Vector2(xPos, hit.point.y + SPACESHIP_HEIGHT / 2);
                 Instantiate(spaceship, spaceshipPosition, Quaternion.identity);
-                if (!PersistentLevelSettings.settings.loadFromSave)
-                    movePlayer (spaceshipPosition);
+                if (!PersistentLevelSettings.settings.loadFromSave) {
+                    RaycastHit2D hit2d = Physics2D.Raycast(new Vector2(xPos, RAYCAST_ORIGIN),
+                                                     Vector2.down,
+                                                     distance: Mathf.Infinity,
+                                                     layerMask: LayerMask.GetMask(new string[] { "Ground" }));
+                    //can't use SpaceshipPosition since the spaceship is placed deeper on the z-axis, where the
+                    //y coordinates could be dramatically different.
+                    movePlayer(new Vector2(hit2d.point.x, hit2d.point.y + MIN_PLATFORM_HEIGHT));
+                }
             }
         }
     }

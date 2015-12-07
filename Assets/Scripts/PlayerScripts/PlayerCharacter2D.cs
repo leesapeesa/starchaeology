@@ -267,6 +267,14 @@ public class PlayerCharacter2D : MonoBehaviour
         print ("Extra Time increased");
     }
 
+    public void StopAudio()
+    {
+        if (m_PlayingFootsteps) {
+            m_AudioSource.Stop();
+            m_PlayingFootsteps = false;
+        }
+    }
+
     private void Flip()
     {
         // Switch the way the player is labelled as facing.
