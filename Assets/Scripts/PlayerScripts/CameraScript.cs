@@ -20,6 +20,7 @@ namespace UnityStandardAssets._2D
         private Vector3 m_LookAheadPos;
         private float minX;
         private float maxX;
+        private int skyboxIndex;
         
         // Use this for initialization
         private void Start()
@@ -73,10 +74,21 @@ namespace UnityStandardAssets._2D
             currentPosition.x = Mathf.Clamp(transform.position.x, minX, maxX);
             transform.position = currentPosition;
         }
-        private void setRandomSky() {
-            float rand = UnityEngine.Random.Range(0f, (float)skyboxes.Count);
-            skybox.material = skyboxes[(int)rand];
 
+        private void setRandomSky() {
+            skyboxIndex = PersistentLevelSettings.settings.loadFromSave ?
+                          PlayerPrefs.GetInt("skybox" + PersistentLevelSettings.settings.loadSlot) :
+                          UnityEngine.Random.Range(0, skyboxes.Count);
+            skybox.material = skyboxes[skyboxIndex];
+
+        }
+
+        /// <summary>
+        /// Save the current skybox id to persistent storage
+        /// </summary>
+        public void SaveSkybox(int slotId)
+        {
+            PlayerPrefs.SetInt("skybox" + slotId, skyboxIndex);
         }
     }
 }
