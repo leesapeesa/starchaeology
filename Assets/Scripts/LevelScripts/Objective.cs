@@ -19,6 +19,10 @@ public abstract class Objective {
     /// </summary>
     public virtual int? GoalCollectibleType { get { return null; } }
     /// <summary>
+    /// How should enemies behave after the player has finished this objective and is trying to get back to the ship?
+    /// </summary>
+    public abstract GroundPathEnemy.Behavior EnemyBehaviorOnComplete { get; }
+    /// <summary>
     /// Textual representation of the specific objective type, used to identify objectives when saving games.
     /// </summary>
     public abstract string Type { get; }

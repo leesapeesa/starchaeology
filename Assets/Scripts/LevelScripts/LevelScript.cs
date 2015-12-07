@@ -77,6 +77,10 @@ public class LevelScript : MonoBehaviour {
             print("You died. Better luck next time");
             Time.timeScale = 0;
         }
+
+        if (!player.inSpaceship && objectiveCompleted) {
+            PersistentLevelSettings.settings.enemyBehavior = objective.EnemyBehaviorOnComplete;
+        }
     }
 
     /// <summary>

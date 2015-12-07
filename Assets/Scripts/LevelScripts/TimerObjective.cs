@@ -21,6 +21,8 @@ public class TimerObjective : TimedObjective {
     //make sure there are enough point collectibles spawned to finish this objective
     public override int NumPointItems { get { return winningScore / PointCollectible.points + 1; } }
 
+    public override GroundPathEnemy.Behavior EnemyBehaviorOnComplete { get { return GroundPathEnemy.Behavior.NORMAL; } }
+
     public override string Type { get { return type; } }
 
     public override bool ObjectiveComplete () {
