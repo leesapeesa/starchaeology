@@ -34,3 +34,5 @@ Your spaceship will always be at the leftmost edge of the map
 Tired of dealing with enemies? Trap them by wedging them in between two boxes or boulders!
 Being chased by enemies? They can't jump, so use platforms to avoid them
 Low on health or time? You can use items you've collected by clicking their icons in the inventory
+You can also use health and time items by pressing [H] and [T], respectively
+The boxes are bouncy! Time your jumps correctly to bounce high!

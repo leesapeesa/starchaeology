@@ -14,6 +14,7 @@ public abstract class Collectible : NonPlayerObject {
     }
 
     public virtual bool usable { get { return true; } }
+    public virtual string buttonName { get { return ""; } }
 
     public abstract string type { get; }
 

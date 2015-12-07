@@ -8,6 +8,8 @@ public class HealthCollectible : Collectible {
 
     public override string type { get { return typeString; } }
 
+    public override string buttonName { get { return "[H]"; } }
+
     public override void OnCollect()
     {
         InventoryScript.inventory.AddItemToInventory(this);

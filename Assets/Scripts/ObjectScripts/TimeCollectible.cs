@@ -8,6 +8,8 @@ public class TimeCollectible : Collectible
 
     public override string type { get { return typeString; } }
 
+    public override string buttonName { get { return "[T]"; } }
+
     public override void OnCollect()
     {
         InventoryScript.inventory.AddItemToInventory(this);

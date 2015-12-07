@@ -114,6 +114,12 @@ public class PlayerCharacter2D : MonoBehaviour
         // Update saved extra time
         PersistentPlayerSettings.settings.extraTime = m_extraTime;
 
+        // Hotkeys for inventory items
+        if (Input.GetKeyUp(KeyCode.H))
+            InventoryScript.inventory.MaybeUseHealthItem();
+        if (Input.GetKeyUp(KeyCode.T))
+            InventoryScript.inventory.MaybeUseTimeItem();
+
         // Upon death, play death sound
         if (health <= 0 && !m_PlayingDeath) {
             m_AudioSource.Stop();

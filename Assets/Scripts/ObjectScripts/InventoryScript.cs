@@ -168,6 +168,7 @@ public class InventoryScript : MonoBehaviour {
             go.transform.GetComponent<SlotScript>().item = collectible;
             go.transform.FindChild("Item").gameObject.GetComponent<Image>().sprite = collectible.itemIcon;
             go.transform.FindChild("Counter").gameObject.GetComponent<Text>().text = entry.amount.ToString();
+            go.transform.FindChild("Key").gameObject.GetComponent<Text>().text = entry.item.buttonName;
             go.transform.SetParent(slotPanel.transform);
             go.transform.localScale = new Vector3(1, 1, 1);
         }
@@ -260,6 +261,34 @@ public class InventoryScript : MonoBehaviour {
             //Finally, add the entry to the inventory
             inventorySlots.Add(itemType, entry);
         }
+    }
+
+    /// <summary>
+    /// If any health item exists in the inventory, use it
+    /// </summary>
+    public void MaybeUseHealthItem()
+    {
+        MaybeUseItem(healthCollectible.GetComponent<HealthCollectible>());
+    }
+
+    /// <summary>
+    /// If any timer item exists in the inventory, use it
+    /// </summary>
+    public void MaybeUseTimeItem()
+    {
+        MaybeUseItem(timerCollectible.GetComponent<TimeCollectible>());
+    }
+
+    /// <summary>
+    /// Try to use the specified item, if we currently have it in the inventory
+    /// </summary>
+    private void MaybeUseItem(Collectible item)
+    {
+        if (!inventorySlots.ContainsKey(item.type) || inventorySlots[item.type].amount == 0) {
+            return;
+        }
+
+        RemoveItemFromInventory(item);
     }
 }
                                                                                                            
