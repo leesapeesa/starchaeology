@@ -24,6 +24,7 @@ TagManager:
   - LevelObject
   - TimeBonusText
   - OverallScoreText
+  - Volume
   layers:
   - Default
   - TransparentFX

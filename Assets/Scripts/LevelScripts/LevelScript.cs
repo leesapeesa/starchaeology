@@ -24,6 +24,11 @@ public class LevelScript : MonoBehaviour {
             RestoreObjective(PersistentLevelSettings.settings.loadSlot);
         else
             CreateRandomObjective();
+
+        if (PlayerPrefs.HasKey("Volume")) {
+            AudioListener.volume = PlayerPrefs.GetFloat("Volume");
+        }
+
         player = GameObject.FindWithTag("Player").GetComponent<PlayerCharacter2D>();
         objectivesText = GameObject.Find("ObjectivesText").GetComponent<Text>();
         healthBar = GameObject.Find("CurrentHealth").GetComponent<RectTransform>();

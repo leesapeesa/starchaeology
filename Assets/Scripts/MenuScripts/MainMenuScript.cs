@@ -6,14 +6,13 @@ public class MainMenuScript : MonoBehaviour {
 
     public Canvas saveGameMenu;
     public Canvas loadGameMenu;
-    public Canvas optionsMenu;
     public Canvas helpMenu;
     public Text highScoreText;
 
     void Start () {
+
         saveGameMenu.enabled = false;
         loadGameMenu.enabled = false;
-        optionsMenu.enabled = false;
         helpMenu.enabled = false;
 
         DisplayHighScore();
@@ -22,7 +21,6 @@ public class MainMenuScript : MonoBehaviour {
     public void Back () {
         saveGameMenu.enabled = false;
         loadGameMenu.enabled = false;
-        optionsMenu.enabled = false;
         helpMenu.enabled = false;
     }
 
@@ -35,7 +33,7 @@ public class MainMenuScript : MonoBehaviour {
     }
 
     public void Options () {
-        optionsMenu.enabled = true;
+        Application.LoadLevel(7);
     }
 
     public void Help () {

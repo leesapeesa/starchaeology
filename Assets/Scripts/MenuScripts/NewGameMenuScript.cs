@@ -22,6 +22,7 @@ public class NewGameMenuScript : MonoBehaviour {
     public void NewGame() {
         NewGameScript.LoadLevelSettings();
         PersistentPlayerSettings.settings.playerName = playerNameInput.text;
+        SetVolume.instance.changeMusic();
         Application.LoadLevel(3);
     }
 

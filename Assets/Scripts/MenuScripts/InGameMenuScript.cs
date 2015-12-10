@@ -10,7 +10,6 @@ public class InGameMenuScript : MonoBehaviour {
     public Canvas pauseMenu;
     public Canvas saveGameMenu;
     public Canvas loadGameMenu;
-    public Canvas optionsMenu;
     public Canvas helpMenu;
     public Canvas lossScreen;
     public Canvas winScreen;
@@ -99,7 +98,6 @@ public class InGameMenuScript : MonoBehaviour {
     private void DisableMenus () {
         saveGameMenu.enabled = false;
         loadGameMenu.enabled = false;
-        optionsMenu.enabled = false;
         helpMenu.enabled = false;
         lossScreen.enabled = false;
         winScreen.enabled = false;
@@ -148,10 +146,6 @@ public class InGameMenuScript : MonoBehaviour {
     public void MainMenu () {
         Time.timeScale = 1;
         LevelUtil.EndGame(LevelUtil.GameEndType.MAIN_MENU);
-    }
-
-    public void Options() {
-        optionsMenu.enabled = true;
     }
 
     public void Help() {
