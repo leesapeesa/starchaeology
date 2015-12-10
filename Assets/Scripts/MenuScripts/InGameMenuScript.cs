@@ -20,9 +20,16 @@ public class InGameMenuScript : MonoBehaviour {
     public Text timerText;
     public Text objectivesText;
 
+    public Text newLossHighScoreText;
+    public Text scoreLossText;
+    public Text previousLossHighScoreText;
+    public Text timeBonusWinText;
+    public Text overallWinScoreText;
 
     private bool isPaused;
     private bool levelEnded;
+    private bool levelEndedWithWin;
+    private bool levelEndedWithLoss;
     private const float KEY_PRESS_DELAY = 0.5f; //how long to wait before accepting level end keypresses
 
     // Use this for initialization
@@ -32,6 +39,8 @@ public class InGameMenuScript : MonoBehaviour {
         DisableMenus();
 
         levelEnded = false;
+        levelEndedWithWin = false;
+        levelEndedWithLoss = false;
     }
 
     public void Update() {
@@ -42,10 +51,21 @@ public class InGameMenuScript : MonoBehaviour {
             Resume();
         }
 
+        print(PersistentLevelSettings.settings.savedTime);
+
         //If the player has won or lost, start listening for any key press
         if ((winScreen.enabled || lossScreen.enabled) && !levelEnded) {
             levelEnded = true;
             StartCoroutine(DelayedKeyPressListener(KEY_PRESS_DELAY));
+        } 
+        
+        if (winScreen.enabled && !levelEndedWithWin) {
+            WinDisplayScores();
+            levelEndedWithWin = true;
+        }
+        if (lossScreen.enabled && !levelEndedWithLoss) {
+            LossDisplayScores();
+            levelEndedWithLoss = true;
         }
     }
 
@@ -83,6 +103,39 @@ public class InGameMenuScript : MonoBehaviour {
         helpMenu.enabled = false;
         lossScreen.enabled = false;
         winScreen.enabled = false;
+    }
+
+    private void LossDisplayScores() {
+        int previousHighscore = 0;
+        int highScore;
+
+        scoreLossText.text = "Score: " + PersistentPlayerSettings.settings.overallScore.ToString();
+
+        if (PlayerPrefs.HasKey("HighScore")) {
+            highScore = PlayerPrefs.GetInt("HighScore");
+        } else {
+            highScore = 0;
+            PlayerPrefs.SetInt("HighScore", highScore);
+        }
+
+        if (highScore < PersistentPlayerSettings.settings.overallScore) {
+
+            previousHighscore = highScore;
+            PlayerPrefs.SetInt("HighScore", PersistentPlayerSettings.settings.overallScore);
+            newLossHighScoreText.text = "Congratulations, you've achieved a new high score!";
+            previousLossHighScoreText.text = "Previous high score: " + previousHighscore.ToString();
+        }
+    }
+
+    private void WinDisplayScores() {
+        int timeBonus = (int)((120f - Time.timeSinceLevelLoad) / 10);
+        if (timeBonus < 0) {
+            timeBonus = 0;
+        }
+
+        timeBonusWinText.text = "Time Bonus: " + timeBonus;
+        PersistentPlayerSettings.settings.overallScore += timeBonus;
+        overallWinScoreText.text = "Score: " + PersistentPlayerSettings.settings.overallScore.ToString();
     }
     
 

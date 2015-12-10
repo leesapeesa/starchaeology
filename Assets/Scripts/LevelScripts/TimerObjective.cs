@@ -42,7 +42,7 @@ public class TimerObjective : TimedObjective {
     public override string ToString()
     {
         string currentGoal = PersistentPlayerSettings.settings.levelScore < winningScore ?
-                             "Collect " + winningScore + " gold." :
+                             "Collect " + winningScore + " gold " + "(" + (winningScore - PersistentPlayerSettings.settings.levelScore) + " remaining)":
                              RETURN_TO_SHIP;
         return currentGoal + "\n Time remaining: " + (int)timeRemaining;
     }

@@ -52,7 +52,7 @@ public class MainMenuScript : MonoBehaviour {
 
     private void DisplayHighScore() {
         if (PlayerPrefs.HasKey("HighScore")) {
-            highScoreText.text = "High score: " + PlayerPrefs.GetInt("HighScore").ToString();
+            highScoreText.text = "High Score: " + PlayerPrefs.GetInt("HighScore").ToString();
         } else {
             PlayerPrefs.SetInt("HighScore", 0);
             highScoreText.text = "High score: 0";

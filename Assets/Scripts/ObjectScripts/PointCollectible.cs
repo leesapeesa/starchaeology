@@ -6,7 +6,7 @@ public class PointCollectible : Collectible
 {
     public const string typeString = "Point";
 
-    public static int points = 2;
+    public static int points = 1;
 
     public override bool usable { get { return false; } }
 
