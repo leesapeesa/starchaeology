@@ -22,8 +22,8 @@ TagManager:
   - Rock
   - BouncyBox
   - LevelObject
-  - LossScreen
-  - WinScreen
+  - TimeBonusText
+  - OverallScoreText
   layers:
   - Default
   - TransparentFX

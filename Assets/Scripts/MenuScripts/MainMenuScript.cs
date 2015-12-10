@@ -8,12 +8,15 @@ public class MainMenuScript : MonoBehaviour {
     public Canvas loadGameMenu;
     public Canvas optionsMenu;
     public Canvas helpMenu;
+    public Text highScoreText;
 
     void Start () {
         saveGameMenu.enabled = false;
         loadGameMenu.enabled = false;
         optionsMenu.enabled = false;
         helpMenu.enabled = false;
+
+        DisplayHighScore();
     }
 
     public void Back () {
@@ -45,5 +48,14 @@ public class MainMenuScript : MonoBehaviour {
     
     public void Credits () {
         Application.LoadLevel(6);
+    }
+
+    private void DisplayHighScore() {
+        if (PlayerPrefs.HasKey("HighScore")) {
+            highScoreText.text = "High score: " + PlayerPrefs.GetInt("HighScore").ToString();
+        } else {
+            PlayerPrefs.SetInt("HighScore", 0);
+            highScoreText.text = "High score: 0";
+        }
     }
 }
