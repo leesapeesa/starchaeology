@@ -30,15 +30,16 @@ public class Difficulty {
 
     private const float HEIGHT_COEFF = 1f / 4f;
     private const float HEIGHT_OFFSET = 5;
-    private const float ENEMIES_COEFF = 1f / 12f;
+    private const float ENEMIES_COEFF = 1f / 8f;
     private const float ENEMIES_OFFSET = 2;
-    private const float SIDE_LENGTH_COEFF = 5;
+    private const float SIDE_LENGTH_COEFF = 2;
+    private const float SIDE_LENGTH_OFFSET = 60;
     private const float POISON_COEFF = 1f / 400f;
-    private const float FREQ_COEFF = 1f / 10f;
-    private const float FREQ_OFFSET = 4;
-    private const float OCTAVES_COEFF = 1f / 50f;
+    private const float FREQ_COEFF = 1f / 40f;
+    private const float FREQ_OFFSET = 6;
+    private const float OCTAVES_COEFF = 1f / 150f;
     private const float OCTAVES_OFFSET = 1;
-    private const float LACUNARITY_COEFF = 1f / 125f;
+    private const float LACUNARITY_COEFF = 1f / 375f;
     private const float LACUNARITY_OFFSET = 1;
     private const float GAIN_COEFF = 1f / 375f;
     private const float GROUND_PATH_ENEMY_DAMAGE_COEFF = 1f / 7f;
@@ -98,19 +99,14 @@ public class Difficulty {
     public void UpdateTerrainParameters(PersistentTerrainSettings settings)
     {
         settings.height = linearUpdate(HEIGHT_COEFF, HEIGHT_OFFSET);
-        settings.sideLength = linearUpdate(SIDE_LENGTH_COEFF);
+        settings.sideLength = linearUpdate(SIDE_LENGTH_COEFF, SIDE_LENGTH_OFFSET);
         settings.frequency = linearUpdate(FREQ_COEFF, FREQ_OFFSET);
         settings.octaves = (int)linearUpdate(OCTAVES_COEFF, OCTAVES_OFFSET);
         settings.lacunarity = linearUpdate(LACUNARITY_COEFF, LACUNARITY_OFFSET);
         settings.gain = linearUpdate(GAIN_COEFF);
 
-        if (difficulty > 30 && difficulty < 70) {
-            settings.textureType = TerrainTextureType.Grassy;
-        } else if (difficulty >= 0 && difficulty < 30) {
-            settings.textureType = TerrainTextureType.Desert;
-        } else {
-            settings.textureType = TerrainTextureType.Rocky;
-        }
+        int randomTexture = Random.Range(0, 2);
+        settings.textureType = (TerrainTextureType)randomTexture;
     }
 
     /// <summary>

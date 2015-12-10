@@ -35,7 +35,6 @@ public class LevelScript : MonoBehaviour {
     }
 
     private void CreateRandomObjective () {
-        float random = Random.value;
         float objectiveToChoose = Random.value * numObjectives;
 
         if (objectiveToChoose < 1) {
@@ -69,12 +68,11 @@ public class LevelScript : MonoBehaviour {
         if (player.inSpaceship && objectiveCompleted && !objectiveFailed) {
             Canvas winScreen = GameObject.Find("WinScreen").GetComponent<Canvas>();
             winScreen.enabled = true;
-            print("You Win! Yay!");
+            player.StopAudio();
             Time.timeScale = 0;
         } else if ((objectiveFailed && !objectiveCompleted) || player.health <= 0) {
             Canvas lossScreen = GameObject.Find("LossScreen").GetComponent<Canvas>();
             lossScreen.enabled = true;
-            print("You died. Better luck next time");
             Time.timeScale = 0;
         }
 

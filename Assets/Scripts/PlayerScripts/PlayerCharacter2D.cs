@@ -8,7 +8,6 @@ public class PlayerCharacter2D : MonoBehaviour
     [Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;  // Amount of maxSpeed applied to crouching movement. 1 = 100%
     [SerializeField] private bool m_AirControl = true;                 // Whether or not a player can steer while jumping;
     [SerializeField] private LayerMask m_WhatIsGround;                  // A mask determining what is ground to the character
-    [SerializeField] private float m_gravity = 8f;
     [SerializeField] private AudioClip m_AudioJump;
     [SerializeField] private AudioClip m_AudioLand;
     [SerializeField] private AudioClip m_AudioDeath;
@@ -21,7 +20,6 @@ public class PlayerCharacter2D : MonoBehaviour
     private Animator m_Anim;            // Reference to the player's animator component.
     private Rigidbody2D m_Rigidbody2D;
     private bool m_FacingRight = true;  // For determining which way the player is currently facing.
-    private float prevSpeed = 10f;
     private float minX = -50f;
     private float maxX = 50f;
     private float normalSpeed = 10f;
@@ -64,7 +62,6 @@ public class PlayerCharacter2D : MonoBehaviour
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
         m_AudioSource = GetComponent<AudioSource>();
 
-        print(PersistentTerrainSettings.settings == null);
         m_Rigidbody2D.gravityScale = PersistentTerrainSettings.settings.gravityEffect;
         m_JumpForce = PersistentPlayerSettings.settings.jumpForce;
         float sideLength = PersistentTerrainSettings.settings.sideLength;
@@ -116,6 +113,12 @@ public class PlayerCharacter2D : MonoBehaviour
     {
         // Update saved extra time
         PersistentPlayerSettings.settings.extraTime = m_extraTime;
+
+        // Hotkeys for inventory items
+        if (Input.GetKeyUp(KeyCode.H))
+            InventoryScript.inventory.MaybeUseHealthItem();
+        if (Input.GetKeyUp(KeyCode.T))
+            InventoryScript.inventory.MaybeUseTimeItem();
 
         // Upon death, play death sound
         if (health <= 0 && !m_PlayingDeath) {
@@ -205,15 +208,9 @@ public class PlayerCharacter2D : MonoBehaviour
         }
         if (other.CompareTag ("TriggerBounds")) {
             //Jumped off the ledge
-            print ("life off the edge");
             gameObject.SetActive(false);
             Canvas lossScreen = GameObject.Find ("LossScreen").GetComponent<Canvas> ();
             lossScreen.enabled = true;
-        }
-        if (other.CompareTag("CameraBounds")) {
-            print("At edge of game");
-            Rigidbody2D playerBody = GameObject.Find("Player").GetComponent<Rigidbody2D>();
-            float xPos = playerBody.position.x;
         }
         if (other.CompareTag("Spaceship")) {
             OnSpaceshipEnter();
@@ -240,7 +237,6 @@ public class PlayerCharacter2D : MonoBehaviour
         if (other.GetComponent<GrabbableObject>() != null) {
             //check to see if player wants to grab this object (we can only grab one at a time)
             if (Input.GetButton("Grab") && (m_GrabbedObject == null/* || m_GrabbedObject == other.GetComponent<GrabbableObject>()*/)) {
-                print("Is facing right? " + m_FacingRight);
                 m_GrabbedObject = other.GetComponent<GrabbableObject>();
                 float xOffset = m_FacingRight ? GRABBED_OBJ_OFFSET_R : GRABBED_OBJ_OFFSET_L;
                 m_GrabbedObject.OnGrab(gameObject, xOffset, GRABBED_OBJ_Y_POS);
@@ -259,12 +255,19 @@ public class PlayerCharacter2D : MonoBehaviour
     }
 
     public void UseItem(string type) {
-        print ("Using Item: " + type);
+
     }
 
     public void AddTime(int value) {
         m_extraTime += value;
-        print ("Extra Time increased");
+    }
+
+    public void StopAudio()
+    {
+        if (m_PlayingFootsteps) {
+            m_AudioSource.Stop();
+            m_PlayingFootsteps = false;
+        }
     }
 
     private void Flip()

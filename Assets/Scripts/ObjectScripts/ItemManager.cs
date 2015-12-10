@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class ItemManager : MonoBehaviour {
-    //TODO make all these be modified by Difficulty - JPC 11/5/15
     public int boxCount = 5;
     public int collectCount = 10;
     public int goalCollectCount = 5;
@@ -27,9 +26,6 @@ public class ItemManager : MonoBehaviour {
     [SerializeField] private Transform[] goalCollectibleList;
     [SerializeField] private Transform specialItem;
     [SerializeField] private Transform spaceship;
-
-    private TerrainCreator terrainCreator;
-    private Vector2[] heights;
 
     private float sideLength = 25f;
     private float closestToEdge = 5f;
@@ -58,8 +54,6 @@ public class ItemManager : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        terrainCreator = GameObject.FindObjectOfType<TerrainCreator> ();
-        heights = terrainCreator.getPathHeights();
         sideLength = PersistentTerrainSettings.settings.sideLength - closestToEdge;
         gravityEffect = PersistentTerrainSettings.settings.gravityEffect;
         enemyCount = PersistentLevelSettings.settings.numEnemies;
@@ -167,7 +161,6 @@ public class ItemManager : MonoBehaviour {
     private void addCollectibles(Objective objective) {
         // PathHeights is of length HeightmapResolution and corresponds to an actual
         // index by index * SideLength / HeightmapResolution.
-        heights = terrainCreator.getPathHeights();
         int numPointCollectiblesAdded = 0;
         for (int i = 0; i < collectCount; ++i) {
             Vector2 randomPointOnTerrain;
@@ -498,8 +491,15 @@ public class ItemManager : MonoBehaviour {
             if (hit.collider != null) {
                 Vector2 spaceshipPosition = new Vector2(xPos, hit.point.y + SPACESHIP_HEIGHT / 2);
                 Instantiate(spaceship, spaceshipPosition, Quaternion.identity);
-                if (!PersistentLevelSettings.settings.loadFromSave)
-                    movePlayer (spaceshipPosition);
+                if (!PersistentLevelSettings.settings.loadFromSave) {
+                    RaycastHit2D hit2d = Physics2D.Raycast(new Vector2(xPos, RAYCAST_ORIGIN),
+                                                     Vector2.down,
+                                                     distance: Mathf.Infinity,
+                                                     layerMask: LayerMask.GetMask(new string[] { "Ground" }));
+                    //can't use SpaceshipPosition since the spaceship is placed deeper on the z-axis, where the
+                    //y coordinates could be dramatically different.
+                    movePlayer(new Vector2(hit2d.point.x, hit2d.point.y + MIN_PLATFORM_HEIGHT));
+                }
             }
         }
     }

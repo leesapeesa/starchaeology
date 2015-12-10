@@ -12,6 +12,7 @@ public class SaveGameScript : MonoBehaviour {
     private TerrainCreator terrain;
     private ItemManager itemManager;
     private LevelScript level;
+    private UnityStandardAssets._2D.CameraScript cameraScript;
     private SaveLoadMenuScript saveGameMenu;
 
     void Start()
@@ -20,6 +21,7 @@ public class SaveGameScript : MonoBehaviour {
         terrain = GameObject.FindGameObjectWithTag("Terrain").GetComponent<TerrainCreator>();
         itemManager = GameObject.FindGameObjectWithTag("ObjectManager").GetComponent<ItemManager>();
         level = GameObject.FindGameObjectWithTag("LevelObject").GetComponent<LevelScript>();
+        cameraScript = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UnityStandardAssets._2D.CameraScript>();
         saveGameMenu = gameObject.GetComponent<SaveLoadMenuScript>();
         Assert.IsNotNull(toggles);
     }
@@ -55,11 +57,11 @@ public class SaveGameScript : MonoBehaviour {
             terrain.SaveTerrain(slotId);
             itemManager.SaveItems(slotId);
             level.SaveLevel(slotId);
+            cameraScript.SaveSkybox(slotId);
             PlayerPrefs.Save();
-            print("Finished save");
             saveGameMenu.RefreshText();
         } catch(PlayerPrefsException e) {
-            print("Out of space, got exception " + e);
+            Debug.Log("Out of space, got exception " + e);
         }
     }
 }

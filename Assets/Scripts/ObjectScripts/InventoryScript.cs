@@ -64,11 +64,10 @@ public class InventoryScript : MonoBehaviour {
 
     void SetUpInventory() {
         inventorySlots = new Dictionary<string, Entry>();
-        print ("setting up inventory");
     }
 
     void OnDestroy() {
-        print ("Destroyed Inventory");
+        
     }
 
     // Use this for initialization
@@ -83,7 +82,6 @@ public class InventoryScript : MonoBehaviour {
     /// </summary>
     /// <param name="item">Item.</param>
     public void AddItemToInventory(Collectible item) {
-        print("added Item to inventory!");
         if (!inventorySlots.ContainsKey(item.type))
             inventorySlots.Add(item.type, new Entry(item, 1));
         else
@@ -93,7 +91,6 @@ public class InventoryScript : MonoBehaviour {
     }
 
     public void AddItemToPossibleInventory(Collectible item) {
-        print("Item added to possible inventory!");
         if (!inventorySlots.ContainsKey(item.type))
             inventorySlots.Add(item.type, new Entry(item, 0));
 
@@ -129,11 +126,9 @@ public class InventoryScript : MonoBehaviour {
     }
 
     public void RemoveItemFromPossibleInventory(Collectible item) {
-        print("Removing item from possible inventory");
 
         Assert.IsNotNull(item);
         if (!inventorySlots.ContainsKey(item.type)) {
-            print("Item missing");
             return;
         }
 
@@ -152,10 +147,8 @@ public class InventoryScript : MonoBehaviour {
     /// Draws the GUI for the inventory.
     /// </summary>
     public void DrawInventory() {
-        print("Drawing Inventory");
         RemoveAllOldSlots();
         foreach (KeyValuePair<string, Entry> pair in inventorySlots) {
-            print("pair" + pair.Key.ToString());
             Entry entry = pair.Value;
 
             Collectible collectible = entry.item;
@@ -167,7 +160,6 @@ public class InventoryScript : MonoBehaviour {
             if (entry.amount == 0) {
                 go.transform.GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
                 go.transform.FindChild("Item").gameObject.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
-                print("entry amount is 0");
             } else {
                 go.transform.GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
                 go.transform.FindChild("Item").gameObject.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
@@ -176,6 +168,7 @@ public class InventoryScript : MonoBehaviour {
             go.transform.GetComponent<SlotScript>().item = collectible;
             go.transform.FindChild("Item").gameObject.GetComponent<Image>().sprite = collectible.itemIcon;
             go.transform.FindChild("Counter").gameObject.GetComponent<Text>().text = entry.amount.ToString();
+            go.transform.FindChild("Key").gameObject.GetComponent<Text>().text = entry.item.buttonName;
             go.transform.SetParent(slotPanel.transform);
             go.transform.localScale = new Vector3(1, 1, 1);
         }
@@ -250,7 +243,6 @@ public class InventoryScript : MonoBehaviour {
                 //to create new MonoBehaviours with the "new" keyword - you are only allowed to create a GameObject
                 //with the desired MonoBehaviour attached. To get around this, we assign the Collectible prefabs
                 //to this script in the inspector, and retrieve the desired Collectible from the prefabs.
-                //TODO: refactor Inventory and Collectible to make this unnecessary? JPC 11/18/15
                 case HealthCollectible.typeString:
                     item = healthCollectible.GetComponent<HealthCollectible>();
                     break;
@@ -261,7 +253,6 @@ public class InventoryScript : MonoBehaviour {
                     item = specialItemCollectible.GetComponent<SpecialItemCollectible>();
                     break;
                 default:
-                    print("unknown item");
                     break;
             }
 
@@ -270,6 +261,34 @@ public class InventoryScript : MonoBehaviour {
             //Finally, add the entry to the inventory
             inventorySlots.Add(itemType, entry);
         }
+    }
+
+    /// <summary>
+    /// If any health item exists in the inventory, use it
+    /// </summary>
+    public void MaybeUseHealthItem()
+    {
+        MaybeUseItem(healthCollectible.GetComponent<HealthCollectible>());
+    }
+
+    /// <summary>
+    /// If any timer item exists in the inventory, use it
+    /// </summary>
+    public void MaybeUseTimeItem()
+    {
+        MaybeUseItem(timerCollectible.GetComponent<TimeCollectible>());
+    }
+
+    /// <summary>
+    /// Try to use the specified item, if we currently have it in the inventory
+    /// </summary>
+    private void MaybeUseItem(Collectible item)
+    {
+        if (!inventorySlots.ContainsKey(item.type) || inventorySlots[item.type].amount == 0) {
+            return;
+        }
+
+        RemoveItemFromInventory(item);
     }
 }
                                                                                                            

@@ -17,7 +17,6 @@ public class GroundObject : MonoBehaviour {
         // falling off the edge. Since placing it right at the edge might cause it
         // to trigger again, we manually move it inward a little.
         if (Math.Abs(transform.position.x) > edge) {
-            print ("Why did the NPO cross the road???");
             // Which side of the platform its on.
             float sign = Math.Abs(transform.position.x) / transform.position.x;
             // Get height of terrain at the edge we want to appear at so we don't accidentally

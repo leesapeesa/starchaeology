@@ -22,7 +22,6 @@ public class PointCollectible : Collectible
     {
         PersistentPlayerSettings.settings.levelScore += value;
         PersistentPlayerSettings.settings.overallScore += value;
-        print("Score: " + PersistentPlayerSettings.settings.levelScore);
     }
 
     public override void OnUse(PlayerCharacter2D player)
@@ -31,6 +30,6 @@ public class PointCollectible : Collectible
     }
 
     public override void AddToPossibleInventory() {
-        throw new NotImplementedException();
+        //Nothing to do here; coins don't go in inventory
     }
 }

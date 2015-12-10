@@ -19,3 +19,20 @@ Are you trash because I'd like to take you out
 "Do. Or do not. There is no try" - Yoda
 "I've got a bad feeling about this" - Han Solo
 "Computer, compute to the last digit the value of pi" - Spock
+Watch your head! Enemies that spawn on platforms may roll off them and drop from above!
+The golden idol always spawns at the highest point on the map. Of course, you'll have to find out where that point is...
+Poison clouds and enemies do more damage as you progress through levels
+As you progress, planets will get more and more hilly and unpredictable
+Collect coins and ancient artifacts to get more gold
+"IT'S A FAAAAAKE!" - Senator Vreenak
+"I AM GROOT" - Groot
+"I aim to misbehave" - Mal Reynolds
+"The line must be drawn here! This far, no further!" - Jean-Luc Picard
+"Admiral, there be whales here!" - Montgomery "Scotty" Scott
+"Nothing goes over my head. My reflexes are too fast. I would catch it." - Drax
+Your spaceship will always be at the leftmost edge of the map
+Tired of dealing with enemies? Trap them by wedging them in between two boxes or boulders!
+Being chased by enemies? They can't jump, so use platforms to avoid them
+Low on health or time? You can use items you've collected by clicking their icons in the inventory
+You can also use health and time items by pressing [H] and [T], respectively
+The boxes are bouncy! Time your jumps correctly to bounce high!
